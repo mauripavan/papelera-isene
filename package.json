@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "prepare": "husky install",
-    "precommit": "bash .husky/pre-commit"
+    "precommit": "bash .husky/pre-commit",
+    "format:fix": "prettier --write --ignore-path .gitignore ."
   },
   "dependencies": {
     "-": "^0.0.1",
