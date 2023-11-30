@@ -16,6 +16,10 @@ const config: Config = {
       fontFamily: {
         sans: ['var(--font-inter)'],
         chakra: ['var(--font-chakra-petch)'],
+        manrope: ['var(--font-manrope)'],
+      },
+      gridTemplateColumns: {
+        '24': 'repeat(24, minmax(0, 1fr))',
       },
       colors: {
         blue: { 0: '#3F72AF' },
