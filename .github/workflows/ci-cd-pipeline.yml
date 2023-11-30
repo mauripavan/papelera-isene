@@ -1,0 +1,30 @@
+name: papelera-isene pipeline
+
+on: [push]
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  REPOSITORY_NAME: ${{ vars.REPOSITORY_NAME }}
+
+jobs:
+  run-linters:
+    name: Run Linters
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 18
+
+      - name: Install Node.js dependencies
+        run: yarn install
+
+      - name: Run linters
+        run: yarn lint && yarn format:fix
