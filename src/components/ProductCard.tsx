@@ -2,9 +2,9 @@
 import { useState } from 'react';
 import ArrowDownIcon from './icons/ArrowDown';
 import MainButton from './MainButton';
-import { formatCurrency } from '@/utils/helpers';
+import { formatCurrency, formatDate } from '@/utils/helpers';
 
-interface IProductCardProps {
+export interface IProductCardProps {
   code: string;
   description: string;
   cost: number;
@@ -20,7 +20,7 @@ export default function ProductCard(props: IProductCardProps) {
   const [selected, setSelected] = useState(false);
 
   return (
-    <div className='grid grid-cols-24 gap-4 w-full items-center p-4 bg-white rounded-md border border-gray-0'>
+    <div className='grid grid-cols-24 gap-4 w-full items-center p-4 bg-white rounded-md border border-gray-0 mb-2'>
       <p className='font-nunito font-medium text-sm col-span-2 text-blue-500'>
         {code}
       </p>
@@ -37,11 +37,11 @@ export default function ProductCard(props: IProductCardProps) {
         {formatCurrency(pp, true)}
       </p>
       <div className='col-span-2'>
-        <div className='col-span-2 dropdown dropdown-bottom dropdown-end'>
+        <div className='dropdown dropdown-bottom dropdown-end w-full'>
           <div
             tabIndex={0}
             role='button'
-            className={`font-nunito font-medium px-2 text-xs flex items-center ${
+            className={`font-nunito font-medium px-2 text-xs flex items-center justify-center ${
               inStock ? 'bg-green-400' : 'bg-red-400'
             } py-1 rounded-md text-white`}
           >
@@ -72,7 +72,7 @@ export default function ProductCard(props: IProductCardProps) {
         </div>
       </div>
       <p className='font-nunito font-medium text-sm col-span-2'>
-        {updatedDate}
+        {formatDate(updatedDate, 'd MMM, u')}
       </p>
       <div className='col-span-1'>
         <div className='form-control'>
@@ -89,7 +89,7 @@ export default function ProductCard(props: IProductCardProps) {
       <div className='col-span-2'>
         <MainButton
           text={'ACTUALIZAR'}
-          color='bg-purple-400'
+          className={`text-xs ${selected ? 'bg-purple-400' : 'bg-gray-200'}`}
           disabled={!selected}
         />
       </div>

@@ -32,7 +32,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang='en'>
+    <html lang='en' className='bg-gray-10'>
       <body
         className={`${inter.variable} ${chakra.variable} ${nunito.variable} px-20`}
       >

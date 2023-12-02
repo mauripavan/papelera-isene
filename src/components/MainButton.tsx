@@ -2,20 +2,17 @@ import { ReactNode } from 'react';
 
 interface IMainButtonProps {
   text: string;
-  color?: string;
-  textColor?: string;
   icon?: ReactNode;
   disabled?: boolean;
+  className?: string;
 }
 
 export default function MainButton(props: IMainButtonProps) {
-  const { text, color, textColor, icon, disabled } = props;
+  const { text, className, icon, disabled } = props;
   return (
     <button
       disabled={disabled}
-      className={`flex font-nunito font-medium text-xs px-2 py-1 rounded-md ${
-        textColor ? textColor : 'text-white'
-      } ${color && !disabled ? color : 'bg-gray-200'}`}
+      className={`flex font-nunito font-medium px-2 py-1 rounded-md text-white items-center ${className}`}
     >
       {text}
       {icon && <span>{icon}</span>}

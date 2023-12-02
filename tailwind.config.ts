@@ -23,7 +23,7 @@ const config: Config = {
       },
       colors: {
         blue: { 0: '#3F72AF' },
-        gray: { 0: '#e4e7eb' },
+        gray: { 0: '#e4e7eb', 10: '#f3f4fa' },
       },
     },
   },
