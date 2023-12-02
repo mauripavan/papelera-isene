@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter, Chakra_Petch, Manrope } from 'next/font/google';
+import { Inter, Chakra_Petch, Nunito } from 'next/font/google';
 import '../styles/globals.css';
 import Logo from '@/components/Logo';
 
@@ -15,11 +15,11 @@ const chakra = Chakra_Petch({
   variable: '--font-chakra-petch',
 });
 
-const manrope = Manrope({
+const nunito = Nunito({
   weight: ['200', '300', '400', '500', '600', '700', '800'],
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-manrope',
+  variable: '--font-nunito',
 });
 
 export const metadata: Metadata = {
@@ -34,7 +34,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body
-        className={`${inter.variable} ${chakra.variable} ${manrope.variable} px-20`}
+        className={`${inter.variable} ${chakra.variable} ${nunito.variable} px-20`}
       >
         <div className='flex py-2 justify-center'>
           <Logo />

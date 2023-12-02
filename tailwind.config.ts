@@ -16,16 +16,17 @@ const config: Config = {
       fontFamily: {
         sans: ['var(--font-inter)'],
         chakra: ['var(--font-chakra-petch)'],
-        manrope: ['var(--font-manrope)'],
+        nunito: ['var(--font-nunito)'],
       },
       gridTemplateColumns: {
         '24': 'repeat(24, minmax(0, 1fr))',
       },
       colors: {
         blue: { 0: '#3F72AF' },
+        gray: { 0: '#e4e7eb' },
       },
     },
   },
-  plugins: [],
+  plugins: [require('daisyui')],
 };
 export default config;
