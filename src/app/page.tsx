@@ -62,14 +62,13 @@ export default function Home() {
         <p className='font-nunito font-medium text-sm col-span-2'>
           Actualizado
         </p>
-        <div className='col-span-1'>
+        <div className='col-span-2'>
           <div className='form-control'>
             <label className='label cursor-pointer'>
               <input type='checkbox' className='checkbox checkbox-sm' />
             </label>
           </div>
         </div>
-        <p className='col-span-2'></p>
       </div>
 
       {mockedProducts.map((item, index) => {
