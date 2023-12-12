@@ -1,4 +1,4 @@
-import type { Config } from 'tailwindcss'
+import type { Config } from 'tailwindcss';
 
 const config: Config = {
   content: [
@@ -13,8 +13,20 @@ const config: Config = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      fontFamily: {
+        sans: ['var(--font-inter)'],
+        chakra: ['var(--font-chakra-petch)'],
+        nunito: ['var(--font-nunito)'],
+      },
+      gridTemplateColumns: {
+        '24': 'repeat(24, minmax(0, 1fr))',
+      },
+      colors: {
+        blue: { 0: '#3F72AF' },
+        gray: { 0: '#e4e7eb', 10: '#f3f4fa' },
+      },
     },
   },
-  plugins: [],
-}
-export default config
+  plugins: [require('daisyui')],
+};
+export default config;
