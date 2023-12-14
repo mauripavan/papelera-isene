@@ -1,38 +1,27 @@
+'use client';
+import { getProducts } from '@/api';
 import MainButton from '@/components/MainButton';
-import ProductCard, { IProductCardProps } from '@/components/ProductCard';
+import ProductCard, { IProductProps } from '@/components/ProductCard';
 import TextInput from '@/components/TextInput';
 import PlusIcon from '@/components/icons/Plus';
+import { useEffect, useState } from 'react';
 
 export default function Home() {
-  const mockedProducts: Array<IProductCardProps> = [
-    {
-      code: '1234',
-      description: 'Caja carton reforzada 40x50',
-      cost: 1000,
-      pi: 1300,
-      pp: 1200,
-      stock: true,
-      updatedDate: '2023-12-02T21:51:21Z',
-    },
-    {
-      code: '1234',
-      description: 'Caja carton reforzada 40x50',
-      cost: 1000,
-      pi: 1300,
-      pp: 1200,
-      stock: true,
-      updatedDate: '2023-12-02T21:51:21Z',
-    },
-    {
-      code: '1234',
-      description: 'Caja carton reforzada 40x50',
-      cost: 1000,
-      pi: 1300,
-      pp: 1200,
-      stock: true,
-      updatedDate: '2023-12-02T21:51:21Z',
-    },
-  ];
+  const [products, setProducts] = useState<Array<IProductProps>>([]);
+
+  const fetchProducts = async () => {
+    try {
+      const response = await getProducts();
+      const productsData = response.data;
+      setProducts(productsData);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
   return (
     <main className='flex min-h-screen flex-col'>
       <div className='flex items-center gap-32'>
@@ -55,13 +44,11 @@ export default function Home() {
         <p className='font-nunito font-medium text-sm col-span-9'>
           Descripcion
         </p>
+        <p className='font-nunito font-medium text-sm col-span-2'>Cantidad</p>
         <p className='font-nunito font-medium text-sm col-span-2'>Costo</p>
         <p className='font-nunito font-medium text-sm col-span-2'>PI</p>
         <p className='font-nunito font-medium text-sm col-span-2'>PP</p>
         <p className='font-nunito font-medium text-sm col-span-2'>Status</p>
-        <p className='font-nunito font-medium text-sm col-span-2'>
-          Actualizado
-        </p>
         <div className='col-span-2'>
           <div className='form-control'>
             <label className='label cursor-pointer'>
@@ -71,19 +58,8 @@ export default function Home() {
         </div>
       </div>
 
-      {mockedProducts.map((item, index) => {
-        return (
-          <ProductCard
-            key={index}
-            code={item.code}
-            description={item.description}
-            cost={item.cost}
-            pi={item.pi}
-            pp={item.pp}
-            stock={item.stock}
-            updatedDate={item.updatedDate}
-          />
-        );
+      {products.map((item, index) => {
+        return <ProductCard item={item} key={`product-${index}`} />;
       })}
     </main>
   );
