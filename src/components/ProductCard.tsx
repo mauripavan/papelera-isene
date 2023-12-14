@@ -2,39 +2,50 @@
 import { useState } from 'react';
 import ArrowDownIcon from './icons/ArrowDown';
 import MainButton from './MainButton';
-import { formatCurrency, formatDate } from '@/utils/helpers';
+import { formatCurrency } from '@/utils/helpers';
 
-export interface IProductCardProps {
-  code: string;
+export interface IProductProps {
+  id: string;
   description: string;
   cost: number;
   pi: number;
   pp: number;
   stock: boolean;
   updatedDate: string;
+  earningsPI: number;
+  earningsPP: number;
+  quantity: number;
+  iva: boolean;
+}
+
+export interface IProductCardProps {
+  item: IProductProps;
 }
 
 export default function ProductCard(props: IProductCardProps) {
-  const { code, cost, description, pi, pp, stock, updatedDate } = props;
-  const [inStock, setInStock] = useState(stock);
+  const { item } = props;
+  const [inStock, setInStock] = useState(item.stock);
   const [selected, setSelected] = useState(false);
 
   return (
     <div className='grid grid-cols-24 gap-4 w-full items-center p-4 bg-white rounded-md border border-gray-0 mb-2'>
       <p className='font-nunito font-medium text-sm col-span-2 text-blue-500'>
-        {code}
+        {item.id}
       </p>
       <p className='font-nunito font-medium text-lg col-span-9'>
-        {description}
+        {item.description}
       </p>
       <p className='font-nunito font-medium text-sm col-span-2'>
-        {formatCurrency(cost, false)}
+        {item.quantity}
       </p>
       <p className='font-nunito font-medium text-sm col-span-2'>
-        {formatCurrency(pi, true)}
+        {formatCurrency(item.cost, false)}
       </p>
       <p className='font-nunito font-medium text-sm col-span-2'>
-        {formatCurrency(pp, true)}
+        {formatCurrency(item.pi, true)}
+      </p>
+      <p className='font-nunito font-medium text-sm col-span-2'>
+        {formatCurrency(item.pp, true)}
       </p>
       <div className='col-span-2'>
         <div className='dropdown dropdown-bottom dropdown-end w-full'>
@@ -71,9 +82,6 @@ export default function ProductCard(props: IProductCardProps) {
           </ul>
         </div>
       </div>
-      <p className='font-nunito font-medium text-sm col-span-2'>
-        {formatDate(updatedDate, 'd MMM, u')}
-      </p>
       <div className='col-span-1'>
         <div className='form-control'>
           <label className='label cursor-pointer'>
