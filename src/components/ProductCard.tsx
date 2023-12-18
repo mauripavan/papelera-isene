@@ -12,27 +12,27 @@ export interface IProductProps {
   pp: number;
   stock: boolean;
   updatedDate: string;
-  earningsPI: number;
-  earningsPP: number;
+  earningPI: number;
+  earningPP: number;
   quantity: number;
   iva: boolean;
 }
 
 export interface IProductCardProps {
   item: IProductProps;
+  onUpdate?: () => void;
 }
 
 export default function ProductCard(props: IProductCardProps) {
-  const { item } = props;
+  const { item, onUpdate } = props;
   const [inStock, setInStock] = useState(item.stock);
-  const [selected, setSelected] = useState(false);
 
   return (
     <div className='grid grid-cols-24 gap-4 w-full items-center p-4 bg-white rounded-md border border-gray-0 mb-2'>
       <p className='font-nunito font-medium text-sm col-span-2 text-blue-500'>
         {item.id}
       </p>
-      <p className='font-nunito font-medium text-lg col-span-9'>
+      <p className='font-nunito font-medium text-lg col-span-10'>
         {item.description}
       </p>
       <p className='font-nunito font-medium text-sm col-span-2'>
@@ -82,7 +82,7 @@ export default function ProductCard(props: IProductCardProps) {
           </ul>
         </div>
       </div>
-      <div className='col-span-1'>
+      {/* <div className='col-span-1'>
         <div className='form-control'>
           <label className='label cursor-pointer'>
             <input
@@ -93,12 +93,12 @@ export default function ProductCard(props: IProductCardProps) {
             />
           </label>
         </div>
-      </div>
+      </div> */}
       <div className='col-span-2'>
         <MainButton
           text={'ACTUALIZAR'}
-          className={`text-xs ${selected ? 'bg-purple-400' : 'bg-gray-200'}`}
-          disabled={!selected}
+          className={`text-xs bg-purple-400`}
+          onClick={onUpdate}
         />
       </div>
     </div>

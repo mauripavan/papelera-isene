@@ -1,14 +1,22 @@
 'use client';
 import { getProducts } from '@/api';
 import MainButton from '@/components/MainButton';
+import PriceModal from '@/components/PriceModal';
 import ProductCard, { IProductProps } from '@/components/ProductCard';
 import TableHeader from '@/components/TableHeader';
 import TextInput from '@/components/TextInput';
 import PlusIcon from '@/components/icons/Plus';
+import { productsState, selectedProductState } from '@/store/app-state';
 import { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
 
 export default function Home() {
-  const [products, setProducts] = useState<Array<IProductProps>>([]);
+  const [products, setProducts] = useRecoilState<Array<IProductProps> | null>(
+    productsState
+  );
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedProduct, setSelectedProduct] =
+    useRecoilState(selectedProductState);
 
   const fetchProducts = async () => {
     try {
@@ -22,6 +30,11 @@ export default function Home() {
   useEffect(() => {
     fetchProducts();
   }, []);
+
+  const onProductUpdate = (item: IProductProps) => {
+    setModalVisible(true);
+    setSelectedProduct(item);
+  };
 
   return (
     <main className='flex min-h-screen flex-col'>
@@ -44,9 +57,21 @@ export default function Home() {
         <TableHeader />
       </div>
 
-      {products.map((item, index) => {
-        return <ProductCard item={item} key={`product-${index}`} />;
+      {products?.map((item, index) => {
+        return (
+          <ProductCard
+            item={item}
+            key={`product-${index}`}
+            onUpdate={() => onProductUpdate(item)}
+          />
+        );
       })}
+      {modalVisible && (
+        <PriceModal
+          product={selectedProduct}
+          onClose={() => setModalVisible(false)}
+        />
+      )}
     </main>
   );
 }
