@@ -17,6 +17,7 @@ export default function PriceModal(props: IPriceModalProps) {
   const [cost, setCost] = useState(product.cost);
   const [pp, setPP] = useState(product.pp);
   const [pi, setPI] = useState(product.pi);
+  const [modified, setModified] = useState(false);
   const [increment, setIncrement] = useState<number | undefined>(undefined);
   const [, setProducts] = useRecoilState<Array<IProductProps> | null>(
     productsState
@@ -26,6 +27,7 @@ export default function PriceModal(props: IPriceModalProps) {
     setCost(Number((cost * increment!) / 100 + cost));
     setPI(Number((pi * increment!) / 100 + pi));
     setPP(Number((pp * increment!) / 100 + pp));
+    setModified(true);
   };
 
   const fetchProducts = async () => {
@@ -95,15 +97,28 @@ export default function PriceModal(props: IPriceModalProps) {
                 onFocus={() => setIncrement(undefined)}
               />
             </div>
-            <button className='ml-8' onClick={handleIncrement}>
-              <p className='font-nunito text-sm text-blue-500'>Aplicar</p>
+            <button
+              className='ml-8'
+              onClick={handleIncrement}
+              disabled={!increment}
+            >
+              <p
+                className={`font-nunito text-sm ${
+                  !increment ? 'text-gray-300' : 'text-blue-500'
+                }`}
+              >
+                Aplicar
+              </p>
             </button>
           </div>
           <div className='flex gap-4'>
             <MainButton
               text={'Guardar'}
-              className='text-white bg-purple-500 w-28 justify-center'
+              className={`${
+                !modified ? 'bg-purple-200' : 'bg-purple-500'
+              } text-white  w-28 justify-center`}
               onClick={handleSave}
+              disabled={!modified}
             />
             <MainButton
               text={'Cancelar'}
