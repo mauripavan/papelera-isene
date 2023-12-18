@@ -33,3 +33,17 @@ export const updateProductPrice = async (
     throw error;
   }
 };
+
+export const updateStock = async (
+  id: number,
+  stock: {
+    stock: boolean;
+  }
+): Promise<AxiosResponse> => {
+  try {
+    const response = await api.put(`products/stock/${id}`, stock);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
