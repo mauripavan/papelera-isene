@@ -15,3 +15,21 @@ export const getProducts = async (): Promise<
     throw error;
   }
 };
+
+interface IncrementData {
+  cost: number;
+  pi: number;
+  pp: number;
+}
+
+export const updateProductPrice = async (
+  id: number,
+  incrementData: IncrementData
+): Promise<AxiosResponse> => {
+  try {
+    const response = await api.put(`products/increment/${id}`, incrementData);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};

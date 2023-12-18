@@ -1,13 +1,22 @@
 'use client';
 import { getProducts } from '@/api';
 import MainButton from '@/components/MainButton';
+import PriceModal from '@/components/PriceModal';
 import ProductCard, { IProductProps } from '@/components/ProductCard';
+import TableHeader from '@/components/TableHeader';
 import TextInput from '@/components/TextInput';
 import PlusIcon from '@/components/icons/Plus';
+import { productsState, selectedProductState } from '@/store/app-state';
 import { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
 
 export default function Home() {
-  const [products, setProducts] = useState<Array<IProductProps>>([]);
+  const [products, setProducts] = useRecoilState<Array<IProductProps> | null>(
+    productsState
+  );
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedProduct, setSelectedProduct] =
+    useRecoilState(selectedProductState);
 
   const fetchProducts = async () => {
     try {
@@ -21,6 +30,11 @@ export default function Home() {
   useEffect(() => {
     fetchProducts();
   }, []);
+
+  const onProductUpdate = (item: IProductProps) => {
+    setModalVisible(true);
+    setSelectedProduct(item);
+  };
 
   return (
     <main className='flex min-h-screen flex-col'>
@@ -39,28 +53,25 @@ export default function Home() {
           />
         </div>
       </div>
-      <div className='grid grid-cols-24 gap-4 w-full px-4 py-2 sticky top-0 items-center mt- bg-gray-10 z-50'>
-        <p className='font-nunito font-medium text-sm col-span-2'>Codigo</p>
-        <p className='font-nunito font-medium text-sm col-span-9'>
-          Descripcion
-        </p>
-        <p className='font-nunito font-medium text-sm col-span-2'>Cantidad</p>
-        <p className='font-nunito font-medium text-sm col-span-2'>Costo</p>
-        <p className='font-nunito font-medium text-sm col-span-2'>PI</p>
-        <p className='font-nunito font-medium text-sm col-span-2'>PP</p>
-        <p className='font-nunito font-medium text-sm col-span-2'>Status</p>
-        <div className='col-span-2'>
-          <div className='form-control'>
-            <label className='label cursor-pointer'>
-              <input type='checkbox' className='checkbox checkbox-sm' />
-            </label>
-          </div>
-        </div>
+      <div>
+        <TableHeader />
       </div>
 
-      {products.map((item, index) => {
-        return <ProductCard item={item} key={`product-${index}`} />;
+      {products?.map((item, index) => {
+        return (
+          <ProductCard
+            item={item}
+            key={`product-${index}`}
+            onUpdate={() => onProductUpdate(item)}
+          />
+        );
       })}
+      {modalVisible && (
+        <PriceModal
+          product={selectedProduct}
+          onClose={() => setModalVisible(false)}
+        />
+      )}
     </main>
   );
 }

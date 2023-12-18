@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter, Chakra_Petch, Nunito } from 'next/font/google';
 import '../styles/globals.css';
 import Logo from '@/components/Logo';
+import RecoilProvider from './recoil-provider';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -39,7 +40,7 @@ export default function RootLayout({
         <div className='flex py-2 justify-center'>
           <Logo />
         </div>
-        {children}
+        <RecoilProvider>{children}</RecoilProvider>
       </body>
     </html>
   );
