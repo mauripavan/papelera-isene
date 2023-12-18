@@ -3,6 +3,7 @@ import { useState } from 'react';
 import ArrowDownIcon from './icons/ArrowDown';
 import MainButton from './MainButton';
 import { formatCurrency } from '@/utils/helpers';
+import { updateStock } from '@/api';
 
 export interface IProductProps {
   id: string;
@@ -26,6 +27,18 @@ export interface IProductCardProps {
 export default function ProductCard(props: IProductCardProps) {
   const { item, onUpdate } = props;
   const [inStock, setInStock] = useState(item.stock);
+
+  const handleStockUpdate = async (stock: boolean) => {
+    setInStock(stock);
+    const data = {
+      stock,
+    };
+    try {
+      await updateStock(Number(item.id), data);
+    } catch (error) {
+      console.error('Error updating data:', error);
+    }
+  };
 
   return (
     <div className='grid grid-cols-24 gap-4 w-full items-center p-4 bg-white rounded-md border border-gray-0 mb-2'>
@@ -65,7 +78,7 @@ export default function ProductCard(props: IProductCardProps) {
           >
             <li>
               <a
-                onClick={() => setInStock(true)}
+                onClick={() => handleStockUpdate(true)}
                 className='font-nunito text-xs text-green-700 text-medium whitespace-nowrap'
               >
                 EN STOCK
@@ -73,7 +86,7 @@ export default function ProductCard(props: IProductCardProps) {
             </li>
             <li>
               <a
-                onClick={() => setInStock(false)}
+                onClick={() => handleStockUpdate(false)}
                 className='font-nunito text-xs text-red-700 text-medium whitespace-nowrap'
               >
                 REPONER
