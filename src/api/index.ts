@@ -47,3 +47,22 @@ export const updateStock = async (
     throw error;
   }
 };
+
+interface ISearchResults {
+  matchedProducts: IProductProps[];
+}
+
+export const searchProducts = async (
+  query: string
+): Promise<AxiosResponse<ISearchResults>> => {
+  try {
+    const response = await api.get(`products/search`, {
+      params: {
+        query,
+      },
+    });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
