@@ -66,3 +66,14 @@ export const searchProducts = async (
     throw error;
   }
 };
+
+export const getProductsByStock = async (): Promise<
+  AxiosResponse<Array<IProductProps>>
+> => {
+  try {
+    const response = await api.get('products/stock');
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};

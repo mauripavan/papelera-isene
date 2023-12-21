@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ArrowDownIcon from './icons/ArrowDown';
 import MainButton from './MainButton';
 import { formatCurrency } from '@/utils/helpers';
@@ -26,7 +26,11 @@ export interface IProductCardProps {
 
 export default function ProductCard(props: IProductCardProps) {
   const { item, onUpdate } = props;
-  const [inStock, setInStock] = useState(item.stock);
+  const [inStock, setInStock] = useState(false);
+
+  useEffect(() => {
+    setInStock(item.stock);
+  }, [item]);
 
   const handleStockUpdate = async (stock: boolean) => {
     setInStock(stock);
