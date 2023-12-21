@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Inter, Chakra_Petch, Nunito } from 'next/font/google';
 import '../styles/globals.css';
 import Logo from '@/components/Logo';
-import RecoilProvider from './recoil-provider';
+import RecoilProvider from '../utils/recoil-provider';
 
 const inter = Inter({
   subsets: ['latin'],
