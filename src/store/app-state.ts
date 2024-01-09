@@ -1,21 +1,9 @@
 import { IProductProps } from '@/components/ProductCard';
 import { atom } from 'recoil';
 
-export const selectedProductState = atom<IProductProps>({
+export const selectedProductState = atom<Array<IProductProps>>({
   key: 'SelectedProductState',
-  default: {
-    id: '',
-    description: '',
-    cost: 0,
-    earningPI: 0,
-    earningPP: 0,
-    iva: false,
-    stock: false,
-    pi: 0,
-    pp: 0,
-    quantity: 0,
-    updatedDate: '',
-  },
+  default: undefined,
 });
 
 export const productsState = atom<Array<IProductProps> | null>({

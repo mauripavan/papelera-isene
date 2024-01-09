@@ -6,7 +6,7 @@ import ProductCard, { IProductProps } from '@/components/ProductCard';
 import TableHeader from '@/components/TableHeader';
 import TextInput from '@/components/TextInput';
 import PlusIcon from '@/components/icons/Plus';
-import { productsState, selectedProductState } from '@/store/app-state';
+import { productsState } from '@/store/app-state';
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 
@@ -15,8 +15,6 @@ export default function Home() {
     productsState
   );
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedProduct, setSelectedProduct] =
-    useRecoilState(selectedProductState);
   const [onlyNoStock, setOnlyNoStock] = useState(false);
 
   const fetchProducts = async () => {
@@ -32,12 +30,11 @@ export default function Home() {
     fetchProducts();
   }, []);
 
-  const onProductUpdate = (item: IProductProps) => {
+  const onProductUpdate = () => {
     setModalVisible(true);
-    setSelectedProduct(item);
   };
 
-  const fetchProductsBySotck = async () => {
+  const fetchProductsOutOfSotck = async () => {
     try {
       const response = await getProductsByStock();
       const productsData = response.data;
@@ -49,7 +46,7 @@ export default function Home() {
 
   const handleNoStockFilter = () => {
     setOnlyNoStock(!onlyNoStock);
-    !onlyNoStock ? fetchProductsBySotck() : fetchProducts();
+    !onlyNoStock ? fetchProductsOutOfSotck() : fetchProducts();
   };
 
   return (
@@ -87,14 +84,15 @@ export default function Home() {
           <ProductCard
             item={item}
             key={`product-${index}`}
-            onUpdate={() => onProductUpdate(item)}
+            onUpdate={() => onProductUpdate()}
+            modalVisible={modalVisible}
           />
         );
       })}
       {modalVisible && (
         <PriceModal
-          product={selectedProduct}
           onClose={() => setModalVisible(false)}
+          noStock={onlyNoStock}
         />
       )}
     </main>
