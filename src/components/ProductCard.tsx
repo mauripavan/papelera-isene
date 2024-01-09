@@ -4,6 +4,8 @@ import ArrowDownIcon from './icons/ArrowDown';
 import MainButton from './MainButton';
 import { formatCurrency } from '@/utils/helpers';
 import { updateStock } from '@/api';
+import { useRecoilState } from 'recoil';
+import { selectedProductState } from '@/store/app-state';
 
 export interface IProductProps {
   id: string;
@@ -22,15 +24,19 @@ export interface IProductProps {
 export interface IProductCardProps {
   item: IProductProps;
   onUpdate?: () => void;
+  modalVisible: boolean;
 }
 
 export default function ProductCard(props: IProductCardProps) {
-  const { item, onUpdate } = props;
+  const { item, onUpdate, modalVisible } = props;
   const [inStock, setInStock] = useState(false);
+  const [selected, setSelected] = useState(false);
+  const [, setSelectedProduct] = useRecoilState(selectedProductState);
 
   useEffect(() => {
     setInStock(item.stock);
-  }, [item]);
+    setSelected(false);
+  }, [item, modalVisible]);
 
   const handleStockUpdate = async (stock: boolean) => {
     setInStock(stock);
@@ -44,12 +50,23 @@ export default function ProductCard(props: IProductCardProps) {
     }
   };
 
+  const handleItemSelection = () => {
+    setSelected(prevSelected => !prevSelected);
+    setSelectedProduct(prevSelectedProducts => {
+      if (selected) {
+        return prevSelectedProducts?.filter(product => product.id !== item.id);
+      } else {
+        return prevSelectedProducts ? [...prevSelectedProducts, item] : [item];
+      }
+    });
+  };
+
   return (
     <div className='grid grid-cols-24 gap-4 w-full items-center p-4 bg-white rounded-md border border-gray-0 mb-2'>
       <p className='font-nunito font-medium text-sm col-span-2 text-blue-500'>
         {item.id}
       </p>
-      <p className='font-nunito font-medium text-lg col-span-10'>
+      <p className='font-nunito font-medium text-lg col-span-9'>
         {item.description}
       </p>
       <p className='font-nunito font-medium text-sm col-span-2'>
@@ -99,23 +116,24 @@ export default function ProductCard(props: IProductCardProps) {
           </ul>
         </div>
       </div>
-      {/* <div className='col-span-1'>
+      <div className='col-span-1'>
         <div className='form-control'>
           <label className='label cursor-pointer'>
             <input
               type='checkbox'
               checked={selected}
               className='checkbox checkbox-sm'
-              onClick={() => setSelected(!selected)}
+              onClick={handleItemSelection}
             />
           </label>
         </div>
-      </div> */}
+      </div>
       <div className='col-span-2'>
         <MainButton
           text={'ACTUALIZAR'}
-          className={`text-xs bg-purple-400`}
+          className={`text-xs ${!selected ? 'bg-purple-200' : 'bg-purple-400'}`}
           onClick={onUpdate}
+          disabled={!selected}
         />
       </div>
     </div>

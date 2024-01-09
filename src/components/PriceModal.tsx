@@ -3,30 +3,35 @@ import { formatCurrency } from '@/utils/helpers';
 import MainButton from './MainButton';
 import { IProductProps } from './ProductCard';
 import { useState } from 'react';
-import { getProducts, updateProductPrice } from '@/api';
+import { getProducts, getProductsByStock, updateProductPrice } from '@/api';
 import { useRecoilState } from 'recoil';
-import { productsState } from '@/store/app-state';
+import { productsState, selectedProductState } from '@/store/app-state';
 
 export interface IPriceModalProps {
   onClose: () => void;
-  product: IProductProps;
+  noStock: boolean;
 }
-
 export default function PriceModal(props: IPriceModalProps) {
-  const { onClose, product } = props;
-  const [cost, setCost] = useState(product.cost);
-  const [pp, setPP] = useState(product.pp);
-  const [pi, setPI] = useState(product.pi);
+  const { onClose, noStock } = props;
   const [modified, setModified] = useState(false);
   const [increment, setIncrement] = useState<number | undefined>(undefined);
   const [, setProducts] = useRecoilState<Array<IProductProps> | null>(
     productsState
   );
+  const [selectedProducts, setSelectedProduct] =
+    useRecoilState(selectedProductState);
 
   const handleIncrement = () => {
-    setCost(Number((cost * increment!) / 100 + cost));
-    setPI(Number((pi * increment!) / 100 + pi));
-    setPP(Number((pp * increment!) / 100 + pp));
+    const updatedProducts = selectedProducts.map(item => {
+      const { cost, pi, pp, ...rest } = item;
+      return {
+        cost: Number((item.cost * increment!) / 100 + item.cost),
+        pi: Number((item.pi * increment!) / 100 + item.pi),
+        pp: Number((item.pp * increment!) / 100 + item.pp),
+        ...rest,
+      };
+    });
+    setSelectedProduct(updatedProducts);
     setModified(true);
   };
 
@@ -40,52 +45,78 @@ export default function PriceModal(props: IPriceModalProps) {
     }
   };
 
-  const updateProduct = async () => {
-    const data = {
-      cost,
-      pi,
-      pp,
-    };
+  const fetchProductsOutOfSotck = async () => {
     try {
-      await updateProductPrice(Number(product.id), data);
+      const response = await getProductsByStock();
+      const productsData = response.data;
+      setProducts(productsData);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  const updateProduct = async () => {
+    try {
+      await updateProductPrice(selectedProducts);
     } catch (error) {
       console.error('Error updating data:', error);
     }
   };
 
   const handleSave = () => {
-    updateProduct().then(fetchProducts).then(onClose);
+    updateProduct()
+      .then(() => {
+        !noStock ? fetchProducts() : fetchProductsOutOfSotck();
+      })
+      .then(onClose)
+      .then(() => setSelectedProduct([]));
+  };
+
+  const handleClose = () => {
+    setSelectedProduct([]);
+    onClose();
   };
 
   return (
     <div className='flex items-center justify-center fixed inset-0 bg-black bg-opacity-50 '>
-      <div className='flex bg-white p-8 w-1/3 h-auto rounded-md '>
+      <div className='flex bg-white p-8 w-auto h-auto rounded-md '>
         <div className='flex-col flex w-full items-center justify-center'>
           <p className='font-nunito text-3xl mb-8'>Actualizador de precios:</p>
-          <p className='font-nunito text-xl mb-4'>
-            {`${product.description} x${product.quantity}`}
-          </p>
-          <div className='flex gap-4 mb-4'>
-            <div className='flex gap-1'>
-              <p className='font-nunito'>Costo:</p>
-              <p className='font-nunito font-bold'>
-                {formatCurrency(cost, true)}
-              </p>
-            </div>
+          {selectedProducts.map((item, index) => {
+            return (
+              <div
+                className='flex items-center gap-12 w-full'
+                key={`si-${index}`}
+              >
+                <div className='flex-grow w-full'>
+                  <p className='font-nunito text-md mb-4'>
+                    {`${item.description} x${item.quantity}`}
+                  </p>
+                </div>
+                <div className='flex gap-4 mb-4 w-full'>
+                  <div className='flex gap-1'>
+                    <p className='font-nunito'>Costo:</p>
+                    <p className='font-nunito font-bold'>
+                      {formatCurrency(item.cost, true)}
+                    </p>
+                  </div>
 
-            <div className='flex gap-1'>
-              <p className='font-nunito'>PI:</p>
-              <p className='font-nunito font-bold'>
-                {formatCurrency(pi, true)}
-              </p>
-            </div>
-            <div className='flex  gap-1'>
-              <p className='font-nunito'>PP:</p>
-              <p className='font-nunito font-bold'>
-                {formatCurrency(pp, true)}
-              </p>
-            </div>
-          </div>
+                  <div className='flex gap-1'>
+                    <p className='font-nunito'>PI:</p>
+                    <p className='font-nunito font-bold'>
+                      {formatCurrency(item.pi, true)}
+                    </p>
+                  </div>
+                  <div className='flex  gap-1'>
+                    <p className='font-nunito'>PP:</p>
+                    <p className='font-nunito font-bold'>
+                      {formatCurrency(item.pp, true)}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
           <div className='flex mb-4 items-center'>
             <p className='font-nunito w-28'>Incremento</p>
             <div className='flex rounded-md font-nunito focus:outline-none border border-black py-1 px-2 gap-1 w-28'>
@@ -123,7 +154,7 @@ export default function PriceModal(props: IPriceModalProps) {
             <MainButton
               text={'Cancelar'}
               className='text-white bg-red-500 w-28 justify-center'
-              onClick={onClose}
+              onClick={handleClose}
             />
           </div>
         </div>
