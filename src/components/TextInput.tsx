@@ -3,20 +3,19 @@ import { KeyboardEvent, useState } from 'react';
 import Search from './icons/Search';
 import { getProducts, searchProducts } from '@/api';
 import { useRecoilState } from 'recoil';
-import { IProductProps } from './ProductCard';
 import { productsState } from '@/store/app-state';
 import CloseIcon from './icons/Close';
 
 export default function TextInput() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [, setProducts] = useRecoilState<Array<IProductProps> | null>(
-    productsState
-  );
+  const [, setProducts] = useRecoilState(productsState);
 
   const searchResults = async (query: string) => {
     try {
-      const response = await searchProducts(query);
-      const searchData = response.data.matchedProducts;
+      const response = await searchProducts(query, 1);
+      console.log('response ===>', response);
+
+      const searchData = response.data;
       setProducts(searchData);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -25,7 +24,7 @@ export default function TextInput() {
 
   const fetchProducts = async () => {
     try {
-      const response = await getProducts();
+      const response = await getProducts(1);
       const productsData = response.data;
       setProducts(productsData);
     } catch (error) {

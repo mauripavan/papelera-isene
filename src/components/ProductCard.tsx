@@ -7,7 +7,7 @@ import { updateStock } from '@/api';
 import { useRecoilState } from 'recoil';
 import { selectedProductState } from '@/store/app-state';
 
-export interface IProductProps {
+export interface IProductItemProps {
   id: string;
   description: string;
   cost: number;
@@ -22,7 +22,7 @@ export interface IProductProps {
 }
 
 export interface IProductCardProps {
-  item: IProductProps;
+  item: IProductItemProps;
   onUpdate?: () => void;
   modalVisible: boolean;
 }

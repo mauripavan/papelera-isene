@@ -1,7 +1,6 @@
 'use client';
 import { formatCurrency } from '@/utils/helpers';
 import MainButton from './MainButton';
-import { IProductProps } from './ProductCard';
 import { useState } from 'react';
 import { getProducts, getProductsByStock, updateProductPrice } from '@/api';
 import { useRecoilState } from 'recoil';
@@ -15,9 +14,7 @@ export default function PriceModal(props: IPriceModalProps) {
   const { onClose, noStock } = props;
   const [modified, setModified] = useState(false);
   const [increment, setIncrement] = useState<number | undefined>(undefined);
-  const [, setProducts] = useRecoilState<Array<IProductProps> | null>(
-    productsState
-  );
+  const [, setProducts] = useRecoilState(productsState);
   const [selectedProducts, setSelectedProduct] =
     useRecoilState(selectedProductState);
 
@@ -37,7 +34,7 @@ export default function PriceModal(props: IPriceModalProps) {
 
   const fetchProducts = async () => {
     try {
-      const response = await getProducts();
+      const response = await getProducts(1);
       const productsData = response.data;
       setProducts(productsData);
     } catch (error) {
@@ -47,7 +44,7 @@ export default function PriceModal(props: IPriceModalProps) {
 
   const fetchProductsOutOfSotck = async () => {
     try {
-      const response = await getProductsByStock();
+      const response = await getProductsByStock(1);
       const productsData = response.data;
       setProducts(productsData);
     } catch (error) {

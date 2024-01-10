@@ -1,15 +1,16 @@
-import { IProductProps } from '@/components/ProductCard';
+import { IProductsProps } from '@/app/page';
+import { IProductItemProps } from '@/components/ProductCard';
 import axios, { AxiosResponse } from 'axios';
 
 export const api = axios.create({
   baseURL: 'http://localhost:8080/api/',
 });
 
-export const getProducts = async (): Promise<
-  AxiosResponse<Array<IProductProps>>
-> => {
+export const getProducts = async (
+  page: number
+): Promise<AxiosResponse<IProductsProps>> => {
   try {
-    const response = await api.get('/products');
+    const response = await api.get(`/products?page=${page}&pageSize=20`);
     return response;
   } catch (error) {
     throw error;
@@ -17,7 +18,7 @@ export const getProducts = async (): Promise<
 };
 
 export const updateProductPrice = async (
-  itemData: IProductProps[]
+  itemData: IProductItemProps[]
 ): Promise<AxiosResponse> => {
   try {
     const response = await api.put(`products/increment`, itemData);
@@ -41,30 +42,30 @@ export const updateStock = async (
   }
 };
 
-interface ISearchResults {
-  matchedProducts: IProductProps[];
-}
-
 export const searchProducts = async (
-  query: string
-): Promise<AxiosResponse<ISearchResults>> => {
+  query: string,
+  page: number
+): Promise<AxiosResponse<IProductsProps>> => {
   try {
-    const response = await api.get(`products/search`, {
-      params: {
-        query,
-      },
-    });
+    const response = await api.get(
+      `products/search?page=${page}&pageSize=100`,
+      {
+        params: {
+          query,
+        },
+      }
+    );
     return response;
   } catch (error) {
     throw error;
   }
 };
 
-export const getProductsByStock = async (): Promise<
-  AxiosResponse<Array<IProductProps>>
-> => {
+export const getProductsByStock = async (
+  page: number
+): Promise<AxiosResponse<IProductsProps>> => {
   try {
-    const response = await api.get('products/stock');
+    const response = await api.get(`products/stock?page=${page}&pageSize=20`);
     return response;
   } catch (error) {
     throw error;
