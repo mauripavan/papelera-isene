@@ -1,8 +1,9 @@
 'use client';
 import { getProducts, getProductsByStock } from '@/api';
 import MainButton from '@/components/MainButton';
+import Pagination from '@/components/Pagination';
 import PriceModal from '@/components/PriceModal';
-import ProductCard, { IProductProps } from '@/components/ProductCard';
+import ProductCard, { IProductItemProps } from '@/components/ProductCard';
 import TableHeader from '@/components/TableHeader';
 import TextInput from '@/components/TextInput';
 import PlusIcon from '@/components/icons/Plus';
@@ -10,16 +11,26 @@ import { productsState } from '@/store/app-state';
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 
+export interface PaginationProps {
+  page: number;
+  pageSize: number;
+  totalItems: number;
+  totalPages: number;
+}
+export interface IProductsProps {
+  data: Array<IProductItemProps>;
+  pagination: PaginationProps;
+}
+
 export default function Home() {
-  const [products, setProducts] = useRecoilState<Array<IProductProps> | null>(
-    productsState
-  );
+  const [products, setProducts] = useRecoilState(productsState);
   const [modalVisible, setModalVisible] = useState(false);
   const [onlyNoStock, setOnlyNoStock] = useState(false);
+  const [page, setPage] = useState(1);
 
   const fetchProducts = async () => {
     try {
-      const response = await getProducts();
+      const response = await getProducts(page);
       const productsData = response.data;
       setProducts(productsData);
     } catch (error) {
@@ -28,7 +39,7 @@ export default function Home() {
   };
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [page]);
 
   const onProductUpdate = () => {
     setModalVisible(true);
@@ -36,7 +47,7 @@ export default function Home() {
 
   const fetchProductsOutOfSotck = async () => {
     try {
-      const response = await getProductsByStock();
+      const response = await getProductsByStock(page);
       const productsData = response.data;
       setProducts(productsData);
     } catch (error) {
@@ -47,6 +58,10 @@ export default function Home() {
   const handleNoStockFilter = () => {
     setOnlyNoStock(!onlyNoStock);
     !onlyNoStock ? fetchProductsOutOfSotck() : fetchProducts();
+  };
+
+  const handlePageChange = (page: number) => {
+    setPage(page);
   };
 
   return (
@@ -79,7 +94,7 @@ export default function Home() {
         <TableHeader />
       </div>
 
-      {products?.map((item, index) => {
+      {products?.data?.map((item, index) => {
         return (
           <ProductCard
             item={item}
@@ -95,6 +110,12 @@ export default function Home() {
           noStock={onlyNoStock}
         />
       )}
+      <Pagination
+        totalCards={products?.pagination?.totalItems || 0}
+        currentPage={page}
+        cardsPerPage={20}
+        paginate={handlePageChange}
+      />
     </main>
   );
 }
