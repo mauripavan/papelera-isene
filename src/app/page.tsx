@@ -5,9 +5,10 @@ import Pagination from '@/components/Pagination';
 import PriceModal from '@/components/PriceModal';
 import ProductCard, { IProductItemProps } from '@/components/ProductCard';
 import TableHeader from '@/components/TableHeader';
-import TextInput from '@/components/TextInput';
+import SearchInput from '@/components/SearchInput';
 import PlusIcon from '@/components/icons/Plus';
 import { productsState } from '@/store/app-state';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 
@@ -27,6 +28,7 @@ export default function Home() {
   const [modalVisible, setModalVisible] = useState(false);
   const [onlyNoStock, setOnlyNoStock] = useState(false);
   const [page, setPage] = useState(1);
+  const router = useRouter();
 
   const fetchProducts = async () => {
     try {
@@ -71,10 +73,11 @@ export default function Home() {
           <p className='font-nunito font-bold text-2xl'>Lista de precios</p>
         </div>
         <div className='flex-grow'>
-          <TextInput />
+          <SearchInput />
         </div>
         <div className='flex-none'>
           <MainButton
+            onClick={() => router.push('/addItem')}
             text={'Nuevo producto'}
             className='text-md bg-blue-500'
             icon={<PlusIcon className='fill-current text-white w-4 h-4' />}
