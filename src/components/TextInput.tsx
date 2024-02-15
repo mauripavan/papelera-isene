@@ -1,66 +1,38 @@
-'use client';
-import { KeyboardEvent, useState } from 'react';
-import Search from './icons/Search';
-import { getProducts, searchProducts } from '@/api';
-import { useRecoilState } from 'recoil';
-import { productsState } from '@/store/app-state';
-import CloseIcon from './icons/Close';
+import { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 
-export default function TextInput() {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [, setProducts] = useRecoilState(productsState);
+export enum InputType {
+  text = 'text',
+  email = 'email',
+  date = 'date',
+  dateTime = 'datetime-local',
+  password = 'password',
+  number = 'number',
+}
 
-  const searchResults = async (query: string) => {
-    try {
-      const response = await searchProducts(query, 1);
-      console.log('response ===>', response);
+export interface TextInputProps {
+  label?: string;
+  type: InputType;
+  placeholder?: string;
+  disabled?: boolean;
+  error?: FieldError;
+  registerOptions?: UseFormRegisterReturn;
+}
 
-      const searchData = response.data;
-      setProducts(searchData);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
-
-  const fetchProducts = async () => {
-    try {
-      const response = await getProducts(1);
-      const productsData = response.data;
-      setProducts(productsData);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
-
-  const handleKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      searchResults(searchTerm);
-    }
-  };
-
-  const handleClearInput = () => {
-    setSearchTerm('');
-    fetchProducts();
-  };
+export default function TextInput(props: TextInputProps) {
+  const { disabled, error, label, placeholder, registerOptions, type } = props;
   return (
-    <div className='flex-1 py-2 w-full text-gray-400 group'>
-      <div className='flex py-2 px-4 bg-white rounded-lg w-full relative gap-2 group-focus-within:border group-focus-within:border-purple-500 group-focus-within:text-gray-800'>
-        <Search className='fill-current' />
-        <input
-          placeholder='Buscar por nombre de articulo'
-          className='w-full bg-white font-nunito focus:outline-none'
-          value={searchTerm}
-          onChange={e => {
-            setSearchTerm(e.target.value);
-          }}
-          onKeyDown={event => handleKeyPress(event)}
-        />
-        {searchTerm && (
-          <button onClick={handleClearInput}>
-            <CloseIcon className='fill-current' />
-          </button>
-        )}
+    <>
+      <div className='label font-bold'>
+        <span className=' label-text'>{label}</span>
       </div>
-    </div>
+      <input
+        type={type}
+        placeholder={placeholder}
+        className='input input-bordered w-full '
+        disabled={disabled}
+        {...registerOptions}
+      />
+      {error && <p className='text-red-500 font-bold'>{error.message}</p>}
+    </>
   );
 }
