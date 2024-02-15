@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import TextInput, { InputType } from '@/components/TextInput';
+import { createProduct } from '@/api';
 
 export default function AddItem() {
   const [inStock, setInStock] = useState(true);
@@ -21,7 +22,28 @@ export default function AddItem() {
     mode: 'onTouched',
     resolver: zodResolver(AddProductFormSchema),
   });
-  const onSubmit: SubmitHandler<CreateForm> = data => console.log(data);
+
+  const onSubmit: SubmitHandler<CreateForm> = data => {
+    try {
+      const body = {
+        description: data.description,
+        cost: data.cost,
+        pi: data.PI,
+        pp: data.PP,
+        stock: data.stock,
+        updatedDate: new Date().toDateString(),
+        earningPI: data.earningPI,
+        earningPP: data.PP,
+        quantity: data.quantity,
+        iva: false,
+      };
+      createProduct({ productData: body }).then(res => {
+        console.log('res :', res);
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setInStock(event.target.value === 'true');
