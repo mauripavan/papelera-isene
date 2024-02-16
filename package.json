@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "-": "^0.0.1",
+    "@hookform/resolvers": "^3.3.4",
     "axios": "^1.6.2",
     "date-fns": "2.16.1",
     "husky": "^8.0.3",
@@ -21,13 +22,17 @@
     "prettier": "^3.1.0",
     "react": "^18",
     "react-dom": "^18",
+    "react-hook-form": "^7.50.1",
+    "react-lottie": "^1.2.4",
     "recoil": "^0.7.7",
-    "save-dev": "^0.0.1-security"
+    "save-dev": "^0.0.1-security",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/react-lottie": "^1.2.10",
     "autoprefixer": "^10.0.1",
     "daisyui": "^4.4.17",
     "eslint": "^8",

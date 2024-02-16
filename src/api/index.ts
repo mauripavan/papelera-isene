@@ -71,3 +71,27 @@ export const getProductsByStock = async (
     throw error;
   }
 };
+
+export const createProduct = async ({
+  productData,
+}: {
+  productData: {
+    description: string;
+    cost: number;
+    pi: number;
+    pp: number;
+    stock: boolean;
+    updatedDate: string;
+    earningPI: number;
+    earningPP: number;
+    quantity: number;
+    iva: boolean;
+  };
+}): Promise<AxiosResponse<IProductsProps>> => {
+  try {
+    const response = await api.post(`/products`, productData);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
