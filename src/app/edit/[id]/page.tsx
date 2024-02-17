@@ -5,14 +5,24 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import TextInput, { InputType } from '@/components/TextInput';
-import { createProduct } from '@/api';
 import AddProductModal from '@/components/AddProductModal';
+import { useRecoilValue } from 'recoil';
+import { editProductsState } from '@/store/app-state';
+import { deleteProduct, updateProduct } from '@/api';
+import { DeleteProductModal } from '@/components/DeleteProductModal';
+import { useRouter } from 'next/navigation';
 
-export default function AddItem() {
-  const [inStock, setInStock] = useState(true);
+export default function EditItem() {
+  const editProduct = useRecoilValue(editProductsState);
+
+  const router = useRouter();
+
+  const [inStock, setInStock] = useState(editProduct?.stock);
   const [modalVisible, setModalVisible] = useState(false);
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [addProductError, setAddProductError] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [itemDeleted, setItemDeleted] = useState(false);
 
   const AddProductFormSchema = addProductForm();
   type CreateForm = z.infer<typeof AddProductFormSchema>;
@@ -22,10 +32,21 @@ export default function AddItem() {
     watch,
     setValue,
     reset,
-    formState: { errors, isValid },
+    getValues,
+    formState: { errors, isDirty },
   } = useForm<CreateForm>({
-    mode: 'onTouched',
+    mode: 'onChange',
     resolver: zodResolver(AddProductFormSchema),
+    defaultValues: {
+      cost: editProduct?.cost,
+      description: editProduct?.description,
+      earningPI: editProduct?.earningPI,
+      earningPP: editProduct?.earningPP,
+      PI: editProduct?.pi,
+      PP: editProduct?.pp,
+      quantity: editProduct?.quantity,
+      stock: editProduct?.stock,
+    },
   });
 
   const onSubmit: SubmitHandler<CreateForm> = data => {
@@ -43,7 +64,10 @@ export default function AddItem() {
         quantity: data.quantity,
         iva: false,
       };
-      createProduct({ productData: body }).then(res => {
+      updateProduct({
+        productId: Number(editProduct?.id) || 0,
+        productData: body,
+      }).then(res => {
         if (res.status === 200) {
           setModalVisible(true);
         } else {
@@ -82,16 +106,52 @@ export default function AddItem() {
 
   const handleCloseModal = () => {
     setModalVisible(false);
-    !addProductError && reset();
+    addProductError && reset();
   };
+
+  const handleCloseDeleteModal = () => {
+    setDeleteModalVisible(false);
+  };
+
+  const handleDeleteItem = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    setDeleteModalVisible(true);
+  };
+
+  const handleConfirmDeletion = () => {
+    try {
+      deleteProduct(Number(editProduct?.id)).then(res => {
+        if (res.status === 200) {
+          setItemDeleted(true);
+        } else {
+          console.log(res);
+        }
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleCloseAndBack = () => {
+    setDeleteModalVisible(false);
+    router.back();
+  };
+
+  useEffect(() => {
+    console.log('isDirty', isDirty);
+  }, [isDirty]);
+
+  useEffect(() => {
+    console.log(getValues());
+  }, [getValues]);
 
   return (
     <>
       <div className='font-nunito'>
-        <h1 className=' font-black'>AGREGAR PRODUCTO</h1>
+        <h1 className=' font-black'>EDITAR PRODUCTO</h1>
         <form className=''>
-          <label className='form-control w-full grid grid-cols-3 gap-8'>
-            <div className='col-span-2'>
+          <label className='form-control w-full grid grid-cols-6 gap-8'>
+            <div className='col-span-4'>
               <TextInput
                 type={InputType.text}
                 placeholder='Descripción'
@@ -101,7 +161,7 @@ export default function AddItem() {
               />
             </div>
 
-            <div className='col-span-1'>
+            <div className='col-span-2'>
               <TextInput
                 type={InputType.number}
                 placeholder='Cantidad'
@@ -111,7 +171,7 @@ export default function AddItem() {
               />
             </div>
 
-            <div className='col-span-1'>
+            <div className='col-span-2'>
               <TextInput
                 type={InputType.number}
                 placeholder='Costo'
@@ -121,7 +181,7 @@ export default function AddItem() {
               />
             </div>
 
-            <div className='col-span-1'>
+            <div className='col-span-2'>
               <TextInput
                 type={InputType.number}
                 placeholder='% Ganacias Isene'
@@ -131,7 +191,7 @@ export default function AddItem() {
               />
             </div>
 
-            <div className='col-span-1'>
+            <div className='col-span-2'>
               <TextInput
                 type={InputType.number}
                 placeholder='% Ganancias Papeleras'
@@ -141,7 +201,7 @@ export default function AddItem() {
               />
             </div>
 
-            <div className='col-span-1'>
+            <div className='col-span-2'>
               <TextInput
                 type={InputType.number}
                 placeholder='Precio Isene'
@@ -152,7 +212,7 @@ export default function AddItem() {
               />
             </div>
 
-            <div className='col-span-1'>
+            <div className='col-span-2'>
               <TextInput
                 type={InputType.number}
                 placeholder='Precio Papeleras'
@@ -163,7 +223,7 @@ export default function AddItem() {
               />
             </div>
 
-            <div className='col-span-1  font-bold'>
+            <div className='col-span-2  font-bold'>
               <div className=' label '>
                 <span className='label-text'>Stock</span>
               </div>
@@ -185,27 +245,45 @@ export default function AddItem() {
                 </p>
               )}
             </div>
-          </label>
-          <div className='w-full flex items-center justify-center mt-20 '>
             <button
-              onClick={handleSubmit(onSubmit)}
-              className='btn btn-xs sm:btn-sm md:btn-md lg:btn-lg bg-blue-400 text-white'
-              disabled={!isValid}
+              className='btn btn-xs sm:btn-sm md:btn-md lg:btn-lg bg-red-400 text-white col-start-3'
+              onClick={handleDeleteItem}
             >
               {loading ? (
                 <span className='loading loading-dots loading-md'></span>
               ) : (
-                <p>AGREGAR PRODUCTO +</p>
+                <p>ELIMINAR PRODUCTO</p>
               )}
             </button>
-          </div>
+
+            <button
+              className='btn btn-xs sm:btn-sm md:btn-md lg:btn-lg bg-blue-400 text-white col-start-4'
+              disabled={!isDirty}
+              onClick={handleSubmit(onSubmit)}
+            >
+              {loading ? (
+                <span className='loading loading-dots loading-md'></span>
+              ) : (
+                <p>EDITAR PRODUCTO</p>
+              )}
+            </button>
+          </label>
         </form>
       </div>
       {modalVisible && (
         <AddProductModal
           onClose={handleCloseModal}
           error={addProductError}
-          text='Producto agregado correctamente'
+          text='Producto editado correctamente'
+        />
+      )}
+
+      {deleteModalVisible && (
+        <DeleteProductModal
+          onClose={handleCloseDeleteModal}
+          onConfirm={handleConfirmDeletion}
+          itemDeleted={itemDeleted}
+          onCloseAndBack={handleCloseAndBack}
         />
       )}
     </>

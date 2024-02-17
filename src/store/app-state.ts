@@ -11,3 +11,8 @@ export const productsState = atom<IProductsProps | null>({
   key: 'ProductsState',
   default: null,
 });
+
+export const editProductsState = atom<IProductItemProps | null>({
+  key: 'EditProductsState',
+  default: null,
+});

@@ -95,3 +95,45 @@ export const createProduct = async ({
     throw error;
   }
 };
+
+export const updateProduct = async ({
+  productId,
+  productData,
+}: {
+  productId: number;
+  productData: {
+    description: string;
+    cost: number;
+    pi: number;
+    pp: number;
+    stock: boolean;
+    updatedDate: string;
+    earningPI: number;
+    earningPP: number;
+    quantity: number;
+    iva: boolean;
+  };
+}): Promise<AxiosResponse<IProductsProps>> => {
+  try {
+    const response = await api.put(
+      `/products/update/${productId}`,
+      productData
+    );
+    return response;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const deleteProduct = async (
+  id: number
+): Promise<AxiosResponse<IProductsProps>> => {
+  try {
+    const response = await api.delete(`/products/${id}`);
+    return response;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};

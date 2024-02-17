@@ -1,5 +1,5 @@
 'use client';
-import { getProducts, getProductsByStock } from '@/api';
+import { getProducts, getProductsByStock, updateStock } from '@/api';
 import MainButton from '@/components/MainButton';
 import Pagination from '@/components/Pagination';
 import PriceModal from '@/components/PriceModal';
@@ -39,6 +39,18 @@ export default function Home() {
       console.error('Error fetching data:', error);
     }
   };
+
+  const handleStockUpdate = async (stock: boolean, id: string) => {
+    const data = {
+      stock,
+    };
+    try {
+      await updateStock(Number(id), data);
+    } catch (error) {
+      console.error('Error updating data:', error);
+    }
+  };
+
   useEffect(() => {
     fetchProducts();
   }, [page]);
@@ -104,6 +116,7 @@ export default function Home() {
             key={`product-${index}`}
             onUpdate={() => onProductUpdate()}
             modalVisible={modalVisible}
+            onStockUpdate={handleStockUpdate}
           />
         );
       })}

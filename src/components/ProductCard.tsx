@@ -3,9 +3,10 @@ import { useEffect, useState } from 'react';
 import ArrowDownIcon from './icons/ArrowDown';
 import MainButton from './MainButton';
 import { formatCurrency } from '@/utils/helpers';
-import { updateStock } from '@/api';
 import { useRecoilState } from 'recoil';
-import { selectedProductState } from '@/store/app-state';
+import { editProductsState, selectedProductState } from '@/store/app-state';
+import { useRouter } from 'next/navigation';
+import EditIcon from './icons/Edit';
 
 export interface IProductItemProps {
   id: string;
@@ -25,29 +26,26 @@ export interface IProductCardProps {
   item: IProductItemProps;
   onUpdate?: () => void;
   modalVisible: boolean;
+  onStockUpdate: (stock: boolean, id: string) => void;
 }
 
 export default function ProductCard(props: IProductCardProps) {
-  const { item, onUpdate, modalVisible } = props;
+  const { item, onUpdate, modalVisible, onStockUpdate } = props;
   const [inStock, setInStock] = useState(false);
   const [selected, setSelected] = useState(false);
   const [, setSelectedProduct] = useRecoilState(selectedProductState);
+  const [, setEditProduct] = useRecoilState(editProductsState);
+
+  const router = useRouter();
 
   useEffect(() => {
     setInStock(item.stock);
     setSelected(false);
   }, [item, modalVisible]);
 
-  const handleStockUpdate = async (stock: boolean) => {
+  const handleStockUpdate = async (stock: boolean, id: string) => {
     setInStock(stock);
-    const data = {
-      stock,
-    };
-    try {
-      await updateStock(Number(item.id), data);
-    } catch (error) {
-      console.error('Error updating data:', error);
-    }
+    onStockUpdate(stock, id);
   };
 
   const handleItemSelection = () => {
@@ -61,12 +59,17 @@ export default function ProductCard(props: IProductCardProps) {
     });
   };
 
+  const handleEditClick = () => {
+    setEditProduct(item);
+    router.push(`/edit/${item.id}`);
+  };
+
   return (
     <div className='grid grid-cols-24 gap-4 w-full items-center p-4 bg-white rounded-md border border-gray-0 mb-2'>
       <p className='font-nunito font-medium text-sm col-span-2 text-blue-500'>
         {item.id}
       </p>
-      <p className='font-nunito font-medium text-lg col-span-9'>
+      <p className='font-nunito font-medium text-lg col-span-8'>
         {item.description}
       </p>
       <p className='font-nunito font-medium text-sm col-span-2'>
@@ -99,7 +102,7 @@ export default function ProductCard(props: IProductCardProps) {
           >
             <li>
               <a
-                onClick={() => handleStockUpdate(true)}
+                onClick={() => handleStockUpdate(true, item.id)}
                 className='font-nunito text-xs text-green-700 text-medium whitespace-nowrap'
               >
                 EN STOCK
@@ -107,7 +110,7 @@ export default function ProductCard(props: IProductCardProps) {
             </li>
             <li>
               <a
-                onClick={() => handleStockUpdate(false)}
+                onClick={() => handleStockUpdate(false, item.id)}
                 className='font-nunito text-xs text-red-700 text-medium whitespace-nowrap'
               >
                 REPONER
@@ -135,6 +138,12 @@ export default function ProductCard(props: IProductCardProps) {
           onClick={onUpdate}
           disabled={!selected}
         />
+      </div>
+
+      <div className='col-span-1'>
+        <button onClick={handleEditClick}>
+          <EditIcon className='fill-current text-orange-900' />
+        </button>
       </div>
     </div>
   );
