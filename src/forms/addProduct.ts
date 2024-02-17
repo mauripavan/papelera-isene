@@ -89,13 +89,15 @@ export const addProductForm = () =>
         },
         { message: 'Campo obligatorio' }
       ),
-    stock: z
-      .string({ required_error: 'Campo obligatorio' })
-      .transform(value => {
+    stock: z.union([z.string(), z.boolean()]).transform(value => {
+      if (typeof value === 'boolean') {
+        return value;
+      } else {
         if (value === 'true') {
           return true;
         } else {
           return false;
         }
-      }),
+      }
+    }),
   });
