@@ -39,7 +39,7 @@ export default function AddItem() {
         stock: data.stock,
         updatedDate: new Date().toDateString(),
         earningPI: data.earningPI,
-        earningPP: data.PP,
+        earningPP: data.earningPP,
         quantity: data.quantity,
         iva: false,
       };
@@ -82,7 +82,7 @@ export default function AddItem() {
 
   const handleCloseModal = () => {
     setModalVisible(false);
-    addProductError && reset();
+    !addProductError && reset();
   };
 
   return (
@@ -202,7 +202,11 @@ export default function AddItem() {
         </form>
       </div>
       {modalVisible && (
-        <AddProductModal onClose={handleCloseModal} error={addProductError} />
+        <AddProductModal
+          onClose={handleCloseModal}
+          error={addProductError}
+          text='Producto agregado correctamente'
+        />
       )}
     </>
   );
