@@ -5,10 +5,11 @@ import ErrorLotie from './lottie/error-lottie.json';
 export interface IAddProductModalProps {
   onClose: () => void;
   error?: boolean;
+  text: string;
 }
 
 export default function AddProductModal(props: IAddProductModalProps) {
-  const { onClose, error } = props;
+  const { onClose, error, text } = props;
 
   const defaultOptions = {
     loop: false,
@@ -41,7 +42,7 @@ export default function AddProductModal(props: IAddProductModalProps) {
           <>
             <Lottie options={defaultOptions} height={300} width={300} />
             <h3 className='font-semibold text-2xl text-center text-gray-700'>
-              Producto agregado exitosamente
+              {text}
             </h3>
           </>
         ) : (
