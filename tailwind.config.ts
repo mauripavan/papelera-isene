@@ -25,6 +25,13 @@ const config: Config = {
         blue: { 0: '#3F72AF' },
         gray: { 0: '#e4e7eb', 10: '#f3f4fa' },
       },
+      maxHeight: {
+        '0': '0',
+        '1/4': '25%',
+        '1/2': '50%',
+        '3/4': '75%',
+        full: '100%',
+      },
     },
   },
   plugins: [require('daisyui')],

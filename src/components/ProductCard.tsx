@@ -33,7 +33,8 @@ export default function ProductCard(props: IProductCardProps) {
   const { item, onUpdate, modalVisible, onStockUpdate } = props;
   const [inStock, setInStock] = useState(false);
   const [selected, setSelected] = useState(false);
-  const [, setSelectedProduct] = useRecoilState(selectedProductState);
+  const [selectedProducts, setSelectedProduct] =
+    useRecoilState(selectedProductState);
   const [, setEditProduct] = useRecoilState(editProductsState);
 
   const router = useRouter();
@@ -63,6 +64,13 @@ export default function ProductCard(props: IProductCardProps) {
     setEditProduct(item);
     router.push(`/edit/${item.id}`);
   };
+
+  useEffect(() => {
+    const isSelected = selectedProducts?.find(
+      product => product.id === item.id
+    );
+    setSelected(!!isSelected);
+  }, [selectedProducts]);
 
   return (
     <div className='grid grid-cols-24 gap-4 w-full items-center p-4 bg-white rounded-md border border-gray-0 mb-2'>
