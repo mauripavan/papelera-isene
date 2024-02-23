@@ -1,3 +1,4 @@
+import { RefObject } from 'react';
 import { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 
 export enum InputType {
@@ -16,10 +17,12 @@ export interface TextInputProps {
   disabled?: boolean;
   error?: FieldError;
   registerOptions?: UseFormRegisterReturn;
+  style?: string;
 }
 
 export default function TextInput(props: TextInputProps) {
-  const { disabled, error, label, placeholder, registerOptions, type } = props;
+  const { disabled, error, label, placeholder, registerOptions, type, style } =
+    props;
   return (
     <>
       <div className='label font-bold'>
@@ -28,7 +31,7 @@ export default function TextInput(props: TextInputProps) {
       <input
         type={type}
         placeholder={placeholder}
-        className='input input-bordered w-full '
+        className={`input input-bordered ${style}`}
         disabled={disabled}
         {...registerOptions}
       />

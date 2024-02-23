@@ -98,6 +98,7 @@ export default function AddItem() {
                 label='Descripción'
                 error={errors.description}
                 registerOptions={{ ...register('description') }}
+                style='w-full'
               />
             </div>
 
@@ -108,6 +109,7 @@ export default function AddItem() {
                 label='Cantidad'
                 error={errors.quantity}
                 registerOptions={{ ...register('quantity') }}
+                style='w-full'
               />
             </div>
 
@@ -118,6 +120,7 @@ export default function AddItem() {
                 label='Costo'
                 error={errors.cost}
                 registerOptions={{ ...register('cost') }}
+                style='w-full'
               />
             </div>
 
@@ -128,6 +131,7 @@ export default function AddItem() {
                 label='% Ganacias Isene'
                 error={errors.earningPI}
                 registerOptions={{ ...register('earningPI') }}
+                style='w-full'
               />
             </div>
 
@@ -138,6 +142,7 @@ export default function AddItem() {
                 label='% Ganancias Papeleras'
                 error={errors.earningPP}
                 registerOptions={{ ...register('earningPP') }}
+                style='w-full'
               />
             </div>
 
@@ -149,6 +154,7 @@ export default function AddItem() {
                 error={errors.PI}
                 registerOptions={{ ...register('PI') }}
                 disabled
+                style='w-full'
               />
             </div>
 
@@ -160,6 +166,7 @@ export default function AddItem() {
                 error={errors.PP}
                 registerOptions={{ ...register('PP') }}
                 disabled
+                style='w-full'
               />
             </div>
 

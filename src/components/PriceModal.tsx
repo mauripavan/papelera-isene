@@ -1,10 +1,15 @@
 'use client';
 import { formatCurrency } from '@/utils/helpers';
 import MainButton from './MainButton';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getProducts, getProductsByStock, updateProductPrice } from '@/api';
 import { useRecoilState } from 'recoil';
 import { productsState, selectedProductState } from '@/store/app-state';
+import TextInput, { InputType } from './TextInput';
+import { z } from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { updatePriceForm } from '@/forms/updatePrice';
 
 export interface IPriceModalProps {
   onClose: () => void;
@@ -13,18 +18,33 @@ export interface IPriceModalProps {
 export default function PriceModal(props: IPriceModalProps) {
   const { onClose, noStock } = props;
   const [modified, setModified] = useState(false);
-  const [increment, setIncrement] = useState<number | undefined>(undefined);
   const [, setProducts] = useRecoilState(productsState);
   const [selectedProducts, setSelectedProduct] =
     useRecoilState(selectedProductState);
+
+  const UpdtaePriceFormSchema = updatePriceForm();
+
+  type CreateForm = z.infer<typeof UpdtaePriceFormSchema>;
+  const {
+    register,
+    getValues,
+    setFocus,
+    formState: { isDirty, isValid },
+  } = useForm<CreateForm>({
+    mode: 'onTouched',
+    resolver: zodResolver(UpdtaePriceFormSchema),
+    defaultValues: {
+      increment: '' || 0,
+    },
+  });
 
   const handleIncrement = () => {
     const updatedProducts = selectedProducts.map(item => {
       const { cost, pi, pp, ...rest } = item;
       return {
-        cost: Number((item.cost * increment!) / 100 + item.cost),
-        pi: Number((item.pi * increment!) / 100 + item.pi),
-        pp: Number((item.pp * increment!) / 100 + item.pp),
+        cost: Number((item.cost * getValues('increment')) / 100 + item.cost),
+        pi: Number((item.pi * getValues('increment')) / 100 + item.pi),
+        pp: Number((item.pp * getValues('increment')) / 100 + item.pp),
         ...rest,
       };
     });
@@ -74,8 +94,12 @@ export default function PriceModal(props: IPriceModalProps) {
     onClose();
   };
 
+  useEffect(() => {
+    setFocus('increment', { shouldSelect: true });
+  }, [setFocus]);
+
   return (
-    <div className='flex items-center justify-center fixed inset-0 bg-black bg-opacity-50 '>
+    <div className='flex items-center justify-center fixed inset-0 bg-black bg-opacity-50 font-nunito '>
       <div className='flex bg-white p-8 w-auto h-auto rounded-md '>
         <div className='flex-col flex w-full items-center justify-center'>
           <p className='font-nunito text-3xl mb-8'>Actualizador de precios:</p>
@@ -115,24 +139,22 @@ export default function PriceModal(props: IPriceModalProps) {
             );
           })}
           <div className='flex mb-4 items-center'>
-            <p className='font-nunito w-28'>Incremento</p>
-            <div className='flex rounded-md font-nunito focus:outline-none border border-black py-1 px-2 gap-1 w-28'>
-              <p>%</p>
-              <input
-                className='focus:outline-none w-16 flex text-center font-bold'
-                value={increment}
-                onChange={value => setIncrement(Number(value.target.value))}
-                onFocus={() => setIncrement(undefined)}
-              />
-            </div>
+            <p className='font-nunito w-28 text-center'>Incremento %</p>
+            <TextInput
+              type={InputType.number}
+              style={`w-28 text-center ${
+                !isDirty || !isValid ? 'text-gray-200' : null
+              }`}
+              registerOptions={{ ...register('increment') }}
+            />
             <button
               className='ml-8'
               onClick={handleIncrement}
-              disabled={!increment}
+              disabled={!isDirty || !isValid}
             >
               <p
                 className={`font-nunito text-sm ${
-                  !increment ? 'text-gray-300' : 'text-blue-500'
+                  !isDirty || !isValid ? 'text-gray-300' : 'text-blue-500'
                 }`}
               >
                 Aplicar
