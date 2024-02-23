@@ -152,12 +152,14 @@ export default function Home() {
           noStock={onlyNoStock}
         />
       )}
-      <Pagination
-        totalCards={products?.pagination?.totalItems || 0}
-        currentPage={page}
-        cardsPerPage={20}
-        paginate={handlePageChange}
-      />
+      {!modalVisible && (
+        <Pagination
+          totalCards={products?.pagination?.totalItems || 0}
+          currentPage={page}
+          cardsPerPage={20}
+          paginate={handlePageChange}
+        />
+      )}
     </main>
   );
 }
