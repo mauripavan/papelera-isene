@@ -3,7 +3,7 @@ import { IProductItemProps } from '@/components/ProductCard';
 import axios, { AxiosResponse } from 'axios';
 
 export const api = axios.create({
-  baseURL: 'http://localhost:8080/api/',
+  baseURL: 'http://papelera-isene-api.onrender.com/api/',
 });
 
 export const getProducts = async (
