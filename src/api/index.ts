@@ -2,8 +2,16 @@ import { IProductsProps } from '@/app/page';
 import { IProductItemProps } from '@/components/ProductCard';
 import axios, { AxiosResponse } from 'axios';
 
+let apiUrl;
+
+if (process.env.NODE_ENV === 'production') {
+  apiUrl = process.env.NEXT_PUBLIC_API_URL;
+} else {
+  apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+}
+
 export const api = axios.create({
-  baseURL: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api`,
+  baseURL: `${apiUrl}/api`,
 });
 
 export const getProducts = async (
