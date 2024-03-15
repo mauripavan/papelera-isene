@@ -1,4 +1,4 @@
-import { IProductsProps } from '@/app/page';
+import { IProductsProps } from '@/app/home/page';
 import { IProductItemProps } from '@/components/ProductCard';
 import { atom } from 'recoil';
 
