@@ -7,23 +7,24 @@ import { z } from 'zod';
 import MainButton from '@/components/MainButton';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import Link from 'next/link';
 
 export default function Login() {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
 
-  const AddProductFormSchema = loginForm();
-  type CreateForm = z.infer<typeof AddProductFormSchema>;
+  const LoginFormSchema = loginForm();
+  type CreateForm = z.infer<typeof LoginFormSchema>;
   const {
     register,
     handleSubmit,
     formState: { errors, isDirty, isValid },
   } = useForm<CreateForm>({
     mode: 'onBlur',
-    resolver: zodResolver(AddProductFormSchema),
+    resolver: zodResolver(LoginFormSchema),
     defaultValues: {
-      username: '',
+      email: '',
       password: '',
     },
   });
@@ -43,15 +44,15 @@ export default function Login() {
         <div className=''>
           <TextInput
             type={InputType.text}
-            placeholder='Ingrese su usuario'
-            label='Usuario'
-            error={errors.username}
-            registerOptions={{ ...register('username') }}
+            placeholder='Ingrese su email'
+            label='Email'
+            error={errors.email}
+            registerOptions={{ ...register('email') }}
             style='w-full'
             containerStyle='mb-5'
           />
           <TextInput
-            type={InputType.text}
+            type={InputType.password}
             placeholder='Ingrese su contraseña'
             label='Contraseña'
             error={errors.password}
@@ -71,6 +72,11 @@ export default function Login() {
                 <span className='loading loading-dots loading-lg'></span>
               )}
             />
+          </div>
+          <div className='flex justify-center mt-3 font-semibold text-purple-800'>
+            <Link href={'signup'}>
+              <p>No tiene cuenta? Registrarse</p>
+            </Link>
           </div>
         </div>
       </div>
