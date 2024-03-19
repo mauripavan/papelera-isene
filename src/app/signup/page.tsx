@@ -9,6 +9,8 @@ import { useState } from 'react';
 import { signupForm } from '@/forms/signupForm';
 import Link from 'next/link';
 import PasswordRequirements from '@/components/PasswordRequirements';
+import { createUser } from '@/api';
+import AddProductModal from '@/components/AddProductModal';
 
 export type PasswordRequirementsType = {
   length: boolean | undefined;
@@ -21,6 +23,8 @@ export default function Singup() {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [error, setError] = useState('');
 
   const SignupFormSchema = signupForm();
   type CreateForm = z.infer<typeof SignupFormSchema>;
@@ -40,12 +44,24 @@ export default function Singup() {
     },
   });
 
-  const onSubmit: SubmitHandler<CreateForm> = data => {
+  const onSubmit: SubmitHandler<CreateForm> = async data => {
     setLoading(true);
     try {
-      router.push('home');
-    } catch (error) {
-      console.error(error);
+      const response = await createUser({
+        user: {
+          email: data.email,
+          password: data.password,
+          username: data.name,
+        },
+      });
+      if (response.status === 201) {
+        setLoading(false);
+        setModalVisible(true);
+      }
+    } catch (error: any) {
+      setLoading(false);
+      setError(error.message);
+      setModalVisible(true);
     }
   };
 
@@ -66,6 +82,11 @@ export default function Singup() {
     };
 
     setPasswordRequirements(newPasswordRequirements);
+  };
+
+  const handleCloseModal = () => {
+    setModalVisible(false);
+    setError('');
   };
 
   return (
@@ -133,6 +154,16 @@ export default function Singup() {
           </div>
         </div>
       </div>
+      {modalVisible && (
+        <AddProductModal
+          onClose={handleCloseModal}
+          error={!!error}
+          text='Usuario creado correctamente'
+          link='/'
+          linkText='Iniciar Sesión'
+          errorMessage={error}
+        />
+      )}
     </main>
   );
 }

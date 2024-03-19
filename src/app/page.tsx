@@ -9,6 +9,12 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Link from 'next/link';
 
+export interface IUserProps {
+  username: string;
+  email: string;
+  password: string;
+}
+
 export default function Login() {
   const router = useRouter();
 

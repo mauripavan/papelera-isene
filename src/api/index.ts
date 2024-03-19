@@ -1,4 +1,5 @@
 import { IProductsProps } from '@/app/home/page';
+import { IUserProps } from '@/app/page';
 import { IProductItemProps } from '@/components/ProductCard';
 import axios, { AxiosResponse } from 'axios';
 
@@ -137,5 +138,23 @@ export const deleteProduct = async (
   } catch (error) {
     console.log(error);
     throw error;
+  }
+};
+
+export const createUser = async ({
+  user,
+}: {
+  user: { username: string; email: string; password: string };
+}): Promise<AxiosResponse<IUserProps>> => {
+  try {
+    const response = await api.post(`/users`, user);
+    return response;
+  } catch (error: any) {
+    if (error.response && error.response.status === 400) {
+      const errorMessage = error.response.data.error;
+      throw new Error(errorMessage);
+    } else {
+      throw error;
+    }
   }
 };
