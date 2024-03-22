@@ -7,12 +7,38 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import TextInput, { InputType } from '@/components/TextInput';
 import { createProduct } from '@/api';
 import AddProductModal from '@/components/AddProductModal';
+import { useProtectedRoute } from '@/hooks/useProtectedRoute';
+import { getSession } from '@/auth';
+import { useRecoilState } from 'recoil';
+import { userState } from '@/store/app-state';
+import { useRouter } from 'next/navigation';
 
 export default function AddItem() {
+  useProtectedRoute();
+
   const [inStock, setInStock] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [addProductError, setAddProductError] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [loadingSession, setLoadingSession] = useState(true);
+  const [, setUser] = useRecoilState(userState);
+  const router = useRouter();
+
+  useEffect(() => {
+    getSession()
+      .then(res => {
+        if (res !== null) {
+          setUser({
+            email: res.user.email,
+            username: res.user.username,
+            admin: res.user.admin,
+          });
+        } else {
+          router.replace('/');
+        }
+      })
+      .finally(() => setLoadingSession(false));
+  }, []);
 
   const AddProductFormSchema = addProductForm();
   type CreateForm = z.infer<typeof AddProductFormSchema>;
@@ -84,6 +110,14 @@ export default function AddItem() {
     setModalVisible(false);
     !addProductError && reset();
   };
+
+  if (loadingSession) {
+    return (
+      <div className='flex justify-center items-center font-nunito font-bold text-xl min-h-screen'>
+        <p>Cargando...</p>
+      </div>
+    );
+  }
 
   return (
     <>

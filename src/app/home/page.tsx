@@ -7,12 +7,13 @@ import ProductCard, { IProductItemProps } from '@/components/ProductCard';
 import TableHeader from '@/components/TableHeader';
 import SearchInput from '@/components/SearchInput';
 import PlusIcon from '@/components/icons/Plus';
-import { productsState } from '@/store/app-state';
+import { productsState, userState } from '@/store/app-state';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import Lottie from 'react-lottie';
 import LoadingLottie from '../../components/lottie/loading-lottie.json';
+import { getSession } from '@/auth';
 
 export interface PaginationProps {
   page: number;
@@ -28,10 +29,28 @@ export interface IProductsProps {
 export default function Home() {
   const [products, setProducts] = useRecoilState(productsState);
   const [loading, setLoading] = useState(false);
+  const [loadingSession, setLoadingSession] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [onlyNoStock, setOnlyNoStock] = useState(false);
   const [page, setPage] = useState(1);
+  const [, setUser] = useRecoilState(userState);
   const router = useRouter();
+
+  useEffect(() => {
+    getSession()
+      .then(res => {
+        if (res !== null) {
+          setUser({
+            email: res.user.email,
+            username: res.user.username,
+            admin: res.user.admin,
+          });
+        } else {
+          router.replace('/');
+        }
+      })
+      .finally(() => setLoadingSession(false));
+  }, []);
 
   const defaultOptions = {
     loop: true,
@@ -92,6 +111,14 @@ export default function Home() {
   const handlePageChange = (page: number) => {
     setPage(page);
   };
+
+  if (loadingSession) {
+    return (
+      <div className='flex justify-center items-center font-nunito font-bold text-xl min-h-screen'>
+        <p>Cargando...</p>
+      </div>
+    );
+  }
 
   return (
     <main className='flex min-h-screen flex-col font-nunito'>

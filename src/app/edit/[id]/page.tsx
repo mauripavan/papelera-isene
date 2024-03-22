@@ -6,23 +6,44 @@ import { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import TextInput, { InputType } from '@/components/TextInput';
 import AddProductModal from '@/components/AddProductModal';
-import { useRecoilValue } from 'recoil';
-import { editProductsState } from '@/store/app-state';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { editProductsState, userState } from '@/store/app-state';
 import { deleteProduct, updateProduct } from '@/api';
 import { DeleteProductModal } from '@/components/DeleteProductModal';
 import { useRouter } from 'next/navigation';
+import { useProtectedRoute } from '@/hooks/useProtectedRoute';
+import { getSession } from '@/auth';
 
 export default function EditItem() {
-  const editProduct = useRecoilValue(editProductsState);
-
+  useProtectedRoute();
   const router = useRouter();
+
+  const editProduct = useRecoilValue(editProductsState);
 
   const [inStock, setInStock] = useState(editProduct?.stock);
   const [modalVisible, setModalVisible] = useState(false);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [addProductError, setAddProductError] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [loadingSession, setLoadingSession] = useState(true);
   const [itemDeleted, setItemDeleted] = useState(false);
+  const [, setUser] = useRecoilState(userState);
+
+  useEffect(() => {
+    getSession()
+      .then(res => {
+        if (res !== null) {
+          setUser({
+            email: res.user.email,
+            username: res.user.username,
+            admin: res.user.admin,
+          });
+        } else {
+          router.replace('/');
+        }
+      })
+      .finally(() => setLoadingSession(false));
+  }, []);
 
   const AddProductFormSchema = addProductForm();
   type CreateForm = z.infer<typeof AddProductFormSchema>;
@@ -144,6 +165,14 @@ export default function EditItem() {
   useEffect(() => {
     console.log(getValues());
   }, [getValues]);
+
+  if (loadingSession) {
+    return (
+      <div className='flex justify-center items-center font-nunito font-bold text-xl min-h-screen'>
+        <p>Cargando...</p>
+      </div>
+    );
+  }
 
   return (
     <>
