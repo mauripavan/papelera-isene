@@ -2,7 +2,7 @@ import { SignJWT, jwtVerify } from 'jose';
 import Cookies from 'js-cookie';
 import { NextResponse } from 'next/server';
 
-const secretKey = 'papelera';
+const secretKey = process.env.NEXT_PUBLIC_JWT_SECRET;
 const key = new TextEncoder().encode(secretKey);
 
 export interface LoginForm {
