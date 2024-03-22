@@ -6,8 +6,14 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import MainButton from '@/components/MainButton';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { login } from '@/api';
+import AddProductModal from '@/components/AddProductModal';
+import { useRecoilState } from 'recoil';
+import { userState } from '@/store/app-state';
+import { getSession, loginSession } from '@/auth';
+import LoadingModal from '@/components/LoadingModal';
 
 export interface IUserProps {
   username: string;
@@ -19,13 +25,18 @@ export default function Login() {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
+  const [loadingSession, setLoadingSession] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [error, setError] = useState('');
+  const [, setUser] = useRecoilState(userState);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const LoginFormSchema = loginForm();
   type CreateForm = z.infer<typeof LoginFormSchema>;
   const {
     register,
     handleSubmit,
-    formState: { errors, isDirty, isValid },
+    formState: { errors, isValid },
   } = useForm<CreateForm>({
     mode: 'onBlur',
     resolver: zodResolver(LoginFormSchema),
@@ -35,13 +46,60 @@ export default function Login() {
     },
   });
 
-  const onSubmit: SubmitHandler<CreateForm> = data => {
+  useEffect(() => {
+    getSession()
+      .then(res => {
+        if (res !== null) {
+          setUser({
+            email: res.user.email,
+            username: res.user.username,
+            admin: res.user.admin,
+          });
+          setIsLoggedIn(true);
+        }
+      })
+      .finally(() => setLoadingSession(false));
+  }, []);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      router.push('/home');
+    }
+  }, [isLoggedIn]);
+
+  const onSubmit: SubmitHandler<CreateForm> = async data => {
     setLoading(true);
     try {
-      router.push('home');
-    } catch (error) {
-      console.error(error);
+      const response = await login({
+        user: { email: data.email, password: data.password },
+      });
+      if (response.status === 200) {
+        setUser({
+          email: response.data.email,
+          username: response.data.username,
+          admin: response.data.admin,
+        });
+        loginSession({
+          admin: response.data.user.admin,
+          email: response.data.user.email,
+          username: response.data.user.username,
+        });
+        router.push('/home');
+      }
+    } catch (error: any) {
+      if (error.response.status === 401) {
+        setError('Email o contraseña incorrecto. Intente nuevamente');
+      } else {
+        setError(error.message);
+      }
+      setLoading(false);
+      setModalVisible(true);
     }
+  };
+
+  const handleCloseModal = () => {
+    setModalVisible(false);
+    setError('');
   };
 
   return (
@@ -86,6 +144,15 @@ export default function Login() {
           </div>
         </div>
       </div>
+      {modalVisible && (
+        <AddProductModal
+          onClose={handleCloseModal}
+          error={true}
+          text='Error al iniciar sesion'
+          errorMessage={error}
+        />
+      )}
+      {loadingSession && <LoadingModal text='Verificando credencailes' />}
     </main>
   );
 }

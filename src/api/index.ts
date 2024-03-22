@@ -144,7 +144,7 @@ export const deleteProduct = async (
 export const createUser = async ({
   user,
 }: {
-  user: { username: string; email: string; password: string };
+  user: IUserProps;
 }): Promise<AxiosResponse<IUserProps>> => {
   try {
     const response = await api.post(`/users`, user);
@@ -156,5 +156,19 @@ export const createUser = async ({
     } else {
       throw error;
     }
+  }
+};
+
+export const login = async ({
+  user,
+}: {
+  user: { email: string; password: string };
+}) => {
+  try {
+    const response = await api.post('/users/login', user);
+    return response;
+  } catch (error) {
+    console.log(error);
+    throw error;
   }
 };
