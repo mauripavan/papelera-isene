@@ -39,7 +39,7 @@ export async function loginSession(formData: LoginForm) {
   Cookies.set('session', session, {
     expires,
     path: '/',
-    domain: process.env.NEXT_PUBLIC_DOMAIN,
+    domain: '.onrender.com',
   });
 }
 
