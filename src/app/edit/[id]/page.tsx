@@ -14,6 +14,8 @@ import { useRouter } from 'next/navigation';
 import { useProtectedRoute } from '@/hooks/useProtectedRoute';
 import { getSession } from '@/auth';
 import MainButton from '@/components/MainButton';
+import Logo from '@/components/Logo';
+import Navbar from '@/components/Navbar';
 
 export default function EditItem() {
   useProtectedRoute();
@@ -168,8 +170,9 @@ export default function EditItem() {
   }
 
   return (
-    <>
-      <div className='font-nunito'>
+    <main className='flex min-h-screen flex-col font-nunito'>
+      <Navbar />
+      <div>
         <h1 className=' font-black'>EDITAR PRODUCTO</h1>
         <form className='flex flex-col items-center justify-center'>
           <label className='form-control w-full grid grid-cols-6 gap-8'>
@@ -317,6 +320,6 @@ export default function EditItem() {
           onCloseAndBack={handleCloseAndBack}
         />
       )}
-    </>
+    </main>
   );
 }

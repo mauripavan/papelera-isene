@@ -14,6 +14,7 @@ import { useRecoilState } from 'recoil';
 import Lottie from 'react-lottie';
 import LoadingLottie from '../../components/lottie/loading-lottie.json';
 import { getSession } from '@/auth';
+import Navbar from '@/components/Navbar';
 
 export interface PaginationProps {
   page: number;
@@ -122,6 +123,7 @@ export default function Home() {
 
   return (
     <main className='flex min-h-screen flex-col font-nunito'>
+      <Navbar />
       <div className='flex items-center gap-32'>
         <div className='flex-none'>
           <p className='font-nunito font-bold text-2xl'>Lista de precios</p>

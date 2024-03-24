@@ -13,6 +13,8 @@ import { useRecoilState } from 'recoil';
 import { userState } from '@/store/app-state';
 import { useRouter } from 'next/navigation';
 import MainButton from '@/components/MainButton';
+import Logo from '@/components/Logo';
+import Navbar from '@/components/Navbar';
 
 export default function AddItem() {
   useProtectedRoute();
@@ -121,8 +123,9 @@ export default function AddItem() {
   }
 
   return (
-    <>
-      <div className='font-nunito'>
+    <main className='flex min-h-screen flex-col font-nunito'>
+      <Navbar />
+      <div>
         <h1 className=' font-black'>AGREGAR PRODUCTO</h1>
         <form className=''>
           <label className='form-control w-full grid grid-cols-3 gap-8'>
@@ -251,6 +254,6 @@ export default function AddItem() {
           text='Producto agregado correctamente'
         />
       )}
-    </>
+    </main>
   );
 }

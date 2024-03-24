@@ -14,6 +14,7 @@ import { useRecoilState } from 'recoil';
 import { userState } from '@/store/app-state';
 import { getSession, loginSession } from '@/auth';
 import LoadingModal from '@/components/LoadingModal';
+import Logo from '@/components/Logo';
 
 export interface IUserProps {
   username: string;
@@ -104,6 +105,9 @@ export default function Login() {
 
   return (
     <main className='flex min-h-screen flex-col items-center font-nunito'>
+      <header className='flex py-2 justify-center'>
+        <Logo />
+      </header>
       <div className='w-full lg:w-1/2 mt-20'>
         <div className=''>
           <TextInput
