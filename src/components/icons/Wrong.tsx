@@ -1,4 +1,4 @@
-import { IconProps } from '@component/types/icons';
+import { IconProps } from './Check2';
 
 const WrongIcon = ({ className }: IconProps): JSX.Element => {
   return (
