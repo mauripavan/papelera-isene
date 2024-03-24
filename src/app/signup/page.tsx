@@ -11,6 +11,7 @@ import Link from 'next/link';
 import PasswordRequirements from '@/components/PasswordRequirements';
 import { createUser } from '@/api';
 import AddProductModal from '@/components/AddProductModal';
+import Navbar from '@/components/Navbar';
 
 export type PasswordRequirementsType = {
   length: boolean | undefined;
@@ -91,6 +92,7 @@ export default function Singup() {
 
   return (
     <main className='flex min-h-screen flex-col items-center font-nunito'>
+      <Navbar />
       <div className='w-full lg:w-1/2 mt-20'>
         <div>
           <TextInput
