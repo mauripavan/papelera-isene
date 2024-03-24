@@ -1,4 +1,5 @@
-import { IProductsProps } from '@/app/page';
+import { IProductsProps } from '@/app/home/page';
+import { IUserProps } from '@/app/page';
 import { IProductItemProps } from '@/components/ProductCard';
 import { atom } from 'recoil';
 
@@ -15,4 +16,13 @@ export const productsState = atom<IProductsProps | null>({
 export const editProductsState = atom<IProductItemProps | null>({
   key: 'EditProductsState',
   default: null,
+});
+
+export const userState = atom({
+  key: 'UserState',
+  default: {
+    username: '',
+    email: '',
+    admin: false,
+  },
 });

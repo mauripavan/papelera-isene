@@ -18,13 +18,22 @@ export interface TextInputProps {
   error?: FieldError;
   registerOptions?: UseFormRegisterReturn;
   style?: string;
+  containerStyle?: string;
 }
 
 export default function TextInput(props: TextInputProps) {
-  const { disabled, error, label, placeholder, registerOptions, type, style } =
-    props;
+  const {
+    disabled,
+    error,
+    label,
+    placeholder,
+    registerOptions,
+    type,
+    style,
+    containerStyle,
+  } = props;
   return (
-    <>
+    <div className={containerStyle}>
       <div className='label font-bold'>
         <span className=' label-text'>{label}</span>
       </div>
@@ -36,6 +45,6 @@ export default function TextInput(props: TextInputProps) {
         {...registerOptions}
       />
       {error && <p className='text-red-500 font-bold'>{error.message}</p>}
-    </>
+    </div>
   );
 }

@@ -7,12 +7,41 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import TextInput, { InputType } from '@/components/TextInput';
 import { createProduct } from '@/api';
 import AddProductModal from '@/components/AddProductModal';
+import { useProtectedRoute } from '@/hooks/useProtectedRoute';
+import { getSession } from '@/auth';
+import { useRecoilState } from 'recoil';
+import { userState } from '@/store/app-state';
+import { useRouter } from 'next/navigation';
+import MainButton from '@/components/MainButton';
+import Logo from '@/components/Logo';
+import Navbar from '@/components/Navbar';
 
 export default function AddItem() {
+  useProtectedRoute();
+
   const [inStock, setInStock] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [addProductError, setAddProductError] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [loadingSession, setLoadingSession] = useState(true);
+  const [, setUser] = useRecoilState(userState);
+  const router = useRouter();
+
+  useEffect(() => {
+    getSession()
+      .then(res => {
+        if (res !== null) {
+          setUser({
+            email: res.user.email,
+            username: res.user.username,
+            admin: res.user.admin,
+          });
+        } else {
+          router.replace('/');
+        }
+      })
+      .finally(() => setLoadingSession(false));
+  }, []);
 
   const AddProductFormSchema = addProductForm();
   type CreateForm = z.infer<typeof AddProductFormSchema>;
@@ -85,13 +114,22 @@ export default function AddItem() {
     !addProductError && reset();
   };
 
+  if (loadingSession) {
+    return (
+      <div className='flex justify-center items-center font-nunito font-bold text-xl min-h-screen'>
+        <p>Cargando...</p>
+      </div>
+    );
+  }
+
   return (
-    <>
-      <div className='font-nunito'>
+    <main className='flex min-h-screen flex-col font-nunito'>
+      <Navbar />
+      <div>
         <h1 className=' font-black'>AGREGAR PRODUCTO</h1>
         <form className=''>
           <label className='form-control w-full grid grid-cols-3 gap-8'>
-            <div className='col-span-2'>
+            <div className='col-span-3 md:col-span-2'>
               <TextInput
                 type={InputType.text}
                 placeholder='Descripción'
@@ -102,7 +140,7 @@ export default function AddItem() {
               />
             </div>
 
-            <div className='col-span-1'>
+            <div className='col-span-3 md:col-span-1'>
               <TextInput
                 type={InputType.number}
                 placeholder='Cantidad'
@@ -113,7 +151,7 @@ export default function AddItem() {
               />
             </div>
 
-            <div className='col-span-1'>
+            <div className='col-span-3 md:col-span-1'>
               <TextInput
                 type={InputType.number}
                 placeholder='Costo'
@@ -124,7 +162,7 @@ export default function AddItem() {
               />
             </div>
 
-            <div className='col-span-1'>
+            <div className='col-span-3 md:col-span-1'>
               <TextInput
                 type={InputType.number}
                 placeholder='% Ganacias Isene'
@@ -135,7 +173,7 @@ export default function AddItem() {
               />
             </div>
 
-            <div className='col-span-1'>
+            <div className='col-span-3 md:col-span-1'>
               <TextInput
                 type={InputType.number}
                 placeholder='% Ganancias Papeleras'
@@ -146,7 +184,7 @@ export default function AddItem() {
               />
             </div>
 
-            <div className='col-span-1'>
+            <div className='col-span-3 md:col-span-1'>
               <TextInput
                 type={InputType.number}
                 placeholder='Precio Isene'
@@ -158,7 +196,7 @@ export default function AddItem() {
               />
             </div>
 
-            <div className='col-span-1'>
+            <div className='col-span-3 md:col-span-1'>
               <TextInput
                 type={InputType.number}
                 placeholder='Precio Papeleras'
@@ -170,7 +208,7 @@ export default function AddItem() {
               />
             </div>
 
-            <div className='col-span-1  font-bold'>
+            <div className='col-span-3 md:col-span-1  font-bold'>
               <div className=' label '>
                 <span className='label-text'>Stock</span>
               </div>
@@ -193,18 +231,19 @@ export default function AddItem() {
               )}
             </div>
           </label>
-          <div className='w-full flex items-center justify-center mt-20 '>
-            <button
+          <div className='flex justify-center items-center w-full mt-10'>
+            <MainButton
+              text={'AGREGAR PRODUCTO +'}
+              className={`${
+                isValid ? 'bg-purple-500' : 'bg-purple-200'
+              } py-4 px-20`}
+              disabled={!isValid || loading}
               onClick={handleSubmit(onSubmit)}
-              className='btn btn-xs sm:btn-sm md:btn-md lg:btn-lg bg-blue-400 text-white'
-              disabled={!isValid}
-            >
-              {loading ? (
-                <span className='loading loading-dots loading-md'></span>
-              ) : (
-                <p>AGREGAR PRODUCTO +</p>
+              loading={loading}
+              LoadingComponent={() => (
+                <span className='loading loading-dots loading-lg'></span>
               )}
-            </button>
+            />
           </div>
         </form>
       </div>
@@ -215,6 +254,6 @@ export default function AddItem() {
           text='Producto agregado correctamente'
         />
       )}
-    </>
+    </main>
   );
 }

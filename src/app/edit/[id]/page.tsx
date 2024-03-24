@@ -6,23 +6,47 @@ import { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import TextInput, { InputType } from '@/components/TextInput';
 import AddProductModal from '@/components/AddProductModal';
-import { useRecoilValue } from 'recoil';
-import { editProductsState } from '@/store/app-state';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { editProductsState, userState } from '@/store/app-state';
 import { deleteProduct, updateProduct } from '@/api';
 import { DeleteProductModal } from '@/components/DeleteProductModal';
 import { useRouter } from 'next/navigation';
+import { useProtectedRoute } from '@/hooks/useProtectedRoute';
+import { getSession } from '@/auth';
+import MainButton from '@/components/MainButton';
+import Logo from '@/components/Logo';
+import Navbar from '@/components/Navbar';
 
 export default function EditItem() {
-  const editProduct = useRecoilValue(editProductsState);
-
+  useProtectedRoute();
   const router = useRouter();
+
+  const editProduct = useRecoilValue(editProductsState);
 
   const [inStock, setInStock] = useState(editProduct?.stock);
   const [modalVisible, setModalVisible] = useState(false);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [addProductError, setAddProductError] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [loadingSession, setLoadingSession] = useState(true);
   const [itemDeleted, setItemDeleted] = useState(false);
+  const [, setUser] = useRecoilState(userState);
+
+  useEffect(() => {
+    getSession()
+      .then(res => {
+        if (res !== null) {
+          setUser({
+            email: res.user.email,
+            username: res.user.username,
+            admin: res.user.admin,
+          });
+        } else {
+          router.replace('/');
+        }
+      })
+      .finally(() => setLoadingSession(false));
+  }, []);
 
   const AddProductFormSchema = addProductForm();
   type CreateForm = z.infer<typeof AddProductFormSchema>;
@@ -32,7 +56,6 @@ export default function EditItem() {
     watch,
     setValue,
     reset,
-    getValues,
     formState: { errors, isDirty },
   } = useForm<CreateForm>({
     mode: 'onChange',
@@ -76,6 +99,7 @@ export default function EditItem() {
         }
       });
       setLoading(false);
+      reset();
     } catch (error) {
       console.error(error);
       setLoading(false);
@@ -137,21 +161,22 @@ export default function EditItem() {
     router.back();
   };
 
-  useEffect(() => {
-    console.log('isDirty', isDirty);
-  }, [isDirty]);
-
-  useEffect(() => {
-    console.log(getValues());
-  }, [getValues]);
+  if (loadingSession) {
+    return (
+      <div className='flex justify-center items-center font-nunito font-bold text-xl min-h-screen'>
+        <p>Cargando...</p>
+      </div>
+    );
+  }
 
   return (
-    <>
-      <div className='font-nunito'>
+    <main className='flex min-h-screen flex-col font-nunito'>
+      <Navbar />
+      <div>
         <h1 className=' font-black'>EDITAR PRODUCTO</h1>
-        <form className=''>
+        <form className='flex flex-col items-center justify-center'>
           <label className='form-control w-full grid grid-cols-6 gap-8'>
-            <div className='col-span-4'>
+            <div className='col-span-6 md:col-span-4'>
               <TextInput
                 type={InputType.text}
                 placeholder='Descripción'
@@ -162,7 +187,7 @@ export default function EditItem() {
               />
             </div>
 
-            <div className='col-span-2'>
+            <div className='col-span-6 md:col-span-2'>
               <TextInput
                 type={InputType.number}
                 placeholder='Cantidad'
@@ -173,7 +198,7 @@ export default function EditItem() {
               />
             </div>
 
-            <div className='col-span-2'>
+            <div className='col-span-6 md:col-span-2'>
               <TextInput
                 type={InputType.number}
                 placeholder='Costo'
@@ -184,7 +209,7 @@ export default function EditItem() {
               />
             </div>
 
-            <div className='col-span-2'>
+            <div className='col-span-6 md:col-span-2'>
               <TextInput
                 type={InputType.number}
                 placeholder='% Ganacias Isene'
@@ -195,7 +220,7 @@ export default function EditItem() {
               />
             </div>
 
-            <div className='col-span-2'>
+            <div className='col-span-6 md:col-span-2'>
               <TextInput
                 type={InputType.number}
                 placeholder='% Ganancias Papeleras'
@@ -206,7 +231,7 @@ export default function EditItem() {
               />
             </div>
 
-            <div className='col-span-2'>
+            <div className='col-span-6 md:col-span-2'>
               <TextInput
                 type={InputType.number}
                 placeholder='Precio Isene'
@@ -218,7 +243,7 @@ export default function EditItem() {
               />
             </div>
 
-            <div className='col-span-2'>
+            <div className='col-span-6 md:col-span-2'>
               <TextInput
                 type={InputType.number}
                 placeholder='Precio Papeleras'
@@ -230,7 +255,7 @@ export default function EditItem() {
               />
             </div>
 
-            <div className='col-span-2  font-bold'>
+            <div className='col-span-6 md:col-span-2  font-bold'>
               <div className=' label '>
                 <span className='label-text'>Stock</span>
               </div>
@@ -252,29 +277,31 @@ export default function EditItem() {
                 </p>
               )}
             </div>
-            <button
-              className='btn btn-xs sm:btn-sm md:btn-md lg:btn-lg bg-red-400 text-white col-start-3'
+          </label>
+          <div className='flex flex-col justify-center items-center w-full md:w-1/2 lg:w-1/4 mt-10 gap-4'>
+            <MainButton
+              text={'ELIMINAR PRODUCTO'}
+              className={`bg-red-400 text-white px-4 py-4 w-full`}
               onClick={handleDeleteItem}
-            >
-              {loading ? (
-                <span className='loading loading-dots loading-md'></span>
-              ) : (
-                <p>ELIMINAR PRODUCTO</p>
+              loading={loading}
+              LoadingComponent={() => (
+                <span className='loading loading-dots loading-lg'></span>
               )}
-            </button>
+            />
 
-            <button
-              className='btn btn-xs sm:btn-sm md:btn-md lg:btn-lg bg-blue-400 text-white col-start-4'
+            <MainButton
+              text={'EDITAR PRODUCTO'}
+              className={`${
+                isDirty ? 'bg-blue-400' : 'bg-gray-300'
+              } text-white px-4 py-4 w-full`}
               disabled={!isDirty}
               onClick={handleSubmit(onSubmit)}
-            >
-              {loading ? (
-                <span className='loading loading-dots loading-md'></span>
-              ) : (
-                <p>EDITAR PRODUCTO</p>
+              loading={loading}
+              LoadingComponent={() => (
+                <span className='loading loading-dots loading-lg'></span>
               )}
-            </button>
-          </label>
+            />
+          </div>
         </form>
       </div>
       {modalVisible && (
@@ -293,6 +320,6 @@ export default function EditItem() {
           onCloseAndBack={handleCloseAndBack}
         />
       )}
-    </>
+    </main>
   );
 }

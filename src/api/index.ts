@@ -1,10 +1,12 @@
-import { IProductsProps } from '@/app/page';
+import { IProductsProps } from '@/app/home/page';
+import { IUserProps } from '@/app/page';
 import { IProductItemProps } from '@/components/ProductCard';
 import axios, { AxiosResponse } from 'axios';
 
 export const api = axios.create({
-  baseURL:
-    `${process.env.NEXT_PUBLIC_API_URL}/api` || 'http://localhost:8080/api',
+  baseURL: process.env.NEXT_PUBLIC_API_URL
+    ? `${process.env.NEXT_PUBLIC_API_URL}/api`
+    : 'http://localhost:8080/api/',
 });
 
 export const getProducts = async (
@@ -132,6 +134,38 @@ export const deleteProduct = async (
 ): Promise<AxiosResponse<IProductsProps>> => {
   try {
     const response = await api.delete(`/products/${id}`);
+    return response;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const createUser = async ({
+  user,
+}: {
+  user: IUserProps;
+}): Promise<AxiosResponse<IUserProps>> => {
+  try {
+    const response = await api.post(`/users`, user);
+    return response;
+  } catch (error: any) {
+    if (error.response && error.response.status === 400) {
+      const errorMessage = error.response.data.error;
+      throw new Error(errorMessage);
+    } else {
+      throw error;
+    }
+  }
+};
+
+export const login = async ({
+  user,
+}: {
+  user: { email: string; password: string };
+}) => {
+  try {
+    const response = await api.post('/users/login', user);
     return response;
   } catch (error) {
     console.log(error);

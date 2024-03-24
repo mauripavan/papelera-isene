@@ -5,18 +5,28 @@ interface IMainButtonProps {
   icon?: ReactNode;
   disabled?: boolean;
   className?: string;
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  loading?: boolean;
+  LoadingComponent?: () => JSX.Element;
 }
 
 export default function MainButton(props: IMainButtonProps) {
-  const { text, className, icon, disabled, onClick } = props;
+  const {
+    text,
+    className,
+    icon,
+    disabled,
+    onClick,
+    loading,
+    LoadingComponent,
+  } = props;
   return (
     <button
       disabled={disabled}
-      className={`flex font-nunito font-medium px-2 py-1 rounded-md text-white items-center ${className}`}
+      className={`flex font-nunito font-medium px-2 py-1 rounded-md text-white items-center justify-center ${className}`}
       onClick={onClick}
     >
-      {text}
+      {loading && LoadingComponent ? <LoadingComponent /> : text}
       {icon && <span>{icon}</span>}
     </button>
   );
