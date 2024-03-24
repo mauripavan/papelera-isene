@@ -1,4 +1,7 @@
-import { IconProps } from '@component/types/icons';
+export interface IconProps {
+  className?: string;
+  fill?: string;
+}
 
 const CheckIcon2 = ({ className, fill }: IconProps): JSX.Element => {
   return (
