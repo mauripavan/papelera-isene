@@ -13,6 +13,7 @@ import { DeleteProductModal } from '@/components/DeleteProductModal';
 import { useRouter } from 'next/navigation';
 import { useProtectedRoute } from '@/hooks/useProtectedRoute';
 import { getSession } from '@/auth';
+import MainButton from '@/components/MainButton';
 
 export default function EditItem() {
   useProtectedRoute();
@@ -53,7 +54,6 @@ export default function EditItem() {
     watch,
     setValue,
     reset,
-    getValues,
     formState: { errors, isDirty },
   } = useForm<CreateForm>({
     mode: 'onChange',
@@ -97,6 +97,7 @@ export default function EditItem() {
         }
       });
       setLoading(false);
+      reset();
     } catch (error) {
       console.error(error);
       setLoading(false);
@@ -158,14 +159,6 @@ export default function EditItem() {
     router.back();
   };
 
-  useEffect(() => {
-    console.log('isDirty', isDirty);
-  }, [isDirty]);
-
-  useEffect(() => {
-    console.log(getValues());
-  }, [getValues]);
-
   if (loadingSession) {
     return (
       <div className='flex justify-center items-center font-nunito font-bold text-xl min-h-screen'>
@@ -178,9 +171,9 @@ export default function EditItem() {
     <>
       <div className='font-nunito'>
         <h1 className=' font-black'>EDITAR PRODUCTO</h1>
-        <form className=''>
+        <form className='flex flex-col items-center justify-center'>
           <label className='form-control w-full grid grid-cols-6 gap-8'>
-            <div className='col-span-4'>
+            <div className='col-span-6 md:col-span-4'>
               <TextInput
                 type={InputType.text}
                 placeholder='Descripción'
@@ -191,7 +184,7 @@ export default function EditItem() {
               />
             </div>
 
-            <div className='col-span-2'>
+            <div className='col-span-6 md:col-span-2'>
               <TextInput
                 type={InputType.number}
                 placeholder='Cantidad'
@@ -202,7 +195,7 @@ export default function EditItem() {
               />
             </div>
 
-            <div className='col-span-2'>
+            <div className='col-span-6 md:col-span-2'>
               <TextInput
                 type={InputType.number}
                 placeholder='Costo'
@@ -213,7 +206,7 @@ export default function EditItem() {
               />
             </div>
 
-            <div className='col-span-2'>
+            <div className='col-span-6 md:col-span-2'>
               <TextInput
                 type={InputType.number}
                 placeholder='% Ganacias Isene'
@@ -224,7 +217,7 @@ export default function EditItem() {
               />
             </div>
 
-            <div className='col-span-2'>
+            <div className='col-span-6 md:col-span-2'>
               <TextInput
                 type={InputType.number}
                 placeholder='% Ganancias Papeleras'
@@ -235,7 +228,7 @@ export default function EditItem() {
               />
             </div>
 
-            <div className='col-span-2'>
+            <div className='col-span-6 md:col-span-2'>
               <TextInput
                 type={InputType.number}
                 placeholder='Precio Isene'
@@ -247,7 +240,7 @@ export default function EditItem() {
               />
             </div>
 
-            <div className='col-span-2'>
+            <div className='col-span-6 md:col-span-2'>
               <TextInput
                 type={InputType.number}
                 placeholder='Precio Papeleras'
@@ -259,7 +252,7 @@ export default function EditItem() {
               />
             </div>
 
-            <div className='col-span-2  font-bold'>
+            <div className='col-span-6 md:col-span-2  font-bold'>
               <div className=' label '>
                 <span className='label-text'>Stock</span>
               </div>
@@ -281,29 +274,31 @@ export default function EditItem() {
                 </p>
               )}
             </div>
-            <button
-              className='btn btn-xs sm:btn-sm md:btn-md lg:btn-lg bg-red-400 text-white col-start-3'
+          </label>
+          <div className='flex flex-col justify-center items-center w-full md:w-1/2 lg:w-1/4 mt-10 gap-4'>
+            <MainButton
+              text={'ELIMINAR PRODUCTO'}
+              className={`bg-red-400 text-white px-4 py-4 w-full`}
               onClick={handleDeleteItem}
-            >
-              {loading ? (
-                <span className='loading loading-dots loading-md'></span>
-              ) : (
-                <p>ELIMINAR PRODUCTO</p>
+              loading={loading}
+              LoadingComponent={() => (
+                <span className='loading loading-dots loading-lg'></span>
               )}
-            </button>
+            />
 
-            <button
-              className='btn btn-xs sm:btn-sm md:btn-md lg:btn-lg bg-blue-400 text-white col-start-4'
+            <MainButton
+              text={'EDITAR PRODUCTO'}
+              className={`${
+                isDirty ? 'bg-blue-400' : 'bg-gray-300'
+              } text-white px-4 py-4 w-full`}
               disabled={!isDirty}
               onClick={handleSubmit(onSubmit)}
-            >
-              {loading ? (
-                <span className='loading loading-dots loading-md'></span>
-              ) : (
-                <p>EDITAR PRODUCTO</p>
+              loading={loading}
+              LoadingComponent={() => (
+                <span className='loading loading-dots loading-lg'></span>
               )}
-            </button>
-          </label>
+            />
+          </div>
         </form>
       </div>
       {modalVisible && (

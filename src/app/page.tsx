@@ -104,7 +104,7 @@ export default function Login() {
 
   return (
     <main className='flex min-h-screen flex-col items-center font-nunito'>
-      <div className='w-1/2 mt-20'>
+      <div className='w-full lg:w-1/2 mt-20'>
         <div className=''>
           <TextInput
             type={InputType.text}

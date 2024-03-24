@@ -35,7 +35,7 @@ export default function RootLayout({
   return (
     <html lang='en' className='bg-gray-10'>
       <body
-        className={`${inter.variable} ${chakra.variable} ${nunito.variable} px-20`}
+        className={`${inter.variable} ${chakra.variable} ${nunito.variable} px-2 sm:px-20`}
       >
         <div className='flex py-2 justify-center'>
           <Logo />
