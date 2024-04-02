@@ -39,7 +39,6 @@ export async function loginSession(formData: LoginForm) {
   Cookies.set('session', session, {
     expires,
     path: '/',
-    sameSite: 'None',
   });
 }
 
