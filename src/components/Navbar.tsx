@@ -28,6 +28,14 @@ export default function Navbar() {
           tabIndex={0}
           className='menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52'
         >
+          <li onClick={() => router.push('/home')}>
+            <a>Inicio</a>
+          </li>
+          {user.admin && (
+            <li onClick={() => router.push('/dashboard')}>
+              <a>Panel admin</a>
+            </li>
+          )}
           <li onClick={handleCerrarSesion}>
             <a className='text-red-400'>Cerrar Sesion</a>
           </li>

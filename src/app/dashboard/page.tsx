@@ -15,7 +15,7 @@ import Lottie from 'react-lottie';
 import LoadingLottie from '../../components/lottie/loading-lottie.json';
 import { getSession } from '@/auth';
 import Navbar from '@/components/Navbar';
-import ProductSubCard from '@/components/ProductSubCard';
+import { useProtectedRoute } from '@/hooks/useProtectedRoute';
 
 export interface PaginationProps {
   page: number;
@@ -29,6 +29,8 @@ export interface IProductsProps {
 }
 
 export default function Home() {
+  useProtectedRoute();
+
   const [products, setProducts] = useRecoilState(productsState);
   const [loading, setLoading] = useState(false);
   const [loadingSession, setLoadingSession] = useState(true);
@@ -125,11 +127,35 @@ export default function Home() {
   return (
     <main className='flex min-h-screen flex-col font-nunito'>
       <Navbar />
-      <div className='flex items-center justify-center w-full '>
-        <div className='w-full md:w-3/4 lg:w-1/2 mb-4'>
+      <div className='flex items-center gap-32'>
+        <div className='flex-none'>
+          <p className='font-nunito font-bold text-2xl'>Lista de precios</p>
+        </div>
+        <div className='flex-grow'>
           <SearchInput />
         </div>
+        <div className='flex-none'>
+          <MainButton
+            onClick={() => router.push('/addItem')}
+            text={'Nuevo producto'}
+            className='text-md bg-blue-500'
+            icon={<PlusIcon className='fill-current text-white w-4 h-4' />}
+          />
+        </div>
       </div>
+      <div className='my-2'>
+        <MainButton
+          text='Solo productos a reponer'
+          className={`text-white text-xs ${
+            onlyNoStock ? 'bg-red-400' : 'bg-red-200'
+          } `}
+          onClick={handleNoStockFilter}
+        />
+      </div>
+      <div>
+        <TableHeader />
+      </div>
+
       {loading ? (
         <div className='flex flex-1 justify-center items-center'>
           <Lottie options={defaultOptions} height={200} width={200} />
@@ -139,11 +165,17 @@ export default function Home() {
           <p className='text-2xl font-bold'>No hay productos para mostrar</p>
         </div>
       ) : (
-        <div className='grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4'>
-          {products?.data?.map((item, index) => {
-            return <ProductSubCard item={item} key={index} />;
-          })}
-        </div>
+        products?.data?.map((item, index) => {
+          return (
+            <ProductCard
+              item={item}
+              key={`product-${index}`}
+              onUpdate={() => onProductUpdate()}
+              modalVisible={modalVisible}
+              onStockUpdate={handleStockUpdate}
+            />
+          );
+        })
       )}
 
       {modalVisible && (
