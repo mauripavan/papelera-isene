@@ -1,5 +1,7 @@
+import { useRecoilValue } from 'recoil';
 import { IProductItemProps } from './ProductCard';
 import Image from 'next/image';
+import { userState } from '@/store/app-state';
 
 export interface IProductSubCardProps {
   item: IProductItemProps;
@@ -8,6 +10,7 @@ export interface IProductSubCardProps {
 
 export default function ProductSubCard(props: IProductSubCardProps) {
   const { item } = props;
+  const user = useRecoilValue(userState);
   return (
     <div className='w-full h-50 border bg-white '>
       <Image
@@ -24,7 +27,9 @@ export default function ProductSubCard(props: IProductSubCardProps) {
         <p className='font-regular text-gray-500 mb-2 text-xs'>
           Cantidad:{item.quantity}
         </p>
-        <p className='font-semibold text-gray-800 text-xl mb-2'>${item.pi}</p>
+        <p className='font-semibold text-gray-800 text-xl mb-2'>
+          ${user.papeleras ? item.pp : item.pi}
+        </p>
         {item.stock ? (
           <p className='text-green-600 text-sm'>EN STOCK</p>
         ) : (

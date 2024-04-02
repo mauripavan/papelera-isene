@@ -40,6 +40,7 @@ export default function EditItem() {
             email: res.user.email,
             username: res.user.username,
             admin: res.user.admin,
+            papeleras: res.user.papeleras,
           });
         } else {
           router.replace('/');

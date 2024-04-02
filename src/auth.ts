@@ -9,6 +9,7 @@ export interface LoginForm {
   email: string;
   admin: boolean;
   username: string;
+  papeleras: boolean;
 }
 
 export async function encrypt(payload: any) {
@@ -28,8 +29,13 @@ export async function decrypt(input: string): Promise<any> {
 
 export async function loginSession(formData: LoginForm) {
   // Verify credentials && get the user
-  const { email, admin, username } = formData;
-  const user = { email: email, admin: admin, username: username };
+  const { email, admin, username, papeleras } = formData;
+  const user = {
+    email: email,
+    admin: admin,
+    username: username,
+    papeleras: papeleras,
+  };
 
   // Create the session
   const expires = new Date(Date.now() + 14 * 24 * 60 * 60);

@@ -1,5 +1,4 @@
 import { IProductsProps } from '@/app/home/page';
-import { IUserProps } from '@/app/page';
 import { IProductItemProps } from '@/components/ProductCard';
 import { atom } from 'recoil';
 
@@ -24,5 +23,6 @@ export const userState = atom({
     username: '',
     email: '',
     admin: false,
+    papeleras: false,
   },
 });

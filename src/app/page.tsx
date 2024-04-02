@@ -55,6 +55,7 @@ export default function Login() {
             email: res.user.email,
             username: res.user.username,
             admin: res.user.admin,
+            papeleras: res.user.papeleras,
           });
           setIsLoggedIn(true);
         }
@@ -76,14 +77,16 @@ export default function Login() {
       });
       if (response.status === 200) {
         setUser({
-          email: response.data.email,
-          username: response.data.username,
-          admin: response.data.admin,
+          email: response.data.user.email,
+          username: response.data.user.username,
+          admin: response.data.user.admin,
+          papeleras: response.data.user.papeleras,
         });
         loginSession({
           admin: response.data.user.admin,
           email: response.data.user.email,
           username: response.data.user.username,
+          papeleras: response.data.user.papeleras,
         });
         router.push('/home');
       }
