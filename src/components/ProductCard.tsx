@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import ArrowDownIcon from './icons/ArrowDown';
 import MainButton from './MainButton';
-import { formatCurrency } from '@/utils/helpers';
+import { formatCurrency, formatDate } from '@/utils/helpers';
 import { useRecoilState } from 'recoil';
 import { editProductsState, selectedProductState } from '@/store/app-state';
 import { useRouter } from 'next/navigation';
@@ -74,9 +74,6 @@ export default function ProductCard(props: IProductCardProps) {
 
   return (
     <div className='grid grid-cols-24 gap-4 w-full items-center p-4 bg-white rounded-md border border-gray-0 mb-2'>
-      <p className='font-nunito font-medium text-sm col-span-2 text-blue-500'>
-        {item.id}
-      </p>
       <p className='font-nunito font-medium text-lg col-span-8'>
         {item.description}
       </p>
@@ -139,6 +136,9 @@ export default function ProductCard(props: IProductCardProps) {
           </label>
         </div>
       </div>
+      <p className='font-nunito font-medium text-sm col-span-2'>
+        {formatDate(item.updatedDate, 'dd-M-u')}
+      </p>
       <div className='col-span-2'>
         <MainButton
           text={'ACTUALIZAR'}
