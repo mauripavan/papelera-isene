@@ -12,7 +12,7 @@ export default function ProductSubCard(props: IProductSubCardProps) {
   const { item } = props;
   const user = useRecoilValue(userState);
   return (
-    <div className='w-full h-50 border bg-white '>
+    <div className='w-full h-50 border bg-white hover:bg-gray-50 hover:scale-105 transition duration-75 ease-in-out'>
       <Image
         src='/no-product-image.png'
         alt='Product'

@@ -1,12 +1,8 @@
 'use client';
-import { getProducts, getProductsByStock, updateStock } from '@/api';
-import MainButton from '@/components/MainButton';
+import { getProducts } from '@/api';
 import Pagination from '@/components/Pagination';
-import PriceModal from '@/components/PriceModal';
-import ProductCard, { IProductItemProps } from '@/components/ProductCard';
-import TableHeader from '@/components/TableHeader';
+import { IProductItemProps } from '@/components/ProductCard';
 import SearchInput from '@/components/SearchInput';
-import PlusIcon from '@/components/icons/Plus';
 import { productsState, userState } from '@/store/app-state';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -32,8 +28,6 @@ export default function Home() {
   const [products, setProducts] = useRecoilState(productsState);
   const [loading, setLoading] = useState(false);
   const [loadingSession, setLoadingSession] = useState(true);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [onlyNoStock, setOnlyNoStock] = useState(false);
   const [page, setPage] = useState(1);
   const [, setUser] = useRecoilState(userState);
   const router = useRouter();
@@ -77,39 +71,9 @@ export default function Home() {
     }
   };
 
-  const handleStockUpdate = async (stock: boolean, id: string) => {
-    const data = {
-      stock,
-    };
-    try {
-      await updateStock(Number(id), data);
-    } catch (error) {
-      console.error('Error updating data:', error);
-    }
-  };
-
   useEffect(() => {
     fetchProducts();
   }, [page]);
-
-  const onProductUpdate = () => {
-    setModalVisible(true);
-  };
-
-  const fetchProductsOutOfSotck = async () => {
-    try {
-      const response = await getProductsByStock(page);
-      const productsData = response.data;
-      setProducts(productsData);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
-
-  const handleNoStockFilter = () => {
-    setOnlyNoStock(!onlyNoStock);
-    !onlyNoStock ? fetchProductsOutOfSotck() : fetchProducts();
-  };
 
   const handlePageChange = (page: number) => {
     setPage(page);
@@ -147,20 +111,12 @@ export default function Home() {
         </div>
       )}
 
-      {modalVisible && (
-        <PriceModal
-          onClose={() => setModalVisible(false)}
-          noStock={onlyNoStock}
-        />
-      )}
-      {!modalVisible && (
-        <Pagination
-          totalCards={products?.pagination?.totalItems || 0}
-          currentPage={page}
-          cardsPerPage={20}
-          paginate={handlePageChange}
-        />
-      )}
+      <Pagination
+        totalCards={products?.pagination?.totalItems || 0}
+        currentPage={page}
+        cardsPerPage={20}
+        paginate={handlePageChange}
+      />
     </main>
   );
 }
