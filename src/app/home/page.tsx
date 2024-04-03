@@ -32,22 +32,22 @@ export default function Home() {
   const [, setUser] = useRecoilState(userState);
   const router = useRouter();
 
-  // useEffect(() => {
-  //   getSession()
-  //     .then(res => {
-  //       if (res !== null) {
-  //         setUser({
-  //           email: res.user.email,
-  //           username: res.user.username,
-  //           admin: res.user.admin,
-  //           papeleras: res.user.papeleras,
-  //         });
-  //       } else {
-  //         router.replace('/');
-  //       }
-  //     })
-  //     .finally(() => setLoadingSession(false));
-  // }, []);
+  useEffect(() => {
+    getSession()
+      .then(res => {
+        if (res !== null) {
+          setUser({
+            email: res.user.email,
+            username: res.user.username,
+            admin: res.user.admin,
+            papeleras: res.user.papeleras,
+          });
+        } else {
+          router.replace('/');
+        }
+      })
+      .finally(() => setLoadingSession(false));
+  }, []);
 
   const defaultOptions = {
     loop: true,
