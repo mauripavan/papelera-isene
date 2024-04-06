@@ -28,7 +28,7 @@ export default function ProductSubCard(props: IProductSubCardProps) {
           Cantidad:{item.quantity}
         </p>
         <p className='font-semibold text-gray-800 text-xl mb-2'>
-          ${user.papeleras ? item.pp : item.pi}
+          ${user?.papeleras ? item.pp : item.pi}
         </p>
         {item.stock ? (
           <p className='text-green-600 text-sm'>EN STOCK</p>

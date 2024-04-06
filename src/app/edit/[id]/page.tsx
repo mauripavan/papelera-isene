@@ -11,14 +11,12 @@ import { editProductsState, userState } from '@/store/app-state';
 import { deleteProduct, updateProduct } from '@/api';
 import { DeleteProductModal } from '@/components/DeleteProductModal';
 import { useRouter } from 'next/navigation';
-import { useProtectedRoute } from '@/hooks/useProtectedRoute';
 import { getSession } from '@/auth';
 import MainButton from '@/components/MainButton';
-import Logo from '@/components/Logo';
 import Navbar from '@/components/Navbar';
+import useGlobalUserState from '@/hooks/useGlobalUserState';
 
 export default function EditItem() {
-  useProtectedRoute();
   const router = useRouter();
 
   const editProduct = useRecoilValue(editProductsState);
@@ -28,26 +26,12 @@ export default function EditItem() {
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [addProductError, setAddProductError] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [loadingSession, setLoadingSession] = useState(true);
   const [itemDeleted, setItemDeleted] = useState(false);
-  const [, setUser] = useRecoilState(userState);
+  const { user, loadingSession } = useGlobalUserState();
 
   useEffect(() => {
-    getSession()
-      .then(res => {
-        if (res !== null) {
-          setUser({
-            email: res.user.email,
-            username: res.user.username,
-            admin: res.user.admin,
-            papeleras: res.user.papeleras,
-          });
-        } else {
-          router.replace('/');
-        }
-      })
-      .finally(() => setLoadingSession(false));
-  }, []);
+    if (!user?.admin) router.replace('/home');
+  }, [user]);
 
   const AddProductFormSchema = addProductForm();
   type CreateForm = z.infer<typeof AddProductFormSchema>;

@@ -10,11 +10,9 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { login } from '@/api';
 import AddProductModal from '@/components/AddProductModal';
-import { useRecoilState } from 'recoil';
-import { userState } from '@/store/app-state';
-import { getSession, loginSession } from '@/auth';
 import LoadingModal from '@/components/LoadingModal';
 import Logo from '@/components/Logo';
+import useGlobalUserState from '@/hooks/useGlobalUserState';
 
 export interface IUserProps {
   username: string;
@@ -26,11 +24,9 @@ export default function Login() {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
-  const [loadingSession, setLoadingSession] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [error, setError] = useState('');
-  const [, setUser] = useRecoilState(userState);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { user, loadingSession } = useGlobalUserState();
 
   const LoginFormSchema = loginForm();
   type CreateForm = z.infer<typeof LoginFormSchema>;
@@ -47,27 +43,12 @@ export default function Login() {
     },
   });
 
+  // Redirect if user is already logged in
   useEffect(() => {
-    getSession()
-      .then(res => {
-        if (res !== null) {
-          setUser({
-            email: res.user.email,
-            username: res.user.username,
-            admin: res.user.admin,
-            papeleras: res.user.papeleras,
-          });
-          setIsLoggedIn(true);
-        }
-      })
-      .finally(() => setLoadingSession(false));
-  }, []);
-
-  useEffect(() => {
-    if (isLoggedIn) {
+    if (user?.username) {
       router.push('/home');
     }
-  }, [isLoggedIn]);
+  }, [user]);
 
   const onSubmit: SubmitHandler<CreateForm> = async data => {
     setLoading(true);
@@ -76,18 +57,7 @@ export default function Login() {
         user: { email: data.email, password: data.password },
       });
       if (response.status === 200) {
-        setUser({
-          email: response.data.user.email,
-          username: response.data.user.username,
-          admin: response.data.user.admin,
-          papeleras: response.data.user.papeleras,
-        });
-        loginSession({
-          admin: response.data.user.admin,
-          email: response.data.user.email,
-          username: response.data.user.username,
-          papeleras: response.data.user.papeleras,
-        });
+        localStorage.setItem('token', response.data.token);
         router.push('/home');
       }
     } catch (error: any) {

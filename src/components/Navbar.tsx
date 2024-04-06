@@ -2,7 +2,6 @@ import { useRecoilState } from 'recoil';
 import Logo from './Logo';
 import ProfileIcon from './icons/Profile';
 import { userState } from '@/store/app-state';
-import { logout } from '@/auth';
 import { useRouter } from 'next/navigation';
 
 export default function Navbar() {
@@ -10,25 +9,24 @@ export default function Navbar() {
   const router = useRouter();
 
   const handleCerrarSesion = () => {
-    logout().then(() => {
-      setUser({
-        username: '',
-        email: '',
-        admin: false,
-        papeleras: false,
-      });
-      router.replace('/');
+    localStorage.removeItem('token');
+    setUser({
+      username: '',
+      email: '',
+      admin: false,
+      papeleras: false,
     });
+    router.replace('/');
   };
 
   return (
     <header className='flex justify-between items-center py-2'>
       <div />
       <Logo />
-      {user.username && (
+      {user?.username && (
         <div className='dropdown'>
           <div tabIndex={0} role='button' className='btn btn-ghost'>
-            <p className='font-semi-bold'>{`Hola ${user.username}`}</p>
+            <p className='font-semi-bold'>{`Hola ${user?.username}`}</p>
             <div>
               <ProfileIcon />
             </div>

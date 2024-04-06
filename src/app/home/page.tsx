@@ -3,15 +3,15 @@ import { getProducts } from '@/api';
 import Pagination from '@/components/Pagination';
 import { IProductItemProps } from '@/components/ProductCard';
 import SearchInput from '@/components/SearchInput';
-import { productsState, userState } from '@/store/app-state';
+import { productsState } from '@/store/app-state';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import Lottie from 'react-lottie';
 import LoadingLottie from '../../components/lottie/loading-lottie.json';
-import { getSession } from '@/auth';
 import Navbar from '@/components/Navbar';
 import ProductSubCard from '@/components/ProductSubCard';
+import useGlobalUserState from '@/hooks/useGlobalUserState';
 
 export interface PaginationProps {
   page: number;
@@ -27,27 +27,16 @@ export interface IProductsProps {
 export default function Home() {
   const [products, setProducts] = useRecoilState(productsState);
   const [loading, setLoading] = useState(false);
-  const [loadingSession, setLoadingSession] = useState(true);
   const [page, setPage] = useState(1);
-  const [, setUser] = useRecoilState(userState);
   const router = useRouter();
+  const { user, loadingSession } = useGlobalUserState();
 
+  // Redirect if user does not exists
   useEffect(() => {
-    getSession()
-      .then(res => {
-        if (res !== null) {
-          setUser({
-            email: res.user.email,
-            username: res.user.username,
-            admin: res.user.admin,
-            papeleras: res.user.papeleras,
-          });
-        } else {
-          router.replace('/');
-        }
-      })
-      .finally(() => setLoadingSession(false));
-  }, []);
+    if (!user?.username) {
+      router.push('/');
+    }
+  }, [user]);
 
   const defaultOptions = {
     loop: true,

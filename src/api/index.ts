@@ -172,3 +172,27 @@ export const login = async ({
     throw error;
   }
 };
+
+export const checkSession = async () => {
+  try {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const response = await api.get('/users/session', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true, // Include cookies in the request
+      });
+      if (response.status === 200 && response.data.user) {
+        console.log('response.data.user', response.data.user);
+
+        return response.data.user;
+      } else {
+        throw new Error('Failed to fetch user information');
+      }
+    }
+  } catch (error) {
+    console.error('Error fetching user information:', error);
+    throw error;
+  }
+};

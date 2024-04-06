@@ -13,9 +13,8 @@ import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import Lottie from 'react-lottie';
 import LoadingLottie from '../../components/lottie/loading-lottie.json';
-import { getSession } from '@/auth';
 import Navbar from '@/components/Navbar';
-import { useProtectedRoute } from '@/hooks/useProtectedRoute';
+import useGlobalUserState from '@/hooks/useGlobalUserState';
 
 export interface PaginationProps {
   page: number;
@@ -28,34 +27,14 @@ export interface IProductsProps {
   pagination: PaginationProps;
 }
 
-export default function Home() {
-  useProtectedRoute();
-
+export default function Dashboard() {
   const [products, setProducts] = useRecoilState(productsState);
   const [loading, setLoading] = useState(false);
-  const [loadingSession, setLoadingSession] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [onlyNoStock, setOnlyNoStock] = useState(false);
   const [page, setPage] = useState(1);
-  const [, setUser] = useRecoilState(userState);
   const router = useRouter();
-
-  useEffect(() => {
-    getSession()
-      .then(res => {
-        if (res !== null) {
-          setUser({
-            email: res.user.email,
-            username: res.user.username,
-            admin: res.user.admin,
-            papeleras: res.user.papeleras,
-          });
-        } else {
-          router.replace('/');
-        }
-      })
-      .finally(() => setLoadingSession(false));
-  }, []);
+  const { user, loadingSession } = useGlobalUserState();
 
   const defaultOptions = {
     loop: true,
@@ -65,6 +44,10 @@ export default function Home() {
       preserveAspectRatio: 'xMidYMid slice',
     },
   };
+
+  useEffect(() => {
+    if (!user?.admin) router.replace('/home');
+  }, [user]);
 
   const fetchProducts = async () => {
     setLoading(true);

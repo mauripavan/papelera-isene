@@ -4,7 +4,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import MainButton from '@/components/MainButton';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { signupForm } from '@/forms/signupForm';
 import Link from 'next/link';
@@ -21,8 +20,6 @@ export type PasswordRequirementsType = {
 };
 
 export default function Singup() {
-  const router = useRouter();
-
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [error, setError] = useState('');
