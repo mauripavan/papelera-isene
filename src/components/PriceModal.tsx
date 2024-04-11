@@ -40,11 +40,14 @@ export default function PriceModal(props: IPriceModalProps) {
 
   const handleIncrement = () => {
     const updatedProducts = selectedProducts.map(item => {
-      const { cost, pi, pp, ...rest } = item;
+      const date = new Date().toDateString();
+      console.log('date', date);
+      const { cost, pi, pp, updatedDate, ...rest } = item;
       return {
         cost: Number((item.cost * getValues('increment')) / 100 + item.cost),
         pi: Number((item.pi * getValues('increment')) / 100 + item.pi),
         pp: Number((item.pp * getValues('increment')) / 100 + item.pp),
+        updatedDate: new Date().toDateString(),
         ...rest,
       };
     });
