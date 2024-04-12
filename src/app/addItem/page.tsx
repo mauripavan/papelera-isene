@@ -81,7 +81,7 @@ export default function AddItem() {
       const piValue = costo * (1 + earningPI / 100);
       const piIvaValue = costo * (1 + earningConIva / 100);
       setValue('PI', piValue);
-      if (!iva) {
+      if (!iva || String(iva) === 'false') {
         setValue('PIIVA', piIvaValue);
       } else {
         setValue('PIIVA', piValue);
@@ -95,7 +95,7 @@ export default function AddItem() {
       const ppValue = costo * (1 + earningPP / 100);
       const ppIvaValue = costo * (1 + earningConIva / 100);
       setValue('PP', ppValue);
-      if (!iva) {
+      if (!iva || String(iva) === 'false') {
         setValue('PPIVA', ppIvaValue);
       } else {
         setValue('PPIVA', ppValue);
