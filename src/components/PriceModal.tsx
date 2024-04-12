@@ -40,13 +40,13 @@ export default function PriceModal(props: IPriceModalProps) {
 
   const handleIncrement = () => {
     const updatedProducts = selectedProducts.map(item => {
-      const date = new Date().toDateString();
-      console.log('date', date);
-      const { cost, pi, pp, updatedDate, ...rest } = item;
+      const { cost, pi, pp, updatedDate, piIva, ppIva, ...rest } = item;
       return {
         cost: Number((item.cost * getValues('increment')) / 100 + item.cost),
         pi: Number((item.pi * getValues('increment')) / 100 + item.pi),
         pp: Number((item.pp * getValues('increment')) / 100 + item.pp),
+        piIva: Number((item.pp * getValues('increment')) / 100 + item.piIva),
+        ppIva: Number((item.pp * getValues('increment')) / 100 + item.ppIva),
         updatedDate: new Date().toDateString(),
         ...rest,
       };
@@ -120,22 +120,27 @@ export default function PriceModal(props: IPriceModalProps) {
                   </div>
                   <div className='flex gap-4 mb-4 w-full'>
                     <div className='flex gap-1'>
-                      <p className='font-nunito'>Costo:</p>
-                      <p className='font-nunito font-bold'>
-                        {formatCurrency(item.cost, true)}
-                      </p>
-                    </div>
-
-                    <div className='flex gap-1'>
                       <p className='font-nunito'>PI:</p>
                       <p className='font-nunito font-bold'>
                         {formatCurrency(item.pi, true)}
                       </p>
                     </div>
                     <div className='flex  gap-1'>
+                      <p className='font-nunito'>Pi+IVA:</p>
+                      <p className='font-nunito font-bold'>
+                        {formatCurrency(item.piIva, true)}
+                      </p>
+                    </div>
+                    <div className='flex gap-1'>
                       <p className='font-nunito'>PP:</p>
                       <p className='font-nunito font-bold'>
                         {formatCurrency(item.pp, true)}
+                      </p>
+                    </div>
+                    <div className='flex gap-1'>
+                      <p className='font-nunito'>PP+IVA:</p>
+                      <p className='font-nunito font-bold'>
+                        {formatCurrency(item.ppIva, true)}
                       </p>
                     </div>
                   </div>
