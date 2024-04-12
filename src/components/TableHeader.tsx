@@ -3,6 +3,7 @@
 import { productsState, selectedProductState } from '@/store/app-state';
 import { useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
+import MainButton from './MainButton';
 
 export default function TableHeader() {
   const [selected, setSelected] = useState(false);
@@ -19,13 +20,16 @@ export default function TableHeader() {
     }
   };
   return (
-    <div className='grid grid-cols-24 gap-4 w-full px-4 py-2 sticky top-0 items-center mt- bg-gray-10'>
-      <p className='font-nunito font-medium text-sm col-span-8'>Descripcion</p>
-      <p className='font-nunito font-medium text-sm col-span-2'>Cantidad</p>
-      <p className='font-nunito font-medium text-sm col-span-2'>Costo</p>
+    <div className='grid grid-cols-24 gap-4 w-full px-2 sticky top-0 items-center bg-gray-10'>
+      <p className='font-nunito font-medium text-sm col-span-5'>Descripcion</p>
+      <p className='font-nunito font-medium text-sm col-span-2'>Cant</p>
       <p className='font-nunito font-medium text-sm col-span-2'>PI</p>
+      <p className='font-nunito font-medium text-sm col-span-2'>PI+IVA</p>
       <p className='font-nunito font-medium text-sm col-span-2'>PP</p>
-      <p className='font-nunito font-medium text-sm col-span-2'>Status</p>
+      <p className='font-nunito font-medium text-sm col-span-2'>PP+IVA</p>
+      <p className='font-nunito font-medium text-sm col-span-1'>IVA</p>
+      <p className='font-nunito font-medium text-sm col-span-1'>Stock</p>
+      <p className='font-nunito font-medium text-sm col-span-3'>Fecha</p>
       <div className='col-span-1'>
         <div className='form-control'>
           <label className='label cursor-pointer'>
@@ -38,8 +42,7 @@ export default function TableHeader() {
           </label>
         </div>
       </div>
-      <p className='font-nunito font-medium text-sm col-span-2'>Actualizado</p>
-      <p className='font-nunito font-medium text-sm col-span-2'></p>
+      <p className='font-nunito font-medium text-sm col-span-1'></p>
     </div>
   );
 }
