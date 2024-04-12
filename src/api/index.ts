@@ -13,7 +13,7 @@ export const getProducts = async (
   page: number
 ): Promise<AxiosResponse<IProductsProps>> => {
   try {
-    const response = await api.get(`/products?page=${page}&pageSize=20`);
+    const response = await api.get(`/products?page=${page}&pageSize=50`);
     return response;
   } catch (error) {
     throw error;
@@ -68,7 +68,7 @@ export const getProductsByStock = async (
   page: number
 ): Promise<AxiosResponse<IProductsProps>> => {
   try {
-    const response = await api.get(`products/stock?page=${page}&pageSize=20`);
+    const response = await api.get(`products/stock?page=${page}&pageSize=50`);
     return response;
   } catch (error) {
     throw error;
