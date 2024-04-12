@@ -89,7 +89,46 @@ export const addProductForm = () =>
         },
         { message: 'Campo obligatorio' }
       ),
+    PIIVA: z
+      .union([z.string(), z.number()])
+      .transform(value => {
+        if (typeof value === 'string') {
+          return parseFloat(value);
+        }
+        return value;
+      })
+      .refine(
+        value => {
+          return typeof value === 'number' && !isNaN(value);
+        },
+        { message: 'Campo obligatorio' }
+      ),
+    PPIVA: z
+      .union([z.string(), z.number()])
+      .transform(value => {
+        if (typeof value === 'string') {
+          return parseFloat(value);
+        }
+        return value;
+      })
+      .refine(
+        value => {
+          return typeof value === 'number' && !isNaN(value);
+        },
+        { message: 'Campo obligatorio' }
+      ),
     stock: z.union([z.string(), z.boolean()]).transform(value => {
+      if (typeof value === 'boolean') {
+        return value;
+      } else {
+        if (value === 'true') {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    }),
+    iva: z.union([z.string(), z.boolean()]).transform(value => {
       if (typeof value === 'boolean') {
         return value;
       } else {

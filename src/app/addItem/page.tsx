@@ -13,7 +13,6 @@ import Navbar from '@/components/Navbar';
 import useGlobalUserState from '@/hooks/useGlobalUserState';
 
 export default function AddItem() {
-  const [inStock, setInStock] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [addProductError, setAddProductError] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -46,12 +45,14 @@ export default function AddItem() {
         cost: data.cost,
         pi: data.PI,
         pp: data.PP,
+        piIva: data.PIIVA,
+        ppIva: data.PPIVA,
         stock: data.stock,
         updatedDate: new Date().toDateString(),
         earningPI: data.earningPI,
         earningPP: data.earningPP,
         quantity: data.quantity,
-        iva: false,
+        iva: data.iva,
       };
       createProduct({ productData: body }).then(res => {
         if (res.status === 200) {
@@ -68,27 +69,39 @@ export default function AddItem() {
     }
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setInStock(event.target.value === 'true');
-  };
-
   const costo = watch('cost');
   const earningPI = watch('earningPI');
   const earningPP = watch('earningPP');
+  const stock = watch('stock');
+  const iva = watch('iva');
 
   useEffect(() => {
     if (costo && earningPI) {
+      const earningConIva = Number(earningPI) + 21;
       const piValue = costo * (1 + earningPI / 100);
+      const piIvaValue = costo * (1 + earningConIva / 100);
       setValue('PI', piValue);
+      if (!iva) {
+        setValue('PIIVA', piIvaValue);
+      } else {
+        setValue('PIIVA', piValue);
+      }
     }
-  }, [costo, earningPI]);
+  }, [costo, earningPI, iva]);
 
   useEffect(() => {
     if (costo && earningPP) {
+      const earningConIva = Number(earningPP) + 21;
       const ppValue = costo * (1 + earningPP / 100);
+      const ppIvaValue = costo * (1 + earningConIva / 100);
       setValue('PP', ppValue);
+      if (!iva) {
+        setValue('PPIVA', ppIvaValue);
+      } else {
+        setValue('PPIVA', ppValue);
+      }
     }
-  }, [costo, earningPP]);
+  }, [costo, earningPP, iva]);
 
   const handleCloseModal = () => {
     setModalVisible(false);
@@ -108,9 +121,9 @@ export default function AddItem() {
       <Navbar />
       <div>
         <h1 className=' font-black'>AGREGAR PRODUCTO</h1>
-        <form className=''>
-          <label className='form-control w-full grid grid-cols-3 gap-8'>
-            <div className='col-span-3 md:col-span-2'>
+        <form>
+          <label className='form-control w-full grid grid-cols-4 gap-8'>
+            <div className='col-span-4 md:col-span-3'>
               <TextInput
                 type={InputType.text}
                 placeholder='Descripción'
@@ -121,7 +134,7 @@ export default function AddItem() {
               />
             </div>
 
-            <div className='col-span-3 md:col-span-1'>
+            <div className='col-span-4 md:col-span-1'>
               <TextInput
                 type={InputType.number}
                 placeholder='Cantidad'
@@ -132,7 +145,7 @@ export default function AddItem() {
               />
             </div>
 
-            <div className='col-span-3 md:col-span-1'>
+            <div className='col-span-4 md:col-span-1'>
               <TextInput
                 type={InputType.number}
                 placeholder='Costo'
@@ -143,7 +156,7 @@ export default function AddItem() {
               />
             </div>
 
-            <div className='col-span-3 md:col-span-1'>
+            <div className='col-span-4 md:col-span-1'>
               <TextInput
                 type={InputType.number}
                 placeholder='% Ganacias Isene'
@@ -154,7 +167,7 @@ export default function AddItem() {
               />
             </div>
 
-            <div className='col-span-3 md:col-span-1'>
+            <div className='col-span-4 md:col-span-1'>
               <TextInput
                 type={InputType.number}
                 placeholder='% Ganancias Papeleras'
@@ -165,10 +178,33 @@ export default function AddItem() {
               />
             </div>
 
-            <div className='col-span-3 md:col-span-1'>
+            <div className='col-span-4 md:col-span-1  font-bold'>
+              <div className=' label '>
+                <span className='label-text'>Stock</span>
+              </div>
+              <select
+                className={`select select-bordered w-full text-center ${
+                  !stock || String(stock) === 'false'
+                    ? 'bg-red-200'
+                    : 'bg-green-200'
+                }`}
+                {...register('stock')}
+                defaultValue={0}
+              >
+                <option value={'true'}>EN STOCK</option>
+                <option value={'false'}>REPONER</option>
+              </select>
+              {errors.stock && (
+                <p className='text-red-500 font-bold'>
+                  {errors.stock?.message}
+                </p>
+              )}
+            </div>
+
+            <div className='col-span-4 md:col-span-1'>
               <TextInput
                 type={InputType.number}
-                placeholder='Precio Isene'
+                placeholder='0'
                 label='Precio Isene'
                 error={errors.PI}
                 registerOptions={{ ...register('PI') }}
@@ -177,10 +213,22 @@ export default function AddItem() {
               />
             </div>
 
-            <div className='col-span-3 md:col-span-1'>
+            <div className='col-span-4 md:col-span-1'>
               <TextInput
                 type={InputType.number}
-                placeholder='Precio Papeleras'
+                label='Precio Isene + IVA'
+                placeholder='0'
+                error={errors.PP}
+                registerOptions={{ ...register('PIIVA') }}
+                disabled
+                style='w-full'
+              />
+            </div>
+
+            <div className='col-span-4 md:col-span-1'>
+              <TextInput
+                type={InputType.number}
+                placeholder='0'
                 label='Precio Papeleras'
                 error={errors.PP}
                 registerOptions={{ ...register('PP') }}
@@ -189,21 +237,33 @@ export default function AddItem() {
               />
             </div>
 
-            <div className='col-span-3 md:col-span-1  font-bold'>
-              <div className=' label '>
-                <span className='label-text'>Stock</span>
+            <div className='col-span-4 md:col-span-1'>
+              <TextInput
+                type={InputType.number}
+                placeholder='0'
+                label='Precio Papeleras + IVA'
+                error={errors.PP}
+                registerOptions={{ ...register('PPIVA') }}
+                disabled
+                style='w-full'
+              />
+            </div>
+
+            <div className='col-span-4 md:col-span-1 font-bold'>
+              <div className='label'>
+                <span className='label-text'>Incluye IVA?</span>
               </div>
               <select
                 className={`select select-bordered w-full text-center ${
-                  inStock ? 'bg-green-200' : 'bg-red-200'
+                  !iva || String(iva) === 'false'
+                    ? 'bg-green-200'
+                    : 'bg-orange-200'
                 }`}
-                {...register('stock')}
-                value={String(inStock)}
-                onChange={handleChange}
+                {...register('iva')}
                 defaultValue={0}
               >
-                <option value={'true'}>EN STOCK</option>
-                <option value={'false'}>REPONER</option>
+                <option value={'false'}>NO</option>
+                <option value={'true'}>SI</option>
               </select>
               {errors.stock && (
                 <p className='text-red-500 font-bold'>

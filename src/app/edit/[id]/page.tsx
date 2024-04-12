@@ -6,12 +6,11 @@ import { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import TextInput, { InputType } from '@/components/TextInput';
 import AddProductModal from '@/components/AddProductModal';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { editProductsState, userState } from '@/store/app-state';
+import { useRecoilValue } from 'recoil';
+import { editProductsState } from '@/store/app-state';
 import { deleteProduct, updateProduct } from '@/api';
 import { DeleteProductModal } from '@/components/DeleteProductModal';
 import { useRouter } from 'next/navigation';
-import { getSession } from '@/auth';
 import MainButton from '@/components/MainButton';
 import Navbar from '@/components/Navbar';
 import useGlobalUserState from '@/hooks/useGlobalUserState';
@@ -21,7 +20,6 @@ export default function EditItem() {
 
   const editProduct = useRecoilValue(editProductsState);
 
-  const [inStock, setInStock] = useState(editProduct?.stock);
   const [modalVisible, setModalVisible] = useState(false);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [addProductError, setAddProductError] = useState(false);
@@ -52,8 +50,11 @@ export default function EditItem() {
       earningPP: editProduct?.earningPP,
       PI: editProduct?.pi,
       PP: editProduct?.pp,
+      PIIVA: editProduct?.piIva,
+      PPIVA: editProduct?.ppIva,
       quantity: editProduct?.quantity,
       stock: editProduct?.stock,
+      iva: editProduct?.iva,
     },
   });
 
@@ -65,12 +66,14 @@ export default function EditItem() {
         cost: data.cost,
         pi: data.PI,
         pp: data.PP,
+        piIva: data.PIIVA,
+        ppIva: data.PPIVA,
         stock: data.stock,
         updatedDate: new Date().toDateString(),
         earningPI: data.earningPI,
         earningPP: data.earningPP,
         quantity: data.quantity,
-        iva: false,
+        iva: data.iva,
       };
       updateProduct({
         productId: Number(editProduct?.id) || 0,
@@ -84,34 +87,45 @@ export default function EditItem() {
         }
       });
       setLoading(false);
-      reset();
     } catch (error) {
       console.error(error);
       setLoading(false);
     }
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setInStock(event.target.value === 'true');
-  };
-
   const costo = watch('cost');
   const earningPI = watch('earningPI');
   const earningPP = watch('earningPP');
+  const stock = watch('stock');
+  const iva = watch('iva');
 
   useEffect(() => {
     if (costo && earningPI) {
+      const earningConIva = Number(earningPI) + 21;
       const piValue = costo * (1 + earningPI / 100);
+      const piIvaValue = costo * (1 + earningConIva / 100);
       setValue('PI', piValue);
+      if (!iva) {
+        setValue('PIIVA', piIvaValue);
+      } else {
+        setValue('PIIVA', piValue);
+      }
     }
-  }, [costo, earningPI]);
+  }, [costo, earningPI, iva]);
 
   useEffect(() => {
     if (costo && earningPP) {
+      const earningConIva = Number(earningPP) + 21;
       const ppValue = costo * (1 + earningPP / 100);
+      const ppIvaValue = costo * (1 + earningConIva / 100);
       setValue('PP', ppValue);
+      if (!iva) {
+        setValue('PPIVA', ppIvaValue);
+      } else {
+        setValue('PPIVA', ppValue);
+      }
     }
-  }, [costo, earningPP]);
+  }, [costo, earningPP, iva]);
 
   const handleCloseModal = () => {
     setModalVisible(false);
@@ -160,8 +174,8 @@ export default function EditItem() {
       <div>
         <h1 className=' font-black'>EDITAR PRODUCTO</h1>
         <form className='flex flex-col items-center justify-center'>
-          <label className='form-control w-full grid grid-cols-6 gap-8'>
-            <div className='col-span-6 md:col-span-4'>
+          <label className='form-control w-full grid grid-cols-4 gap-8'>
+            <div className='col-span-4 md:col-span-3'>
               <TextInput
                 type={InputType.text}
                 placeholder='Descripción'
@@ -172,7 +186,7 @@ export default function EditItem() {
               />
             </div>
 
-            <div className='col-span-6 md:col-span-2'>
+            <div className='col-span-4 md:col-span-1'>
               <TextInput
                 type={InputType.number}
                 placeholder='Cantidad'
@@ -183,7 +197,7 @@ export default function EditItem() {
               />
             </div>
 
-            <div className='col-span-6 md:col-span-2'>
+            <div className='col-span-4 md:col-span-1'>
               <TextInput
                 type={InputType.number}
                 placeholder='Costo'
@@ -194,7 +208,7 @@ export default function EditItem() {
               />
             </div>
 
-            <div className='col-span-6 md:col-span-2'>
+            <div className='col-span-4 md:col-span-1'>
               <TextInput
                 type={InputType.number}
                 placeholder='% Ganacias Isene'
@@ -205,7 +219,7 @@ export default function EditItem() {
               />
             </div>
 
-            <div className='col-span-6 md:col-span-2'>
+            <div className='col-span-4 md:col-span-1'>
               <TextInput
                 type={InputType.number}
                 placeholder='% Ganancias Papeleras'
@@ -216,7 +230,30 @@ export default function EditItem() {
               />
             </div>
 
-            <div className='col-span-6 md:col-span-2'>
+            <div className='col-span-4 md:col-span-1 font-bold'>
+              <div className=' label '>
+                <span className='label-text'>Stock</span>
+              </div>
+              <select
+                className={`select select-bordered w-full text-center ${
+                  !stock || String(stock) === 'false'
+                    ? 'bg-red-200'
+                    : 'bg-green-200'
+                }`}
+                {...register('stock')}
+                defaultValue={0}
+              >
+                <option value={'true'}>EN STOCK</option>
+                <option value={'false'}>REPONER</option>
+              </select>
+              {errors.stock && (
+                <p className='text-red-500 font-bold'>
+                  {errors.stock?.message}
+                </p>
+              )}
+            </div>
+
+            <div className='col-span-4 md:col-span-1'>
               <TextInput
                 type={InputType.number}
                 placeholder='Precio Isene'
@@ -228,7 +265,19 @@ export default function EditItem() {
               />
             </div>
 
-            <div className='col-span-6 md:col-span-2'>
+            <div className='col-span-4 md:col-span-1'>
+              <TextInput
+                type={InputType.number}
+                label='Precio Isene + IVA'
+                placeholder='0'
+                error={errors.PP}
+                registerOptions={{ ...register('PIIVA') }}
+                disabled
+                style='w-full'
+              />
+            </div>
+
+            <div className='col-span-4 md:col-span-1'>
               <TextInput
                 type={InputType.number}
                 placeholder='Precio Papeleras'
@@ -240,21 +289,33 @@ export default function EditItem() {
               />
             </div>
 
-            <div className='col-span-6 md:col-span-2  font-bold'>
-              <div className=' label '>
-                <span className='label-text'>Stock</span>
+            <div className='col-span-4 md:col-span-1'>
+              <TextInput
+                type={InputType.number}
+                placeholder='0'
+                label='Precio Papeleras + IVA'
+                error={errors.PP}
+                registerOptions={{ ...register('PPIVA') }}
+                disabled
+                style='w-full'
+              />
+            </div>
+
+            <div className='col-span-4 md:col-span-1 font-bold'>
+              <div className='label'>
+                <span className='label-text'>Incluye IVA?</span>
               </div>
               <select
                 className={`select select-bordered w-full text-center ${
-                  inStock ? 'bg-green-200' : 'bg-red-200'
+                  !iva || String(iva) === 'false'
+                    ? 'bg-green-200'
+                    : 'bg-orange-200'
                 }`}
-                {...register('stock')}
-                value={String(inStock)}
-                onChange={handleChange}
+                {...register('iva')}
                 defaultValue={0}
               >
-                <option value={'true'}>EN STOCK</option>
-                <option value={'false'}>REPONER</option>
+                <option value={'false'}>NO</option>
+                <option value={'true'}>SI</option>
               </select>
               {errors.stock && (
                 <p className='text-red-500 font-bold'>

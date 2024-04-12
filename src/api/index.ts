@@ -83,6 +83,8 @@ export const createProduct = async ({
     cost: number;
     pi: number;
     pp: number;
+    piIva: number;
+    ppIva: number;
     stock: boolean;
     updatedDate: string;
     earningPI: number;
@@ -109,6 +111,8 @@ export const updateProduct = async ({
     cost: number;
     pi: number;
     pp: number;
+    piIva: number;
+    ppIva: number;
     stock: boolean;
     updatedDate: string;
     earningPI: number;
