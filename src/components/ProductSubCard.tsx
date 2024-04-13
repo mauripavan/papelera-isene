@@ -28,6 +28,9 @@ export default function ProductSubCard(props: IProductSubCardProps) {
         <p className='font-regular text-gray-500 mb-2 text-xs'>
           Cantidad:{item.quantity}
         </p>
+        <p className='font-regular text-gray-500 mb-2 text-xs'>
+          Tipo:{!item.iva ? '1' : '2'}
+        </p>
         <p className='font-semibold text-gray-800 text-xl mb-2'>
           {user?.papeleras
             ? formatCurrency(item.pp, true)

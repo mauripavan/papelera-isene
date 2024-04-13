@@ -83,7 +83,7 @@ export default function ProductCard(props: IProductCardProps) {
         {item.quantity}
       </p>
       <p className='font-nunito font-medium text-sm col-span-2'>
-        {formatCurrency(item.pi, false)}
+        {formatCurrency(item.pi, true)}
       </p>
       <p className='font-nunito font-medium text-sm col-span-2'>
         {formatCurrency(item.piIva, true)}
