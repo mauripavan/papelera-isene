@@ -103,7 +103,7 @@ export default function Home() {
       <Pagination
         totalCards={products?.pagination?.totalItems || 0}
         currentPage={page}
-        cardsPerPage={20}
+        cardsPerPage={50}
         paginate={handlePageChange}
       />
     </main>
