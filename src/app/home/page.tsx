@@ -12,6 +12,7 @@ import LoadingLottie from '../../components/lottie/loading-lottie.json';
 import Navbar from '@/components/Navbar';
 import ProductSubCard from '@/components/ProductSubCard';
 import useGlobalUserState from '@/hooks/useGlobalUserState';
+import Footer from '@/components/Footer';
 
 export interface PaginationProps {
   page: number;
@@ -77,35 +78,38 @@ export default function Home() {
   }
 
   return (
-    <main className='flex min-h-screen flex-col font-nunito'>
-      <Navbar />
-      <div className='flex items-center justify-center w-full '>
-        <div className='w-full md:w-3/4 lg:w-1/2 mb-4'>
-          <SearchInput />
+    <>
+      <main className='flex min-h-screen flex-col font-nunito'>
+        <Navbar />
+        <div className='flex items-center justify-center w-full '>
+          <div className='w-full md:w-3/4 lg:w-1/2 mb-4'>
+            <SearchInput />
+          </div>
         </div>
-      </div>
-      {loading ? (
-        <div className='flex flex-1 justify-center items-center'>
-          <Lottie options={defaultOptions} height={200} width={200} />
-        </div>
-      ) : !products?.data[0] ? (
-        <div className='flex flex-1 justify-center items-center'>
-          <p className='text-2xl font-bold'>No hay productos para mostrar</p>
-        </div>
-      ) : (
-        <div className='grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4'>
-          {products?.data?.map((item, index) => {
-            return <ProductSubCard item={item} key={index} />;
-          })}
-        </div>
-      )}
+        {loading ? (
+          <div className='flex flex-1 justify-center items-center'>
+            <Lottie options={defaultOptions} height={200} width={200} />
+          </div>
+        ) : !products?.data[0] ? (
+          <div className='flex flex-1 justify-center items-center'>
+            <p className='text-2xl font-bold'>No hay productos para mostrar</p>
+          </div>
+        ) : (
+          <div className='grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4'>
+            {products?.data?.map((item, index) => {
+              return <ProductSubCard item={item} key={index} />;
+            })}
+          </div>
+        )}
 
-      <Pagination
-        totalCards={products?.pagination?.totalItems || 0}
-        currentPage={page}
-        cardsPerPage={50}
-        paginate={handlePageChange}
-      />
-    </main>
+        <Pagination
+          totalCards={products?.pagination?.totalItems || 0}
+          currentPage={page}
+          cardsPerPage={50}
+          paginate={handlePageChange}
+        />
+      </main>
+      <Footer />
+    </>
   );
 }
