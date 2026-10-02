@@ -109,3 +109,22 @@ PENDIENTE_REVISION ──(todo disponible)────────────�
 | `POST /bot/orders/:id/customer-response` `{accept}` | respuesta a faltantes |
 | `POST /bot/orders/:id/receipt` `{receiptRef}` | comprobante |
 | `GET /bot/messages/pending`, `POST /bot/messages/:id/sent|failed` | cola de mensajes |
+
+## Deploy (Railway)
+
+Un solo servicio: la imagen del `Dockerfile` compila el panel y la API lo sirve en la misma URL.
+Al arrancar (`apps/api/scripts/start-prod.mjs`) aplica las migraciones pendientes, crea el usuario
+admin si no existe y levanta la API.
+
+Variables del servicio:
+
+| Variable | Valor |
+|---|---|
+| `DATABASE_URL` | `${{Postgres.DATABASE_URL}}` (referencia al Postgres del proyecto) |
+| `JWT_SECRET` | `openssl rand -hex 32` |
+| `BOT_API_KEY` | `openssl rand -hex 24` |
+| `ADMIN_USERNAME` / `ADMIN_PASSWORD` | usuario inicial del panel |
+| `IMPORT_CATALOG` | `1` solo en el primer deploy (importa el catálogo con `--solo-nuevos`); después borrarla |
+
+La base de producción es la fuente de verdad: los cambios de datos en local no se suben.
+Para traer los datos reales a local: `pg_dump` de prod y `pg_restore` en local, nunca al revés.

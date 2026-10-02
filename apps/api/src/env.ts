@@ -7,6 +7,8 @@ const schema = z.object({
   JWT_SECRET: z.string().min(16, 'JWT_SECRET tiene que tener al menos 16 caracteres'),
   JWT_EXPIRES_IN: z.string().default('7d'),
   BOT_API_KEY: z.string().min(8, 'BOT_API_KEY tiene que tener al menos 8 caracteres'),
+  /** Carpeta del panel compilado. Si no existe (desarrollo), la API no lo sirve. */
+  WEB_DIST: z.string().default('../web/dist'),
 });
 
 const parsed = schema.safeParse(process.env);

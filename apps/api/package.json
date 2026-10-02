@@ -13,7 +13,8 @@
     "db:seed": "prisma generate && prisma db seed",
     "db:studio": "prisma studio",
     "postinstall": "prisma generate",
-    "db:import": "prisma generate && tsx --env-file=.env prisma/import.ts"
+    "db:import": "prisma generate && tsx --env-file=.env prisma/import.ts",
+    "start:prod": "node scripts/start-prod.mjs"
   },
   "dependencies": {
     "@papelera/shared": "workspace:*",

@@ -1,3 +1,5 @@
+import { existsSync } from 'node:fs';
+import { resolve } from 'node:path';
 import cors from 'cors';
 import express, { Router } from 'express';
 import helmet from 'helmet';
@@ -34,6 +36,17 @@ export function createApp() {
 
   // Bot: requiere x-bot-key
   app.use('/bot', requireBot, botRouter);
+
+  // En producción la API sirve también el panel compilado (una sola URL, sin CORS).
+  const webDist = resolve(env.WEB_DIST);
+  if (existsSync(webDist)) {
+    app.use(express.static(webDist, { index: false, maxAge: '1y', immutable: true }));
+    // Cualquier otra ruta GET que no sea de la API devuelve el index del panel (rutas de React Router)
+    app.get(/^\/(?!api\/|auth\/|bot\/|assets\/|health$).*/, (_req, res) => {
+      res.setHeader('Cache-Control', 'no-cache');
+      res.sendFile(resolve(webDist, 'index.html'));
+    });
+  }
 
   app.use((_req, res) => {
     res.status(404).json({ error: 'Ruta no encontrada' });

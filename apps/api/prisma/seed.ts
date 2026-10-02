@@ -12,10 +12,10 @@ const prisma = new PrismaClient({ adapter: new PrismaPg({ connectionString: proc
 async function main() {
   const username = process.env.ADMIN_USERNAME ?? 'admin';
   const password = process.env.ADMIN_PASSWORD;
-  if (!password) throw new Error('Definí ADMIN_PASSWORD en el .env');
 
   const existing = await prisma.user.findUnique({ where: { username } });
   if (!existing) {
+    if (!password) throw new Error('Definí ADMIN_PASSWORD para crear el usuario inicial');
     await prisma.user.create({ data: { username, passwordHash: await bcrypt.hash(password, 10) } });
     console.log(`Usuario "${username}" creado`);
   } else {
