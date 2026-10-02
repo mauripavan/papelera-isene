@@ -12,7 +12,8 @@
     "db:deploy": "prisma migrate deploy",
     "db:seed": "prisma generate && prisma db seed",
     "db:studio": "prisma studio",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "db:import": "prisma generate && tsx --env-file=.env prisma/import.ts"
   },
   "dependencies": {
     "@papelera/shared": "workspace:*",

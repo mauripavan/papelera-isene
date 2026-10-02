@@ -1,0 +1,994 @@
+codigo,categoria,nombre,presentacion,precio_efectivo,precio_transferencia,discrimina_iva,activo,revisar,nota,foto
+BOL-001,Bolsas,Rollo troquelado alta densidad 15 x 20,rollo,3100,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (5).jpeg
+BOL-002,Bolsas,Rollo troquelado alta densidad 15 x 25,rollo,3100,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (5).jpeg
+BOL-003,Bolsas,Rollo troquelado alta densidad 20 x 25,rollo,6100,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (5).jpeg
+BOL-004,Bolsas,Rollo troquelado alta densidad 20 x 30,rollo,6100,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (5).jpeg
+BOL-005,Bolsas,Rollo troquelado alta densidad 25 x 35,rollo,6100,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (5).jpeg
+BOL-006,Bolsas,Rollo troquelado alta densidad 30 x 40,rollo,6100,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (5).jpeg
+BOL-007,Bolsas,Rollo troquelado alta densidad 35 x 45,rollo,6100,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (5).jpeg
+BOL-008,Bolsas,Rollo troquelado alta densidad 40 x 50,rollo,9700,,no,si,si,etiquetas corridas entre 40x50 y 50x70,WhatsApp Image 2026-10-02 at 17.48.17 (5).jpeg
+BOL-009,Bolsas,Rollo troquelado alta densidad 40 x 60,rollo,9700,,no,si,si,etiquetas corridas entre 40x50 y 50x70,WhatsApp Image 2026-10-02 at 17.48.17 (5).jpeg
+BOL-010,Bolsas,Rollo troquelado alta densidad 45 x 60,rollo,9700,,no,si,si,etiquetas corridas entre 40x50 y 50x70,WhatsApp Image 2026-10-02 at 17.48.17 (5).jpeg
+BOL-011,Bolsas,Rollo troquelado alta densidad 50 x 70,rollo,,,no,no,si,sin precio en la lista; etiquetas corridas: puede ser 9700,WhatsApp Image 2026-10-02 at 17.48.17 (5).jpeg
+BOL-012,Bolsas,Rollo troquelado alta densidad 60 x 90,rollo,16000,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (5).jpeg
+BOL-013,Bolsas,Rollo troquelado cristal 20 x 25,rollo 1.100 kg,14000,,no,si,si,columna cristal; no queda claro a qué medidas corresponde,WhatsApp Image 2026-10-02 at 17.48.17 (5).jpeg
+BOL-014,Bolsas,Rollo troquelado cristal 20 x 30,rollo 1.100 kg,14000,,no,si,si,columna cristal; no queda claro a qué medidas corresponde,WhatsApp Image 2026-10-02 at 17.48.17 (5).jpeg
+BOL-015,Bolsas,Rollo troquelado cristal 25 x 35,rollo 1.100 kg,14000,,no,si,si,columna cristal; no queda claro a qué medidas corresponde,WhatsApp Image 2026-10-02 at 17.48.17 (5).jpeg
+BOL-016,Bolsas,Rollo troquelado cristal 30 x 40,rollo 1.100 kg,14000,,no,si,si,columna cristal; no queda claro a qué medidas corresponde,WhatsApp Image 2026-10-02 at 17.48.17 (5).jpeg
+BOL-017,Bolsas,Rollo troquelado cristal 35 x 45,rollo 1.100 kg,14000,,no,si,si,columna cristal; no queda claro a qué medidas corresponde,WhatsApp Image 2026-10-02 at 17.48.17 (5).jpeg
+BOL-018,Bolsas,Lámina alta densidad 20 x 25,paquete,8100,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (5).jpeg
+BOL-019,Bolsas,Lámina alta densidad 25 x 37,paquete,8100,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (5).jpeg
+BOL-020,Bolsas,Lámina alta densidad 37 x 50,paquete,9700,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (5).jpeg
+BOL-021,Bolsas,Lámina alta densidad 16 x 16,paquete,11900,,no,si,si,número poco legible,WhatsApp Image 2026-10-02 at 17.48.17 (5).jpeg
+BOL-022,Bolsas,Láminas,x 100 g,1600,,no,si,si,manuscrito sin medida,WhatsApp Image 2026-10-02 at 17.48.17 (5).jpeg
+BOL-023,Bolsas,Bolsa kraft 10 x 15,unidad,380,,no,si,si,precio poco legible,WhatsApp Image 2026-10-02 at 17.48.20 (3).jpeg
+BOL-024,Bolsas,Bolsa kraft 12 x 19,unidad,390,,no,si,si,precio poco legible,WhatsApp Image 2026-10-02 at 17.48.20 (3).jpeg
+BOL-025,Bolsas,Bolsa kraft 15 x 25,unidad,420,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (3).jpeg
+BOL-026,Bolsas,Bolsa kraft 20 x 30,unidad,440,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (3).jpeg
+BOL-027,Bolsas,Bolsa kraft 25 x 35,unidad,470,,no,si,si,precio poco legible,WhatsApp Image 2026-10-02 at 17.48.20 (3).jpeg
+BOL-028,Bolsas,Bolsa kraft 30 x 40,unidad,530,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (3).jpeg
+BOL-029,Bolsas,Bolsa kraft 35 x 45,unidad,640,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (3).jpeg
+BOL-030,Bolsas,Bolsa kraft 35 x 47,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (3).jpeg
+BOL-031,Bolsas,Bolsa kraft 45 x 50,unidad,950,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (3).jpeg
+BOL-032,Bolsas,Bolsa kraft apaisada,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (3).jpeg
+BOL-033,Bolsas,Bolsa kraft para 1 botella,unidad,490,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (3).jpeg
+BOL-034,Bolsas,Bolsa kraft para 2 botellas,unidad,550,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (3).jpeg
+BOL-035,Bolsas,Bolsa de color 10 x 15,unidad,350,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (3).jpeg
+BOL-036,Bolsas,Bolsa de color 12 x 19,unidad,370,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (3).jpeg
+BOL-037,Bolsas,Bolsa de color 15 x 25,unidad,380,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (3).jpeg
+BOL-038,Bolsas,Bolsa de color 20 x 25,unidad,390,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (3).jpeg
+BOL-039,Bolsas,Bolsa de color 25 x 35,unidad,420,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (3).jpeg
+BOL-040,Bolsas,Bolsa de color 30 x 40,unidad,470,,no,si,si,420 o 470,WhatsApp Image 2026-10-02 at 17.48.20 (3).jpeg
+BOL-041,Bolsas,Bolsa de color 35 x 45,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (3).jpeg
+BOL-042,Bolsas,Bolsa de color para 1 botella,unidad,420,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (3).jpeg
+BOL-043,Bolsas,Bolsa de color para 2 botellas,unidad,480,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (3).jpeg
+BOL-044,Bolsas,Bolsa fantasía 12 x 20,unidad,,,no,no,si,sin precio en la lista; precio ilegible,WhatsApp Image 2026-10-02 at 17.48.20 (3).jpeg
+BOL-045,Bolsas,Bolsa fantasía 20 x 30,unidad,,,no,no,si,sin precio en la lista; precio ilegible,WhatsApp Image 2026-10-02 at 17.48.20 (3).jpeg
+BOL-046,Bolsas,Bolsa fantasía navideña 30 x 40,unidad,850,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (3).jpeg
+BOL-047,Bolsas,Bolsa de papel blanca N° 1,paquete,1400,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (4).jpeg
+BOL-048,Bolsas,Bolsa de papel blanca N° 1L,paquete,1500,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (4).jpeg
+BOL-049,Bolsas,Bolsa de papel blanca N° 2,paquete,1700,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (4).jpeg
+BOL-050,Bolsas,Bolsa de papel blanca N° 2L,paquete,1900,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (4).jpeg
+BOL-051,Bolsas,Bolsa de papel blanca N° 3,paquete,2100,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (4).jpeg
+BOL-052,Bolsas,Bolsa de papel blanca N° 3A,paquete,2600,,no,si,si,2400 o 2600,WhatsApp Image 2026-10-02 at 17.48.20 (4).jpeg
+BOL-053,Bolsas,Bolsa de papel blanca N° 3L,paquete,2490,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.20 (4).jpeg
+BOL-054,Bolsas,Bolsa de papel blanca N° 4A,paquete,2600,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (4).jpeg
+BOL-055,Bolsas,Bolsa de papel blanca N° 5,paquete,3000,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (4).jpeg
+BOL-056,Bolsas,Bolsa de papel blanca N° 6,paquete,3100,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (4).jpeg
+BOL-057,Bolsas,Bolsa de papel blanca N° 6L,paquete,3400,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (4).jpeg
+BOL-058,Bolsas,Bolsa de papel blanca N° 7,paquete,3800,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (4).jpeg
+BOL-059,Bolsas,Bolsa de papel blanca N° 8,paquete,5000,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (4).jpeg
+BOL-060,Bolsas,Bolsa de papel kraft N° 0,paquete,1400,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (4).jpeg
+BOL-061,Bolsas,Bolsa de papel kraft N° 1,paquete,1400,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (4).jpeg
+BOL-062,Bolsas,Bolsa de papel kraft N° 1L,paquete,1500,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (4).jpeg
+BOL-063,Bolsas,Bolsa de papel kraft N° 2,paquete,1700,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (4).jpeg
+BOL-064,Bolsas,Bolsa de papel kraft N° 2L,paquete,1900,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (4).jpeg
+BOL-065,Bolsas,Bolsa de papel kraft N° 3,paquete,2150,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (4).jpeg
+BOL-066,Bolsas,Bolsa de papel kraft N° 3A,paquete,2150,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (4).jpeg
+BOL-067,Bolsas,Bolsa de papel kraft N° 3L,paquete,2350,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (4).jpeg
+BOL-068,Bolsas,Bolsa de papel kraft N° 4A,paquete,2550,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (4).jpeg
+BOL-069,Bolsas,Bolsa de papel kraft N° 5,paquete,2900,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (4).jpeg
+BOL-070,Bolsas,Bolsa de papel kraft N° 6,paquete,3100,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (4).jpeg
+BOL-071,Bolsas,Bolsa de papel kraft N° 6L,paquete,3400,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (4).jpeg
+BOL-072,Bolsas,Bolsa de papel kraft N° 7,paquete,3800,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (4).jpeg
+BOL-073,Bolsas,Bolsa americana 28 x 36 x 20,unidad,145,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.20 (4).jpeg
+BOL-074,Bolsas,Bolsa americana 26 x 32 x 13,unidad,95,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.20 (4).jpeg
+BOL-075,Bolsas,Bolsa americana 16 x 26 x 8,unidad,75,,no,si,si,medida corregida,WhatsApp Image 2026-10-02 at 17.48.20 (4).jpeg
+BOL-076,Bolsas,Bolsa americana 22 x 32 x 14.5,unidad,105,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.20 (4).jpeg
+BOL-077,Bolsas,Bolsa americana 17 x 26 x 13,unidad,95,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.20 (4).jpeg
+BOL-078,Bolsas,Bolsa para baguette,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (4).jpeg
+BOL-079,Bolsas,Bolsa para papas fritas blanca,paquete,2000,,no,si,si,presentación no indicada,WhatsApp Image 2026-10-02 at 17.48.20 (4).jpeg
+BOL-080,Bolsas,Bolsa para caramelos 100 g,paquete,,,no,no,si,precio viejo en la lista: 33,WhatsApp Image 2026-10-02 at 17.48.20 (6).jpeg
+BOL-081,Bolsas,Bolsa para caramelos 150 g,paquete,,,no,no,si,precio viejo en la lista: 36,WhatsApp Image 2026-10-02 at 17.48.20 (6).jpeg
+BOL-082,Bolsas,Bolsa para caramelos 200 g,paquete,,,no,no,si,precio viejo en la lista: 44,WhatsApp Image 2026-10-02 at 17.48.20 (6).jpeg
+BOL-083,Bolsas,Bolsa para caramelos 250 g,paquete,,,no,no,si,precio viejo en la lista: 47,WhatsApp Image 2026-10-02 at 17.48.20 (6).jpeg
+BOL-084,Bolsas,Bolsa para caramelos 500 g,paquete,,,no,no,si,precio viejo en la lista: 60,WhatsApp Image 2026-10-02 at 17.48.20 (6).jpeg
+BOL-085,Bolsas,Bolsa para caramelos 750 g,paquete,,,no,no,si,precio viejo en la lista: 66,WhatsApp Image 2026-10-02 at 17.48.20 (6).jpeg
+BOL-086,Bolsas,Bolsa para caramelos 1000 g,paquete,,,no,no,si,precio viejo en la lista: 73,WhatsApp Image 2026-10-02 at 17.48.20 (6).jpeg
+BOL-087,Bolsas,Sobre de farmacia 5 x 9,paquete,1300,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (6).jpeg
+BOL-088,Bolsas,Sobre de farmacia 6 x 12,paquete,1450,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (6).jpeg
+BOL-089,Bolsas,Sobre de farmacia 7 x 14,paquete,1600,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (6).jpeg
+BOL-090,Bolsas,Sobre de farmacia 8 x 16,paquete,1800,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (6).jpeg
+BOL-091,Bolsas,Sobre de farmacia 10 x 20,paquete,2300,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (6).jpeg
+BOL-092,Bolsas,Bolsa de polipropileno con adhesivo 50 micrones 15 x 20,paquete,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (7).jpeg
+BOL-093,Bolsas,Bobina de polipropileno 8-14 cm,por kg,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (7).jpeg
+BOL-094,Bolsas,Bobina de polipropileno 15-90 cm,por kg,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (7).jpeg
+BOL-095,Bolsas,Bolsa con cierre a presión 6 x 10,x 50,4500,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (7).jpeg
+BOL-096,Bolsas,Bolsa con cierre a presión 8 x 12,x 50,5500,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (7).jpeg
+BOL-097,Bolsas,Bolsa con cierre a presión 10 x 15,x 50,6700,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (7).jpeg
+BOL-098,Bolsas,Bolsa con cierre a presión 15 x 20,x 50,8500,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (7).jpeg
+BOL-099,Bolsas,Bolsa con cierre a presión 20 x 30,x 50,13200,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (7).jpeg
+BOL-100,Bolsas,Bolsa con cierre a presión 25 x 35,x 50,17500,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (7).jpeg
+BOL-101,Bolsas,Bolsa con cierre a presión 30 x 40,x 50,22300,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (7).jpeg
+BOL-102,Bolsas,Bolsa camiseta virgen alta densidad 20 x 30,paquete,,,no,no,si,precio viejo en la lista: 8; cód 006.11.001,WhatsApp Image 2026-10-02 at 17.48.20 (8).jpeg
+BOL-103,Bolsas,Bolsa camiseta virgen alta densidad 30 x 40,paquete,,,no,no,si,precio viejo en la lista: 9; cód 006.11.002,WhatsApp Image 2026-10-02 at 17.48.20 (8).jpeg
+BOL-104,Bolsas,Bolsa camiseta virgen alta densidad eco 40 x 50,paquete,,,no,no,si,precio viejo en la lista: 12; cód 006.11.003,WhatsApp Image 2026-10-02 at 17.48.20 (8).jpeg
+BOL-105,Bolsas,Bolsa camiseta virgen alta densidad reforzada 40 x 50,paquete,,,no,no,si,precio viejo en la lista: 16; cód 006.11.005,WhatsApp Image 2026-10-02 at 17.48.20 (8).jpeg
+BOL-106,Bolsas,Bolsa camiseta virgen alta densidad 45 x 60,paquete,,,no,no,si,precio viejo en la lista: 19; cód 006.11.006,WhatsApp Image 2026-10-02 at 17.48.20 (8).jpeg
+BOL-107,Bolsas,Bolsa camiseta virgen alta densidad 50 x 50,paquete,,,no,no,si,precio viejo en la lista: 23; cód 006.11.007,WhatsApp Image 2026-10-02 at 17.48.20 (8).jpeg
+BOL-108,Bolsas,Bolsa camiseta virgen alta densidad 50 x 60,paquete,,,no,no,si,precio viejo en la lista: 29; cód 006.11.008,WhatsApp Image 2026-10-02 at 17.48.20 (8).jpeg
+BOL-109,Bolsas,Bolsa camiseta virgen alta densidad 60 x 80,paquete,,,no,no,si,precio viejo en la lista: 54; cód 006.11.009,WhatsApp Image 2026-10-02 at 17.48.20 (8).jpeg
+BOL-110,Bolsas,Bolsa camiseta virgen Gracias por su compra 40 x 50,paquete,,,no,no,si,precio viejo en la lista: 5.20,WhatsApp Image 2026-10-02 at 17.48.20 (8).jpeg
+BOL-111,Bolsas,Bolsa camiseta virgen Felices Fiestas 40 x 50,paquete,,,no,no,si,precio viejo en la lista: 5.20,WhatsApp Image 2026-10-02 at 17.48.20 (8).jpeg
+BOL-112,Bolsas,Bolsa camiseta El Triángulo 40 x 50,paquete,,,si,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (8).jpeg
+BOL-113,Bolsas,Bolsa camiseta baja densidad recuperada 40 x 50/30,paquete,5500,,si,si,no,cód 006.12.001,WhatsApp Image 2026-10-02 at 17.48.20 (8).jpeg
+BOL-114,Bolsas,Bolsa camiseta baja densidad recuperada 50 x 60/40,paquete,8800,,si,si,no,cód 006.12.002,WhatsApp Image 2026-10-02 at 17.48.20 (8).jpeg
+BOL-115,Bolsas,Bolsa camiseta baja densidad recuperada 60 x 80/40,paquete,14500,,si,si,no,cód 006.12.003,WhatsApp Image 2026-10-02 at 17.48.20 (8).jpeg
+BOL-116,Bolsas,Bolsa de residuos amarilla 95 x 110/100,unidad,19.80,,si,si,si,c/u; precio muy bajo: revisar,WhatsApp Image 2026-10-02 at 17.48.20 (8).jpeg
+BOL-117,Bolsas,Funda para trajes 40 x 60,unidad,,,no,no,si,sin precio en la lista; IVA incluido,WhatsApp Image 2026-10-02 at 17.48.20 (9).jpeg
+BOL-118,Bolsas,Funda para trajes 60 x 100,x 10,,,no,no,si,precio viejo en la lista: 25; IVA incluido; cód 006.10.056,WhatsApp Image 2026-10-02 at 17.48.20 (9).jpeg
+BOL-119,Bolsas,Bolsa impresa pan dulce polipropileno 25 x 35,paquete,,,si,no,si,precio viejo en la lista: 239; cód 006.10.057,WhatsApp Image 2026-10-02 at 17.48.20 (9).jpeg
+BOL-120,Bolsas,Bolsa impresa pan dulce polipropileno 30 x 40,paquete,,,si,no,si,precio viejo en la lista: 295; cód 006.10.058,WhatsApp Image 2026-10-02 at 17.48.20 (9).jpeg
+BOL-121,Bolsas,Bolsa impresa para pizza polipropileno 35 x 45,paquete,,,no,no,si,precio viejo en la lista: 85; cód 006.10.059,WhatsApp Image 2026-10-02 at 17.48.20 (9).jpeg
+BOL-122,Bolsas,Bolsa de polipropileno con solapa adhesiva 40 micrones 18 x 25,paquete,490,,si,si,si,en p36 figura 4200 final,WhatsApp Image 2026-10-02 at 17.48.20 (9).jpeg
+BOL-123,Bolsas,Bolsa de polipropileno con solapa adhesiva 20 x 25/40,paquete,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (9).jpeg
+BOL-124,Bolsas,Bolsa de polipropileno con solapa adhesiva 20 x 30/50,paquete,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (9).jpeg
+BOL-125,Bolsas,Bolsa de polipropileno 120 micrones 25 x 45,paquete,,,no,no,si,sin precio en la lista; oferta,WhatsApp Image 2026-10-02 at 17.48.20 (10).jpeg
+BOL-126,Bolsas,Bolsa de polipropileno 25 x 40/30,paquete,4200,,no,si,no,precio final,WhatsApp Image 2026-10-02 at 17.48.20 (11).jpeg
+BOL-127,Bolsas,Bolsa de polipropileno 25 x 45/30,paquete,4900,,no,si,no,precio final,WhatsApp Image 2026-10-02 at 17.48.20 (11).jpeg
+BOL-128,Bolsas,Bolsa de polipropileno 25 x 50/30,paquete,5500,,no,si,no,precio final,WhatsApp Image 2026-10-02 at 17.48.20 (11).jpeg
+BOL-129,Bolsas,Bolsa de polipropileno 30 x 40/30,paquete,4800,,no,si,no,precio final,WhatsApp Image 2026-10-02 at 17.48.20 (11).jpeg
+BOL-130,Bolsas,Bolsa de polipropileno 30 x 45/30,paquete,5400,,no,si,no,precio final,WhatsApp Image 2026-10-02 at 17.48.20 (11).jpeg
+BOL-131,Bolsas,Bolsa de polipropileno 30 x 50/30,paquete,6100,,no,si,no,precio final,WhatsApp Image 2026-10-02 at 17.48.20 (11).jpeg
+BOL-132,Bolsas,Bolsa de polipropileno 30 x 55/30,paquete,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (11).jpeg
+BOL-133,Bolsas,Bolsa de polipropileno 35 x 45/30,paquete,6200,,no,si,no,precio final,WhatsApp Image 2026-10-02 at 17.48.20 (11).jpeg
+BOL-134,Bolsas,Bolsa de polipropileno 35 x 50/30,paquete,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (11).jpeg
+BOL-135,Bolsas,Bolsa de polipropileno 35 x 55/30,paquete,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (11).jpeg
+BOL-136,Bolsas,Bolsa de polipropileno 40 x 50/30,paquete,7700,,no,si,no,precio final,WhatsApp Image 2026-10-02 at 17.48.20 (11).jpeg
+BOL-137,Bolsas,Bolsa de polipropileno 40 x 60/30,paquete,9200,,no,si,no,precio final,WhatsApp Image 2026-10-02 at 17.48.20 (11).jpeg
+BOL-138,Bolsas,Bolsa de polipropileno 40 x 70/30,paquete,11000,,no,si,no,precio final,WhatsApp Image 2026-10-02 at 17.48.20 (11).jpeg
+BOL-139,Bolsas,Bolsa de polipropileno 50 x 60/30,paquete,11500,,no,si,no,precio final,WhatsApp Image 2026-10-02 at 17.48.20 (11).jpeg
+BOL-140,Bolsas,Bolsa de polipropileno 50 x 70/30,paquete,13200,,no,si,no,precio final,WhatsApp Image 2026-10-02 at 17.48.20 (11).jpeg
+BOL-141,Bolsas,Bolsa de polipropileno 50 x 80/30,paquete,15500,,no,si,no,precio final,WhatsApp Image 2026-10-02 at 17.48.20 (11).jpeg
+BOL-142,Bolsas,Bolsa de polipropileno 60 x 100/30,paquete,25500,,no,si,no,precio final,WhatsApp Image 2026-10-02 at 17.48.20 (11).jpeg
+BOL-143,Bolsas,Bolsa PP con solapa 20 x 30,paquete,5700,,no,si,no,precio final,WhatsApp Image 2026-10-02 at 17.48.20 (11).jpeg
+BOL-144,Bolsas,Bolsa PP con solapa 25 x 35,paquete,7600,,no,si,no,precio final,WhatsApp Image 2026-10-02 at 17.48.20 (11).jpeg
+BOL-145,Bolsas,Bolsa PP con solapa 30 x 40,paquete,9800,,no,si,no,precio final,WhatsApp Image 2026-10-02 at 17.48.20 (11).jpeg
+BOL-146,Bolsas,Bolsa PP con solapa 18 x 25,paquete,4200,,no,si,no,precio final,WhatsApp Image 2026-10-02 at 17.48.20 (11).jpeg
+BOL-147,Bolsas,Bolsa de polipropileno 3 x 25/30,paquete,,,si,no,si,sin precio en la lista; lista actualizada 08/01/2026,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-148,Bolsas,Bolsa de polipropileno 5 x 30/30,paquete,1050,,si,si,si,lista 08/01/2026; precios corridos una fila en la hoja,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-149,Bolsas,Bolsa de polipropileno 4 x 20/30,paquete,750,,si,si,no,lista 08/01/2026; precios corridos una fila en la hoja,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-150,Bolsas,Bolsa de polipropileno 4 x 25/30,paquete,820,,si,si,no,lista 08/01/2026,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-151,Bolsas,Bolsa de polipropileno 5 x 10/30,paquete,600,,si,si,no,lista 08/01/2026,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-152,Bolsas,Bolsa de polipropileno 5 x 20/30,paquete,820,,si,si,no,lista 08/01/2026,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-153,Bolsas,Bolsa de polipropileno 5 x 25/30,paquete,930,,si,si,no,lista 08/01/2026,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-154,Bolsas,Bolsa de polipropileno 6 x 10/30,paquete,680,,si,si,no,lista 08/01/2026,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-155,Bolsas,Bolsa de polipropileno 6 x 20/30,paquete,910,,si,si,no,lista 08/01/2026,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-156,Bolsas,Bolsa de polipropileno 6 x 25/30,paquete,1040,,si,si,no,lista 08/01/2026,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-157,Bolsas,Bolsa de polipropileno 6 x 30/30,paquete,1170,,si,si,no,lista 08/01/2026,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-158,Bolsas,Bolsa de polipropileno 8 x 10/30,paquete,760,,si,si,no,lista 08/01/2026,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-159,Bolsas,Bolsa de polipropileno 8 x 12/30,paquete,830,,si,si,no,lista 08/01/2026,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-160,Bolsas,Bolsa de polipropileno 8 x 15/30,paquete,910,,si,si,no,lista 08/01/2026,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-161,Bolsas,Bolsa de polipropileno 8 x 20/30,paquete,1070,,si,si,no,lista 08/01/2026,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-162,Bolsas,Bolsa de polipropileno 8 x 25/30,paquete,1220,,si,si,no,lista 08/01/2026,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-163,Bolsas,Bolsa de polipropileno 8 x 30/30,paquete,1420,,si,si,no,lista 08/01/2026,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-164,Bolsas,Bolsa de polipropileno 10 x 15/30,paquete,980,,si,si,no,lista 08/01/2026,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-165,Bolsas,Bolsa de polipropileno 10 x 20/30,paquete,1180,,si,si,no,lista 08/01/2026,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-166,Bolsas,Bolsa de polipropileno 10 x 25/30,paquete,1350,,si,si,no,lista 08/01/2026,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-167,Bolsas,Bolsa de polipropileno 10 x 30/30,paquete,1550,,si,si,no,lista 08/01/2026,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-168,Bolsas,Bolsa de polipropileno 12 x 15/30,paquete,1080,,si,si,no,lista 08/01/2026,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-169,Bolsas,Bolsa de polipropileno 12 x 20/30,paquete,1300,,si,si,no,lista 08/01/2026,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-170,Bolsas,Bolsa de polipropileno 12 x 25/30,paquete,1550,,si,si,no,lista 08/01/2026,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-171,Bolsas,Bolsa de polipropileno 12 x 30/30,paquete,1850,,si,si,no,lista 08/01/2026,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-172,Bolsas,Bolsa de polipropileno 12 x 35/30,paquete,2050,,si,si,no,lista 08/01/2026,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-173,Bolsas,Bolsa de polipropileno 12 x 40/30,paquete,2400,,si,si,no,lista 08/01/2026,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-174,Bolsas,Bolsa de polipropileno 15 x 20/30,paquete,1500,,si,si,no,lista 08/01/2026,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-175,Bolsas,Bolsa de polipropileno 15 x 25/30,paquete,1750,,si,si,no,lista 08/01/2026,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-176,Bolsas,Bolsa de polipropileno 15 x 30/30,paquete,2100,,si,si,no,lista 08/01/2026,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-177,Bolsas,Bolsa de polipropileno 15 x 35/30,paquete,2350,,si,si,no,lista 08/01/2026,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-178,Bolsas,Bolsa de polipropileno 15 x 40/30,paquete,3100,,si,si,no,lista 08/01/2026,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-179,Bolsas,Bolsa de polipropileno 15 x 50/30,paquete,4100,,si,si,no,lista 08/01/2026,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-180,Bolsas,Bolsa de polipropileno 17 x 25/30,paquete,1950,,si,si,no,lista 08/01/2026,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-181,Bolsas,Bolsa de polipropileno 17 x 30/30,paquete,2250,,si,si,no,lista 08/01/2026,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-182,Bolsas,Bolsa de polipropileno 17 x 35/30,paquete,2700,,si,si,no,lista 08/01/2026,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-183,Bolsas,Bolsa de polipropileno 20 x 25/30,paquete,2200,,si,si,no,lista 08/01/2026,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-184,Bolsas,Bolsa de polipropileno 20 x 30/30,paquete,2500,,si,si,no,lista 08/01/2026,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-185,Bolsas,Bolsa de polipropileno 20 x 35/30,paquete,2950,,si,si,no,lista 08/01/2026,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-186,Bolsas,Bolsa de polipropileno 20 x 40/30,paquete,3600,,si,si,no,lista 08/01/2026,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-187,Bolsas,Bolsa de polipropileno 20 x 50/30,paquete,4700,,si,si,no,lista 08/01/2026,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-188,Bolsas,Bolsa de polipropileno 22 x 35/30,paquete,3300,,si,si,no,lista 08/01/2026,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-189,Bolsas,Bolsa de polipropileno 25 x 35/30,paquete,3600,,si,si,no,lista 08/01/2026,WhatsApp Image 2026-10-02 at 17.48.20 (12).jpeg
+BOL-190,Bolsas,Bolsa de polietileno 30 micrones 5 x 30,x 100,2100,,no,si,si,título dice IVA incluido pero anotado +IVA; cód 006.04.001,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-191,Bolsas,Bolsa de polietileno 30 micrones 15 x 25,x 100,,,no,no,si,sin precio en la lista; cód 006.04.002,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-192,Bolsas,Bolsa de polietileno 30 micrones 15 x 30,x 100,,,no,no,si,sin precio en la lista; cód 006.04.003,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-193,Bolsas,Bolsa de polietileno 30 micrones 20 x 30,x 100,,,no,no,si,sin precio en la lista; cód 006.04.004,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-194,Bolsas,Bolsa de polietileno 30 micrones 25 x 35,x 100,,,no,no,si,sin precio en la lista; cód 006.04.005,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-195,Bolsas,Bolsa de polietileno 30 micrones 30 x 40,x 100,,,no,no,si,sin precio en la lista; cód 006.04.006,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-196,Bolsas,Bolsa de polietileno 30 micrones 35 x 45,x 100,,,no,no,si,sin precio en la lista; cód 006.04.007,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-197,Bolsas,Bolsa de polietileno 30 micrones 40 x 50,x 100,,,no,no,si,sin precio en la lista; cód 006.04.008,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-198,Bolsas,Bolsa de polietileno 30 micrones 40 x 60,x 100,,,no,no,si,sin precio en la lista; cód 006.04.009,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-199,Bolsas,Bolsa de polietileno 30 micrones 40 x 70,x 100,,,no,no,si,sin precio en la lista; cód 006.04.010,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-200,Bolsas,Bolsa de polietileno 30 micrones 45 x 60,x 100,,,no,no,si,sin precio en la lista; cód 006.04.011,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-201,Bolsas,Bolsa de polietileno 30 micrones 45 x 70,x 100,,,no,no,si,sin precio en la lista; cód 006.04.012,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-202,Bolsas,Bolsa de polietileno 30 micrones 50 x 70,x 100,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-203,Bolsas,Bolsa de polietileno 30 micrones 50 x 80,x 100,,,no,no,si,sin precio en la lista; cód 006.04.013,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-204,Bolsas,Bolsa de polietileno 30 micrones 60 x 100,x 100,,,no,no,si,sin precio en la lista; cód 006.04.014,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-205,Bolsas,Bolsa de polietileno 50 micrones 12 x 25,x 100,,,no,no,si,sin precio en la lista; IVA incluido; cód 006.07.001,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-206,Bolsas,Bolsa de polietileno 50 micrones 12 x 28,x 100,,,no,no,si,sin precio en la lista; IVA incluido; cód 006.07.002,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-207,Bolsas,Bolsa de polietileno 50 micrones 12 x 35,x 100,,,no,no,si,sin precio en la lista; IVA incluido; cód 006.07.003,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-208,Bolsas,Bolsa de polietileno 50 micrones 15 x 25,x 100,5700,,no,si,no,IVA incluido; cód 006.07.004,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-209,Bolsas,Bolsa de polietileno 50 micrones 20 x 30,x 100,8100,,no,si,no,IVA incluido; cód 006.07.005,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-210,Bolsas,Bolsa de polietileno 50 micrones 25 x 35,x 100,11100,,no,si,no,IVA incluido; cód 006.07.006,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-211,Bolsas,Bolsa de polietileno 50 micrones 30 x 40,x 100,14500,,no,si,no,IVA incluido; cód 006.07.007,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-212,Bolsas,Bolsa de polietileno 50 micrones 35 x 45,x 100,18500,,no,si,no,IVA incluido; cód 006.07.008,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-213,Bolsas,Bolsa de polietileno 50 micrones 40 x 50,x 100,,,no,no,si,sin precio en la lista; IVA incluido; cód 006.07.009,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-214,Bolsas,Bolsa de polietileno 50 micrones 40 x 60,x 100,,,no,no,si,sin precio en la lista; IVA incluido; cód 006.07.010,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-215,Bolsas,Bolsa de polietileno 50 micrones 40 x 70,x 100,,,no,no,si,sin precio en la lista; IVA incluido; cód 006.07.011,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-216,Bolsas,Bolsa de polietileno 50 micrones 45 x 80,x 100,,,no,no,si,sin precio en la lista; IVA incluido; cód 006.07.012,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-217,Bolsas,Bolsa de polietileno 50 micrones 50 x 60,x 100,,,no,no,si,sin precio en la lista; IVA incluido; cód 006.07.013,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-218,Bolsas,Bolsa de polietileno 50 micrones 50 x 70,x 100,,,no,no,si,sin precio en la lista; IVA incluido; cód 006.07.014,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-219,Bolsas,Bolsa de polietileno 50 micrones 50 x 80,x 100,,,no,no,si,sin precio en la lista; IVA incluido; cód 006.07.015,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-220,Bolsas,Bolsa de polietileno 50 micrones 55 x 80,x 100,,,no,no,si,sin precio en la lista; IVA incluido,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-221,Bolsas,Bolsa de polietileno 50 micrones 60 x 100,x 100,,,no,no,si,sin precio en la lista; IVA incluido; cód 006.07.016,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-222,Bolsas,Bolsa de polietileno 50 micrones 80 x 120,x 100,,,no,no,si,sin precio en la lista; IVA incluido; cód 006.07.017,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-223,Bolsas,Bolsa de polietileno 35 micrones 55 x 70,paquete,,,no,no,si,precio viejo en la lista: 450; IVA incluido; cód 006.05.001,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-224,Bolsas,Bolsa de polietileno 40 micrones 60 x 100,paquete,,,no,no,si,sin precio en la lista; cód 006.06.001,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-225,Bolsas,Bolsa de polietileno 45 micrones 50 x 50,paquete,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-226,Bolsas,Bolsa de polietileno 45 micrones 55 x 76,paquete,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-227,Bolsas,Bolsa de polietileno 70 micrones 35 x 60,paquete,,,no,no,si,sin precio en la lista; cód 006.08.001,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-228,Bolsas,Bolsa de polietileno 100 micrones 10 x 15,x 100,4800,,no,si,no,IVA incluido; cód 006.09.001,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-229,Bolsas,Bolsa de polietileno 100 micrones 15 x 25,x 100,9400,,no,si,no,IVA incluido; cód 006.09.002,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-230,Bolsas,Bolsa de polietileno 100 micrones 20 x 30,x 100,14200,,no,si,no,IVA incluido; cód 006.09.003,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-231,Bolsas,Bolsa de polietileno 100 micrones 25 x 35,x 100,18700,,no,si,no,IVA incluido; cód 006.09.004,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-232,Bolsas,Bolsa de polietileno 100 micrones 30 x 40,x 100,26500,,no,si,no,IVA incluido; cód 006.09.005,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-233,Bolsas,Bolsa de polietileno 100 micrones 30 x 70,x 100,,,no,no,si,sin precio en la lista; IVA incluido; cód 006.09.006,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-234,Bolsas,Bolsa de polietileno 100 micrones 35 x 45,x 100,34500,,no,si,no,IVA incluido; cód 006.09.007,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-235,Bolsas,Bolsa de polietileno 100 micrones 40 x 50,x 100,,,no,no,si,sin precio en la lista; IVA incluido; cód 006.09.008,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-236,Bolsas,Bolsa de polietileno 100 micrones 45 x 80,x 100,,,no,no,si,sin precio en la lista; IVA incluido; cód 006.09.009,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-237,Bolsas,Bolsa de polietileno 100 micrones 50 x 80,x 100,,,no,no,si,sin precio en la lista; IVA incluido; cód 006.09.010,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-238,Bolsas,Bolsa de polietileno 100 micrones 60 x 100,x 100,,,no,no,si,sin precio en la lista; IVA incluido; cód 006.09.011,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-239,Bolsas,Bolsa de polietileno 60 x 100/100,x 10,,,no,no,si,sin precio en la lista; cód 006.09.012,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-240,Bolsas,Bolsa de polietileno 60 x 100/50,x 10,,,no,no,si,sin precio en la lista; cód 006.07.018,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-241,Bolsas,Bolsa de polietileno 80 x 120/50,x 10,,,no,no,si,sin precio en la lista; cód 006.07.019,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-242,Bolsas,Bolsa de polietileno 50 x 80/100,x 10,,,no,no,si,sin precio en la lista; cód 006.09.013,WhatsApp Image 2026-10-02 at 17.48.20 (14).jpeg
+BOL-243,Bolsas,Bolsa Romí Pack Árbol 26 x 10 x 34,unidad,,,no,no,si,precio viejo en la lista: 400; precio impreso borroso,WhatsApp Image 2026-10-02 at 17.48.20 (19).jpeg
+BOL-244,Bolsas,Bolsa Romí Pack Acuario rosa 31 x 41,unidad,,,no,no,si,precio viejo en la lista: 450; precio impreso borroso,WhatsApp Image 2026-10-02 at 17.48.20 (19).jpeg
+BOL-245,Bolsas,Bolsa Romí Pack Acuario blanca/roja 22 x 10 x 30,unidad,,,no,no,si,precio viejo en la lista: 400; precio impreso borroso,WhatsApp Image 2026-10-02 at 17.48.20 (19).jpeg
+BOL-246,Bolsas,Bolsa Romí Pack Africana 22 x 10 x 24,unidad,,,no,no,si,precio viejo en la lista: 390; precio impreso borroso,WhatsApp Image 2026-10-02 at 17.48.20 (19).jpeg
+BOL-247,Bolsas,Bolsa Romí Pack Africana 32 x 11 x 30,unidad,,,no,no,si,precio viejo en la lista: 400; precio impreso borroso,WhatsApp Image 2026-10-02 at 17.48.20 (19).jpeg
+BOL-248,Bolsas,Bolsa Romí Pack Africana 34 x 17 x 39,unidad,,,no,no,si,precio viejo en la lista: 550; precio impreso borroso,WhatsApp Image 2026-10-02 at 17.48.20 (19).jpeg
+BOL-249,Bolsas,Bolsa Romí Pack Animal print 22 x 10 x 24,unidad,,,no,no,si,precio viejo en la lista: 390; precio impreso borroso,WhatsApp Image 2026-10-02 at 17.48.20 (19).jpeg
+BOL-250,Bolsas,Bolsa Romí Pack Animal print 32 x 11 x 30,unidad,550,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (19).jpeg
+BOL-251,Bolsas,Bolsa Romí Pack Arca de Noé 22 x 10 x 24,unidad,500,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (19).jpeg
+BOL-252,Bolsas,Bolsa Romí Pack Arca de Noé 34 x 17 x 39,unidad,800,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (19).jpeg
+BOL-253,Bolsas,Bolsa Romí Pack Cintas rojas 32 x 10 x 30,unidad,,,no,no,si,precio viejo en la lista: 400; precio impreso borroso,WhatsApp Image 2026-10-02 at 17.48.20 (19).jpeg
+BOL-254,Bolsas,Bolsa Romí Pack Cíclica 22 x 10 x 30,unidad,,,no,no,si,precio viejo en la lista: 400; precio impreso borroso,WhatsApp Image 2026-10-02 at 17.48.20 (19).jpeg
+BOL-255,Bolsas,Bolsa Romí Pack Cíclica 30 x 12 x 41,unidad,,,no,no,si,precio viejo en la lista: 450; precio impreso borroso,WhatsApp Image 2026-10-02 at 17.48.20 (19).jpeg
+BOL-256,Bolsas,Bolsa Romí Pack Collage de pinos 22 x 10 x 30,unidad,,,no,no,si,precio viejo en la lista: 400; precio impreso borroso,WhatsApp Image 2026-10-02 at 17.48.20 (19).jpeg
+BOL-257,Bolsas,Bolsa Romí Pack Collage de pinos 30 x 12 x 41,unidad,,,no,no,si,precio viejo en la lista: 450; precio impreso borroso,WhatsApp Image 2026-10-02 at 17.48.20 (19).jpeg
+BOL-258,Bolsas,Bolsa Romí Pack Convite 14 x 8 x 20,unidad,,,no,no,si,precio viejo en la lista: 390; precio impreso borroso,WhatsApp Image 2026-10-02 at 17.48.20 (19).jpeg
+BOL-259,Bolsas,Bolsa Romí Pack Corazones 26 x 11 x 34,unidad,,,no,no,si,precio viejo en la lista: 400; precio impreso borroso,WhatsApp Image 2026-10-02 at 17.48.20 (19).jpeg
+BOL-260,Bolsas,Bolsa Romí Pack Estrellas 32 x 10 x 30,unidad,,,no,no,si,precio viejo en la lista: 400; precio impreso borroso,WhatsApp Image 2026-10-02 at 17.48.20 (19).jpeg
+BOL-261,Bolsas,Bolsa Romí Pack Flores elegantes 22 x 10 x 24,unidad,,,no,no,si,precio viejo en la lista: 390; precio impreso borroso,WhatsApp Image 2026-10-02 at 17.48.20 (19).jpeg
+BOL-262,Bolsas,Bolsa Romí Pack Flores elegantes 32 x 11 x 30,unidad,,,no,no,si,precio viejo en la lista: 400; precio impreso borroso,WhatsApp Image 2026-10-02 at 17.48.20 (19).jpeg
+BOL-263,Bolsas,Bolsa Romí Pack Glamorosa 14 x 8 x 20,unidad,,,no,no,si,precio viejo en la lista: 390; precio impreso borroso,WhatsApp Image 2026-10-02 at 17.48.20 (19).jpeg
+BOL-264,Bolsas,Bolsa Romí Pack Globo 14 x 8 x 20,unidad,,,no,no,si,precio viejo en la lista: 390; precio impreso borroso,WhatsApp Image 2026-10-02 at 17.48.20 (19).jpeg
+BOL-265,Bolsas,Bolsa Romí Pack Gotitas 14 x 8 x 20,unidad,,,no,no,si,precio viejo en la lista: 390; precio impreso borroso,WhatsApp Image 2026-10-02 at 17.48.20 (19).jpeg
+BOL-266,Bolsas,Bolsa Romí Pack Gotitas 22 x 10 x 30,unidad,,,no,no,si,precio viejo en la lista: 400; precio impreso borroso,WhatsApp Image 2026-10-02 at 17.48.20 (19).jpeg
+BOL-267,Bolsas,Bolsa Romí Pack Green Party 30 x 12 x 41,unidad,,,no,no,si,precio viejo en la lista: 450; precio impreso borroso,WhatsApp Image 2026-10-02 at 17.48.20 (18).jpeg
+BOL-268,Bolsas,Bolsa Romí Pack Hada 22 x 10 x 24,unidad,,,no,no,si,precio viejo en la lista: 390; precio impreso borroso,WhatsApp Image 2026-10-02 at 17.48.20 (18).jpeg
+BOL-269,Bolsas,Bolsa Romí Pack Hada 32 x 11 x 30,unidad,,,no,no,si,precio viejo en la lista: 400; precio impreso borroso,WhatsApp Image 2026-10-02 at 17.48.20 (18).jpeg
+BOL-270,Bolsas,Bolsa Romí Pack Hada 34 x 17 x 39,unidad,,,no,no,si,precio viejo en la lista: 550; precio impreso borroso,WhatsApp Image 2026-10-02 at 17.48.20 (18).jpeg
+BOL-271,Bolsas,Bolsa Romí Pack Hamacando 32 x 10 x 28,unidad,,,no,no,si,precio viejo en la lista: 400; precio impreso borroso,WhatsApp Image 2026-10-02 at 17.48.20 (18).jpeg
+BOL-272,Bolsas,Bolsa Romí Pack Lunares base blanca 14 x 8 x 20,unidad,,,no,no,si,sin precio en la lista; precio ilegible,WhatsApp Image 2026-10-02 at 17.48.20 (18).jpeg
+BOL-273,Bolsas,Bolsa Romí Pack Lunares base negra 14 x 8 x 20,unidad,,,no,no,si,sin precio en la lista; precio ilegible,WhatsApp Image 2026-10-02 at 17.48.20 (18).jpeg
+BOL-274,Bolsas,Bolsa Romí Pack Lunares base blanca 21 x 11 x 34,unidad,,,no,no,si,precio viejo en la lista: 400; precio impreso borroso,WhatsApp Image 2026-10-02 at 17.48.20 (18).jpeg
+BOL-275,Bolsas,Bolsa Romí Pack Moño rojo 14 x 8 x 20,unidad,,,no,no,si,sin precio en la lista; precio ilegible,WhatsApp Image 2026-10-02 at 17.48.20 (18).jpeg
+BOL-276,Bolsas,Bolsa Romí Pack Moño rojo 22 x 10 x 24,unidad,,,no,no,si,sin precio en la lista; precio ilegible,WhatsApp Image 2026-10-02 at 17.48.20 (18).jpeg
+BOL-277,Bolsas,Bolsa Romí Pack Moño rojo 34 x 17 x 39,unidad,,,no,no,si,precio viejo en la lista: 550; precio impreso borroso,WhatsApp Image 2026-10-02 at 17.48.20 (18).jpeg
+BOL-278,Bolsas,Bolsa Romí Pack Móvil 22 x 10 x 24,unidad,,,no,no,si,precio viejo en la lista: 390; precio impreso borroso,WhatsApp Image 2026-10-02 at 17.48.20 (18).jpeg
+BOL-279,Bolsas,Bolsa Romí Pack Móvil 32 x 11 x 30,unidad,,,no,no,si,precio viejo en la lista: 400; precio impreso borroso,WhatsApp Image 2026-10-02 at 17.48.20 (18).jpeg
+BOL-280,Bolsas,Bolsa Romí Pack Móvil 34 x 17 x 39,unidad,,,no,no,si,precio viejo en la lista: 550; precio impreso borroso,WhatsApp Image 2026-10-02 at 17.48.20 (18).jpeg
+BOL-281,Bolsas,Bolsa Romí Pack Navidad plateada 22 x 10 x 30,unidad,,,no,no,si,precio viejo en la lista: 400; precio impreso borroso,WhatsApp Image 2026-10-02 at 17.48.20 (18).jpeg
+BOL-282,Bolsas,Bolsa Romí Pack Rombos 22 x 10 x 30,unidad,,,no,no,si,precio viejo en la lista: 400; precio impreso borroso,WhatsApp Image 2026-10-02 at 17.48.20 (18).jpeg
+BOL-283,Bolsas,Bolsa Romí Pack Rombos 30 x 12 x 41,unidad,,,no,no,si,precio viejo en la lista: 400; precio impreso borroso,WhatsApp Image 2026-10-02 at 17.48.20 (18).jpeg
+BOL-284,Bolsas,Bolsa Romí Pack Vino borgoña 14 x 8 x 35,unidad,,,no,no,si,sin precio en la lista; precio ilegible,WhatsApp Image 2026-10-02 at 17.48.20 (18).jpeg
+BOL-285,Bolsas,Bolsa Romí Pack Vino natural 14 x 8 x 35,unidad,,,no,no,si,sin precio en la lista; precio ilegible,WhatsApp Image 2026-10-02 at 17.48.20 (18).jpeg
+DES-001,Descartables,Vaso plástico blanco 110 cc,x 100,3900,,no,si,si,caja x 3500,WhatsApp Image 2026-10-02 at 17.48.17.jpeg
+DES-002,Descartables,Vaso plástico blanco 70 cc,x 100,,,no,no,si,sin precio en la lista; caja x 4900,WhatsApp Image 2026-10-02 at 17.48.17.jpeg
+DES-003,Descartables,Vaso plástico blanco 130 cc,x 100,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17.jpeg
+DES-004,Descartables,Vaso plástico blanco 150 cc,x 100,4900,,no,si,si,medida poco legible (150 o 160); caja x 3000,WhatsApp Image 2026-10-02 at 17.48.17.jpeg
+DES-005,Descartables,Vaso plástico blanco 180 cc,x 100,4100,,no,si,si,más barato que el de 150: revisar fila; caja x 3000,WhatsApp Image 2026-10-02 at 17.48.17.jpeg
+DES-006,Descartables,Vaso plástico blanco 220 cc,x 100,4800,,no,si,no,caja x 3000,WhatsApp Image 2026-10-02 at 17.48.17.jpeg
+DES-007,Descartables,Vaso plástico blanco 300 cc,x 100,5900,,no,si,si,medida poco legible; caja x 2400,WhatsApp Image 2026-10-02 at 17.48.17.jpeg
+DES-008,Descartables,Vaso plástico blanco 330 cc,x 100,6100,,no,si,si,medida poco legible; caja x 2400,WhatsApp Image 2026-10-02 at 17.48.17.jpeg
+DES-009,Descartables,Vaso plástico blanco 1/2 litro,x 100,10600,,no,si,no,caja x 1000,WhatsApp Image 2026-10-02 at 17.48.17.jpeg
+DES-010,Descartables,Vaso plástico blanco 1 litro,x 100,20400,,no,si,no,caja x 600,WhatsApp Image 2026-10-02 at 17.48.17.jpeg
+DES-011,Descartables,Vaso plástico blanco 1/2 litro,x 10,1500,,no,si,si,cantidad del paquete ilegible,WhatsApp Image 2026-10-02 at 17.48.17.jpeg
+DES-012,Descartables,Vaso plástico blanco 1 litro,x 10,2900,,no,si,si,cantidad del paquete ilegible; precio 2900 o 12900,WhatsApp Image 2026-10-02 at 17.48.17.jpeg
+DES-013,Descartables,Vaso térmico 120 cc,x 100,6200,,no,si,no,caja x 1000,WhatsApp Image 2026-10-02 at 17.48.17.jpeg
+DES-014,Descartables,Vaso térmico 180 cc,x 100,7400,,no,si,no,caja x 1000,WhatsApp Image 2026-10-02 at 17.48.17.jpeg
+DES-015,Descartables,Vaso térmico 240 cc,x 100,8200,,no,si,no,caja x 1000,WhatsApp Image 2026-10-02 at 17.48.17.jpeg
+DES-016,Descartables,Vaso térmico 300 cc,x 100,10400,,no,si,no,caja x 1000,WhatsApp Image 2026-10-02 at 17.48.17.jpeg
+DES-017,Descartables,Vaso térmico 120 cc,x 25,1550,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17.jpeg
+DES-018,Descartables,Vaso térmico 180 cc,x 25,1850,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17.jpeg
+DES-019,Descartables,Vaso térmico 240 cc,x 25,2050,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17.jpeg
+DES-020,Descartables,Vaso térmico 300 cc,x 25,2600,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17.jpeg
+DES-021,Descartables,Tapa para vaso térmico 120 cc,x 100,4000,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17.jpeg
+DES-022,Descartables,Tapa para vaso térmico 180 cc,x 100,4400,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17.jpeg
+DES-023,Descartables,Tapa para vaso térmico 240 cc,x 100,4800,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17.jpeg
+DES-024,Descartables,Tapa para vaso térmico 300 cc,x 100,5600,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17.jpeg
+DES-025,Descartables,Cucharas Sundae,x 1000,16700,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17.jpeg
+DES-026,Descartables,Pote para helado 360 cc,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17.jpeg
+DES-027,Descartables,Cucharas de postre,caja x 1000,38500,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17.jpeg
+DES-028,Descartables,Cuchillos/tenedores blancos,caja x 1000,27500,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17.jpeg
+DES-029,Descartables,Cuchillo/tenedor cristal,caja x 1000,36500,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17.jpeg
+DES-030,Descartables,Cuchara sopera,caja x 1000,29000,,si,si,si,presentación no indicada (se asume caja x 1000),WhatsApp Image 2026-10-02 at 17.48.17.jpeg
+DES-031,Descartables,Vaso polipapel con tapa,x 10,1300,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17.jpeg
+DES-032,Descartables,Plato dorado rectangular 1/4 kg,unidad,350,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (10).jpeg
+DES-033,Descartables,Plato dorado rectangular 1/2 kg,unidad,380,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (10).jpeg
+DES-034,Descartables,Plato dorado rectangular 1 kg,unidad,550,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (10).jpeg
+DES-035,Descartables,Plato dorado rectangular 1 1/2 kg,unidad,,,si,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (10).jpeg
+DES-036,Descartables,Plato dorado rectangular 2 kg,unidad,780,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (10).jpeg
+DES-037,Descartables,Plato dorado rectangular 2 1/2 kg,unidad,,,si,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (10).jpeg
+DES-038,Descartables,Plato dorado rectangular 3 kg,unidad,1200,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (10).jpeg
+DES-039,Descartables,Plato dorado rectangular 1/4 kg,x 100,20900,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (10).jpeg
+DES-040,Descartables,Plato dorado rectangular 1/2 kg,x 100,23300,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (10).jpeg
+DES-041,Descartables,Plato dorado rectangular 1 kg,x 100,35800,,si,si,si,35800 o 35900,WhatsApp Image 2026-10-02 at 17.48.17 (10).jpeg
+DES-042,Descartables,Plato dorado rectangular 2 kg,x 100,49800,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (10).jpeg
+DES-043,Descartables,Plato dorado rectangular 3 kg,x 100,76800,,si,si,si,76800 o 76900,WhatsApp Image 2026-10-02 at 17.48.17 (10).jpeg
+DES-044,Descartables,Plato dorado rectangular 18 x 26,unidad,325,,si,si,si,,WhatsApp Image 2026-10-02 at 17.48.17 (10).jpeg
+DES-045,Descartables,Plato dorado redondo N° 16,unidad,250,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (10).jpeg
+DES-046,Descartables,Plato dorado redondo N° 18,unidad,350,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (10).jpeg
+DES-047,Descartables,Plato dorado redondo N° 22,unidad,450,,si,si,si,número de medida poco legible,WhatsApp Image 2026-10-02 at 17.48.17 (10).jpeg
+DES-048,Descartables,Plato dorado redondo N° 24,unidad,450,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (10).jpeg
+DES-049,Descartables,Plato dorado redondo N° 26,unidad,500,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (10).jpeg
+DES-050,Descartables,Plato dorado redondo N° 28,unidad,600,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (10).jpeg
+DES-051,Descartables,Plato dorado redondo N° 30,unidad,650,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (10).jpeg
+DES-052,Descartables,Plato dorado redondo N° 32,unidad,750,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (10).jpeg
+DES-053,Descartables,Plato dorado redondo N° 35,unidad,,,si,no,si,precio viejo en la lista: 135,WhatsApp Image 2026-10-02 at 17.48.17 (10).jpeg
+DES-054,Descartables,Plato dorado redondo N° 39,unidad,,,si,no,si,precio viejo en la lista: 155,WhatsApp Image 2026-10-02 at 17.48.17 (10).jpeg
+DES-055,Descartables,Plato dorado redondo N° 16,x 100,16000,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (10).jpeg
+DES-056,Descartables,Plato dorado redondo N° 18,x 100,32000,,si,si,si,igual al N° 24: revisar,WhatsApp Image 2026-10-02 at 17.48.17 (10).jpeg
+DES-057,Descartables,Plato dorado redondo N° 22,x 100,30000,,si,si,si,número de medida poco legible,WhatsApp Image 2026-10-02 at 17.48.17 (10).jpeg
+DES-058,Descartables,Plato dorado redondo N° 24,x 100,32000,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (10).jpeg
+DES-059,Descartables,Plato dorado redondo N° 26,x 100,34500,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (10).jpeg
+DES-060,Descartables,Plato dorado redondo N° 28,x 100,43500,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (10).jpeg
+DES-061,Descartables,Plato dorado redondo N° 30,x 100,44900,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (10).jpeg
+DES-062,Descartables,Plato dorado redondo N° 32,x 100,54500,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (10).jpeg
+DES-063,Descartables,Plato dorado redondo N° 35,x 100,,,si,no,si,sin precio en la lista; precio ilegible,WhatsApp Image 2026-10-02 at 17.48.17 (10).jpeg
+DES-064,Descartables,Plato dorado redondo N° 39,x 100,,,si,no,si,sin precio en la lista; precio ilegible,WhatsApp Image 2026-10-02 at 17.48.17 (10).jpeg
+DES-065,Descartables,Molde de aluminio B4,unidad,550,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.17 (13).jpeg
+DES-066,Descartables,Molde de aluminio B5,unidad,245,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.17 (13).jpeg
+DES-067,Descartables,Molde de aluminio B7,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (13).jpeg
+DES-068,Descartables,Molde de aluminio R2,unidad,155,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.17 (13).jpeg
+DES-069,Descartables,Molde de aluminio R3,unidad,195,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.17 (13).jpeg
+DES-070,Descartables,Budinera de aluminio R4 grande,unidad,410,,no,si,si,al pie figura budinera R4 $4650 +IVA (¿por paquete?),WhatsApp Image 2026-10-02 at 17.48.17 (13).jpeg
+DES-071,Descartables,Molde de aluminio R6,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (13).jpeg
+DES-072,Descartables,Budinera de aluminio R8 chica,unidad,185,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.17 (13).jpeg
+DES-073,Descartables,Plato de aluminio N° 17,unidad,195,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.17 (13).jpeg
+DES-074,Descartables,Plato de aluminio N° 20,unidad,215,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.17 (13).jpeg
+DES-075,Descartables,Plato de aluminio N° 23,unidad,270,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.17 (13).jpeg
+DES-076,Descartables,Plato de aluminio N° 26,unidad,310,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.17 (13).jpeg
+DES-077,Descartables,Plato de aluminio N° 30,unidad,440,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.17 (13).jpeg
+DES-078,Descartables,Plato de aluminio N° 32,unidad,560,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.17 (13).jpeg
+DES-079,Descartables,Tortera de aluminio N° 28,unidad,950,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.17 (13).jpeg
+DES-080,Descartables,Budinera de aluminio Vassoi 1 kg,unidad,350,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.17 (13).jpeg
+DES-081,Descartables,Provoletera de aluminio,unidad,210,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.17 (13).jpeg
+DES-082,Descartables,Tapa de aluminio B4,unidad,430,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.17 (13).jpeg
+DES-083,Descartables,Tapa de aluminio B5,unidad,175,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.17 (13).jpeg
+DES-084,Descartables,Tapa de aluminio B7,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (13).jpeg
+DES-085,Descartables,Tapa de aluminio R2,unidad,105,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.17 (13).jpeg
+DES-086,Descartables,Tapa de aluminio R3,unidad,125,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.17 (13).jpeg
+DES-087,Descartables,Tapa de aluminio R6,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (13).jpeg
+DES-088,Descartables,Molde de aluminio pan dulce 1/2 kg,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (13).jpeg
+DES-089,Descartables,Molde de aluminio pan dulce 1 kg,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (13).jpeg
+DES-090,Descartables,Vaso de aluminio H5,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (13).jpeg
+DES-091,Descartables,Vaso de aluminio H7,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (13).jpeg
+DES-092,Descartables,Vaso de aluminio H9,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (13).jpeg
+DES-093,Descartables,Vaso de aluminio H10,unidad,150,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.17 (13).jpeg
+DES-094,Descartables,Cenicero de aluminio,x 10,40,,no,si,si,también anotado x 500 $5200,WhatsApp Image 2026-10-02 at 17.48.17 (13).jpeg
+DES-095,Descartables,Mini budinera de aluminio,unidad,160,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.17 (13).jpeg
+DES-096,Descartables,Estuche cristal K-210,caja x 240,,,no,no,si,sin precio en la lista; IVA incluido,WhatsApp Image 2026-10-02 at 17.48.17 (17).jpeg
+DES-097,Descartables,Estuche cristal K-230,caja x 150,,,no,no,si,sin precio en la lista; IVA incluido,WhatsApp Image 2026-10-02 at 17.48.17 (17).jpeg
+DES-098,Descartables,Estuche cristal M2575,caja x 200,130000,,no,si,no,IVA incluido,WhatsApp Image 2026-10-02 at 17.48.17 (17).jpeg
+DES-099,Descartables,Tortera plástica 26 A,unidad,95,,no,si,si,caja x 80; precio de caja ilegible,WhatsApp Image 2026-10-02 at 17.48.17 (17).jpeg
+DES-100,Descartables,Tortera plástica 26 B,unidad,97,,no,si,si,caja x 90; precio de caja ilegible,WhatsApp Image 2026-10-02 at 17.48.17 (17).jpeg
+DES-101,Descartables,Tortera plástica 28 A,unidad,106,,no,si,si,caja x 80; precio de caja ilegible,WhatsApp Image 2026-10-02 at 17.48.17 (17).jpeg
+DES-102,Descartables,Tortera plástica 28 B,unidad,102,,no,si,si,caja x 80; precio de caja ilegible,WhatsApp Image 2026-10-02 at 17.48.17 (17).jpeg
+DES-103,Descartables,Tortera plástica 32 A,unidad,,,no,no,si,sin precio en la lista; caja x 50,WhatsApp Image 2026-10-02 at 17.48.17 (17).jpeg
+DES-104,Descartables,Tortera plástica 32 B,unidad,128,,no,si,si,caja x 50,WhatsApp Image 2026-10-02 at 17.48.17 (17).jpeg
+DES-105,Descartables,Estuche triangulito 11 x 11 x 17,unidad,350,,no,si,no,IVA incluido,WhatsApp Image 2026-10-02 at 17.48.17 (17).jpeg
+DES-106,Descartables,Estuche triangulito 11 x 11 x 17,caja x 375,99800,,no,si,si,IVA incluido; 99800 o 99300,WhatsApp Image 2026-10-02 at 17.48.17 (17).jpeg
+DES-107,Descartables,Ensaladera base y tapa Bander,caja x 600,205000,,no,si,si,IVA incluido; precio borroso,WhatsApp Image 2026-10-02 at 17.48.17 (17).jpeg
+DES-108,Descartables,Cucurucho para papas fritas,x 100,2800,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.19 (2).jpeg
+DES-109,Descartables,Cajita para papas fritas,x 100,3500,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.19 (2).jpeg
+DES-110,Descartables,Cajita para papas fritas (nueva),x 50,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.19 (2).jpeg
+DES-111,Descartables,Cajita feliz,unidad,,,no,no,si,sin precio en la lista; anotado 50%,WhatsApp Image 2026-10-02 at 17.48.19 (2).jpeg
+DES-112,Descartables,Caja para pochoclos,x 10,,,si,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.19 (2).jpeg
+DES-113,Descartables,Porta vasos,x 25,,,si,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.19 (2).jpeg
+DES-114,Descartables,Bandeja de cartón 12 x 11 x 5.5,unidad,,,si,no,si,precio viejo en la lista: 30,WhatsApp Image 2026-10-02 at 17.48.19 (2).jpeg
+DES-115,Descartables,Caja para sándwiches chica,x 10,,,no,no,si,sin precio en la lista; 50 triples o 100 simples,WhatsApp Image 2026-10-02 at 17.48.19 (2).jpeg
+DES-116,Descartables,Caja para sándwiches grande,x 10,,,no,no,si,sin precio en la lista; 100 triples o 200 simples,WhatsApp Image 2026-10-02 at 17.48.19 (2).jpeg
+DES-117,Descartables,Caja con visor 18 x 18 x 8,unidad,800,,si,si,si,800 o 1800,WhatsApp Image 2026-10-02 at 17.48.19 (2).jpeg
+DES-118,Descartables,Caja con visor 28 x 28 x 7,unidad,1350,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.19 (2).jpeg
+DES-119,Descartables,Caja con visor 28 x 28 x 11,unidad,2400,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.19 (2).jpeg
+DES-120,Descartables,Panchera gris económica,x 100,1800,,si,si,si,precio borroso,WhatsApp Image 2026-10-02 at 17.48.19 (2).jpeg
+DES-121,Descartables,Panchera Súper Pancho,x 100,3800,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.19 (2).jpeg
+DES-122,Descartables,Caja M/M 32 x 42 x 12,unidad,1200,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.19 (2).jpeg
+DES-123,Descartables,Caja 18 x 18 x 11,unidad,280,,no,si,si,c/u; también anotado $12200 (paquete sin cantidad),WhatsApp Image 2026-10-02 at 17.48.19 (2).jpeg
+DES-124,Descartables,Caja para sándwich micro blanco-marrón 29 x 29,unidad,2000,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.19 (2).jpeg
+DES-125,Descartables,Caja para sándwich micro blanco-marrón 34 x 41,unidad,2300,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.19 (2).jpeg
+DES-126,Descartables,Caja para pizza grande,x 50,9900,,no,si,no,c/u 240,WhatsApp Image 2026-10-02 at 17.48.19 (2).jpeg
+DES-127,Descartables,Caja para pizza chica,x 50,9900,,no,si,si,9900 o 3900; c/u 240,WhatsApp Image 2026-10-02 at 17.48.19 (2).jpeg
+DES-128,Descartables,Caja 23 x 15 x 9,unidad,350,,no,si,si,c/u; también anotado $14500 +IVA (paquete sin cantidad),WhatsApp Image 2026-10-02 at 17.48.19 (2).jpeg
+DES-129,Descartables,Bandeja de expandido 625,x 300,31500,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (13).jpeg
+DES-130,Descartables,Bandeja de expandido 617,x 400,12300,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (13).jpeg
+DES-131,Descartables,Bandeja de expandido 615,x 100,11200,,no,si,si,presentación x 100 supuesta,WhatsApp Image 2026-10-02 at 17.48.20 (15).jpeg
+DES-132,Descartables,Bandeja de expandido 615,x 50,5600,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (15).jpeg
+DES-133,Descartables,Bandeja de expandido 615,bulto x 400,38700,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (15).jpeg
+DES-134,Descartables,Bandeja de expandido 618,x 100,6600,,no,si,si,presentación x 100 supuesta,WhatsApp Image 2026-10-02 at 17.48.20 (15).jpeg
+DES-135,Descartables,Bandeja de expandido 618,x 50,3300,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (15).jpeg
+DES-136,Descartables,Bandeja de expandido 618,bulto x 400,24000,,no,si,si,bulto: 24000/600 y 36000 anotados,WhatsApp Image 2026-10-02 at 17.48.20 (15).jpeg
+DES-137,Descartables,Bandeja de expandido 625,x 100,14600,,no,si,si,presentación x 100 supuesta,WhatsApp Image 2026-10-02 at 17.48.20 (15).jpeg
+DES-138,Descartables,Bandeja de expandido 625,x 20,2900,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (15).jpeg
+DES-139,Descartables,Bandeja de expandido 625,bulto x 200,25800,,no,si,si,bulto: 25800/300 y 38700 anotados; en p38: x300 $31500,WhatsApp Image 2026-10-02 at 17.48.20 (15).jpeg
+DES-140,Descartables,Bandeja de expandido 619,x 100,9600,,no,si,si,presentación x 100 supuesta,WhatsApp Image 2026-10-02 at 17.48.20 (15).jpeg
+DES-141,Descartables,Bandeja de expandido 619,x 50,4800,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (15).jpeg
+DES-142,Descartables,Bandeja de expandido 619,bulto x 400,32900,,no,si,si,bulto anotado 32900 x600 y 49350,WhatsApp Image 2026-10-02 at 17.48.20 (15).jpeg
+DES-143,Descartables,Bandeja de expandido 621,x 100,9800,,no,si,si,presentación x 100 supuesta,WhatsApp Image 2026-10-02 at 17.48.20 (15).jpeg
+DES-144,Descartables,Bandeja de expandido 621,x 50,4900,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (15).jpeg
+DES-145,Descartables,Bandeja de expandido 621,bulto x 600,54000,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (15).jpeg
+DES-146,Descartables,Bandeja de expandido 617,x 100,4800,,no,si,si,presentación x 100 supuesta,WhatsApp Image 2026-10-02 at 17.48.20 (15).jpeg
+DES-147,Descartables,Bandeja de expandido 617,x 50,2400,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (15).jpeg
+DES-148,Descartables,Bandeja de expandido 617,bulto x 900,36450,,no,si,si,bulto anotado 36450/600 y 24300; en p38: x400 $12300,WhatsApp Image 2026-10-02 at 17.48.20 (15).jpeg
+DES-149,Descartables,Bandeja de expandido 628 redonda,x 100,,,no,no,si,sin precio en la lista; presentación x 100 supuesta,WhatsApp Image 2026-10-02 at 17.48.20 (15).jpeg
+DES-150,Descartables,Bandeja de expandido 628 redonda,x 10,2500,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (15).jpeg
+DES-151,Descartables,Bandeja de expandido 628 redonda,bulto x 200,39300,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (15).jpeg
+DES-152,Descartables,Oblea 620,x 900,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (15).jpeg
+DES-153,Descartables,Oblea 618,x 100,7100,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (15).jpeg
+DES-154,Descartables,Oblea 618,x 600,36800,,no,si,si,36800 o 36300,WhatsApp Image 2026-10-02 at 17.48.20 (15).jpeg
+DES-155,Descartables,Plato térmico hondo K-62,x 400,46500,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (15).jpeg
+DES-156,Descartables,Plato térmico hondo K-62,x 10,1600,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (15).jpeg
+DES-157,Descartables,Plato térmico playo K-60,x 400,69800,,no,si,si,69800 o 64800,WhatsApp Image 2026-10-02 at 17.48.20 (15).jpeg
+DES-158,Descartables,Plato térmico playo K-60,x 10,2300,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (15).jpeg
+DES-159,Descartables,Plato térmico bowl K-63,x 400,33500,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (15).jpeg
+DES-160,Descartables,Plato térmico bowl K-63,x 10,1200,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (15).jpeg
+DES-161,Descartables,Marmita con tapa,unidad,390,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (15).jpeg
+DES-162,Descartables,Marmita con tapa (bulto),x 300,,,no,no,si,sin precio en la lista; tapa + bandeja x 300,WhatsApp Image 2026-10-02 at 17.48.20 (15).jpeg
+DES-163,Descartables,Marmita (por bolsón),unidad,210,,no,si,si,c/u por bolsón,WhatsApp Image 2026-10-02 at 17.48.20 (15).jpeg
+DES-164,Descartables,Bandeja Bandex 232 x 155 x 8,unidad,150,,si,si,si,c/u,WhatsApp Image 2026-10-02 at 17.48.20 (15).jpeg
+DES-165,Descartables,Bandeja Bandex 220 x 200 x 8,unidad,280,,si,si,no,c/u,WhatsApp Image 2026-10-02 at 17.48.20 (15).jpeg
+DES-166,Descartables,Bandeja para microondas N° 101,x 100,8600,,no,si,si,presentación x 100 supuesta; caja x 2400,WhatsApp Image 2026-10-02 at 17.48.20 (17).jpeg
+DES-167,Descartables,Bandeja para microondas N° 101,x 10,1200,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (17).jpeg
+DES-168,Descartables,Bandeja para microondas N° 102,x 100,12200,,no,si,si,presentación x 100 supuesta; caja x 1200,WhatsApp Image 2026-10-02 at 17.48.20 (17).jpeg
+DES-169,Descartables,Bandeja para microondas N° 102,x 10,1500,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (17).jpeg
+DES-170,Descartables,Bandeja para microondas N° 103,x 100,17300,,no,si,si,presentación x 100 supuesta; caja x 1000,WhatsApp Image 2026-10-02 at 17.48.20 (17).jpeg
+DES-171,Descartables,Bandeja para microondas N° 103,x 10,2100,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (17).jpeg
+DES-172,Descartables,Bandeja para microondas N° 104,x 100,,,no,no,si,sin precio en la lista; presentación x 100 supuesta,WhatsApp Image 2026-10-02 at 17.48.20 (17).jpeg
+DES-173,Descartables,Bandeja para microondas N° 105,x 100,24800,,no,si,si,presentación x 100 supuesta; caja x 800,WhatsApp Image 2026-10-02 at 17.48.20 (17).jpeg
+DES-174,Descartables,Bandeja para microondas N° 105,x 10,2900,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (17).jpeg
+DES-175,Descartables,Bandeja para microondas N° 107,x 100,28900,,no,si,si,presentación x 100 supuesta; caja x 400,WhatsApp Image 2026-10-02 at 17.48.20 (17).jpeg
+DES-176,Descartables,Bandeja para microondas N° 107,x 10,3500,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (17).jpeg
+DES-177,Descartables,Bandeja para microondas N° 107 reforzada,x 100,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (17).jpeg
+DES-178,Descartables,Tapa para bandeja N° 101,x 100,8000,,no,si,si,presentación x 100 supuesta,WhatsApp Image 2026-10-02 at 17.48.20 (17).jpeg
+DES-179,Descartables,Tapa para bandeja N° 101,x 10,980,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (17).jpeg
+DES-180,Descartables,Tapa para bandeja N° 102,x 100,13900,,no,si,si,presentación x 100 supuesta,WhatsApp Image 2026-10-02 at 17.48.20 (17).jpeg
+DES-181,Descartables,Tapa para bandeja N° 102,x 10,1700,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (17).jpeg
+DES-182,Descartables,Tapa para bandeja N° 103,x 100,19400,,no,si,si,presentación x 100 supuesta,WhatsApp Image 2026-10-02 at 17.48.20 (17).jpeg
+DES-183,Descartables,Tapa para bandeja N° 103,x 10,2400,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (17).jpeg
+DES-184,Descartables,Tapa para bandeja N° 105,x 100,21000,,no,si,si,presentación x 100 supuesta,WhatsApp Image 2026-10-02 at 17.48.20 (17).jpeg
+DES-185,Descartables,Tapa para bandeja N° 105,x 10,3800,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (17).jpeg
+DES-186,Descartables,Bandeja para microondas envase azul N° 101,x 100,,,no,no,si,sin precio en la lista; presentación x 100 supuesta,WhatsApp Image 2026-10-02 at 17.48.20 (17).jpeg
+DES-187,Descartables,Bandeja para microondas envase azul N° 102,x 100,6500,,no,si,si,presentación x 100 supuesta,WhatsApp Image 2026-10-02 at 17.48.20 (17).jpeg
+DES-188,Descartables,Bandeja para microondas envase azul N° 102,bolsón x 1000,53700,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (17).jpeg
+DES-189,Descartables,Bandeja para microondas envase azul N° 103,x 100,8300,,no,si,si,presentación x 100 supuesta,WhatsApp Image 2026-10-02 at 17.48.20 (17).jpeg
+DES-190,Descartables,Bandeja para microondas envase azul N° 103,bolsón x 600,41150,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (17).jpeg
+DES-191,Descartables,Bandeja para microondas envase azul N° 105,x 100,11500,,no,si,si,presentación x 100 supuesta,WhatsApp Image 2026-10-02 at 17.48.20 (17).jpeg
+DES-192,Descartables,Bandeja para microondas envase azul N° 105,bolsón x 600,57030,,no,si,si,57030 o 57000,WhatsApp Image 2026-10-02 at 17.48.20 (17).jpeg
+DES-193,Descartables,Bandeja para microondas envase azul N° 107,x 100,18300,,no,si,si,presentación x 100 supuesta,WhatsApp Image 2026-10-02 at 17.48.20 (17).jpeg
+DES-194,Descartables,Bandeja para microondas envase azul N° 107,bolsón x 600,90750,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (17).jpeg
+DES-195,Descartables,Bandeja 107 Mellino,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (17).jpeg
+DES-196,Descartables,Bandeja micro Cotnyl N° 102,x 100,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (17).jpeg
+DES-197,Descartables,Bandeja micro Cotnyl N° 103,x 100,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (17).jpeg
+DES-198,Descartables,Bandeja micro Cotnyl N° 105,x 100,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (17).jpeg
+DES-199,Descartables,Bandeja Cotnyl N° 103,x 100,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (17).jpeg
+DES-200,Descartables,Tapa Cotnyl,x 100,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (17).jpeg
+DES-201,Descartables,Bandeja con tapa bisagra PP N° 103,x 100,23500,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (17).jpeg
+DES-202,Descartables,Bandeja PP N° 105 rectangular,x 100,13700,,no,si,si,x 100 o x 200,WhatsApp Image 2026-10-02 at 17.48.20 (17).jpeg
+DES-203,Descartables,Tapa PP N° 105 rectangular,x 100,14900,,no,si,si,x 100 o x 200,WhatsApp Image 2026-10-02 at 17.48.20 (17).jpeg
+ENV-001,Envases,Pote impreso miel 1/4 kg,x 100,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-002,Envases,Pote impreso miel 1/2 kg,x 100,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-003,Envases,Pote impreso miel 1 kg,x 100,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-004,Envases,Pote PP 200,x 50,7200,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-005,Envases,Pote PP 250,x 50,8200,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-006,Envases,Pote PP 390,x 50,10300,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-007,Envases,Tapa para pote PP 390,x 50,3300,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-008,Envases,Pote Cotnyl 1 kg,x 10,,,no,no,si,precio viejo en la lista: 180,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-009,Envases,Pote liso 1/4 kg,x 50,4900,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-010,Envases,Pote liso 1/2 kg,x 50,8100,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-011,Envases,Tapa para pote liso 1/4 y 1/2 kg,x 50,3200,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-012,Envases,Pote liso 1 kg,x 50,12800,,no,si,si,IVA incluido,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-013,Envases,Tapa para pote liso 1 kg,x 50,4700,,no,si,si,IVA incluido,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-014,Envases,Pote liso 1 kg con tapa,x 10,4300,,no,si,si,IVA incluido; cantidad poco legible,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-015,Envases,Pote Polirec 1/4 kg,x 100,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-016,Envases,Pote Polirec 1/2 kg,x 100,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-017,Envases,Pote Polirec 1 kg,x 100,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-018,Envases,Tapa para pote 1/4 y 1/2 kg,x 100,,,no,no,si,precio viejo en la lista: 95,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-019,Envases,Tapa para pote 1 kg,x 100,,,no,no,si,precio viejo en la lista: 119,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-020,Envases,Caja de 700 juegos de pote 1/4 kg,caja,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-021,Envases,Caja de 700 juegos de pote 1/2 kg,caja,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-022,Envases,Pote degustación con tapa 55 cc,x 100,13800,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-023,Envases,Pote degustación con tapa 55 cc,x 10,1800,,no,si,si,cantidad no indicada (se asume x 10),WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-024,Envases,Pote para helado plástico 85 g,x 100,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-025,Envases,Pote para helado plástico 1/8 kg,x 100,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-026,Envases,Pote para helado plástico 1/4 kg,x 100,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-027,Envases,Pote para helado plástico 1/2 kg,x 100,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-028,Envases,Pote de telgopor económico 1/4 kg,tira x 20,4300,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-029,Envases,Pote de telgopor económico 1/2 kg,tira x 25,6800,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-030,Envases,Pote de telgopor económico 1 kg,tira x 20,9950,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-031,Envases,Pote de telgopor económico 1/4 kg,x 100,19600,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-032,Envases,Pote de telgopor económico 1/2 kg,x 100,29600,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-033,Envases,Pote de telgopor económico 1 kg,x 100,44300,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-034,Envases,Porta cucuruchos,unidad,,,no,no,si,precio viejo en la lista: 0.20,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-035,Envases,Pote facetado con tapa chico,tira x 25,2450,,si,si,si,,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-036,Envases,Pote facetado con tapa mediano,tira x 25,2500,,si,si,si,,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-037,Envases,Pote facetado con tapa grande,tira x 25,2780,,si,si,si,,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-038,Envases,Pote facetado con tapa chico,caja,45600,,si,si,si,cantidad de la caja no indicada,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-039,Envases,Pote facetado con tapa mediano,caja,46500,,si,si,si,cantidad de la caja no indicada,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-040,Envases,Pote facetado con tapa grande,caja,52800,,si,si,si,cantidad de la caja no indicada,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-041,Envases,Pote Rotlen chico,unidad,4800,,si,si,si,presentación no indicada,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-042,Envases,Pote Rotlen mediano,unidad,5000,,si,si,si,presentación no indicada,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-043,Envases,Pote Rotlen grande,unidad,5900,,si,si,si,presentación no indicada,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-044,Envases,Pote Rotlen chico,caja x 100,16000,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-045,Envases,Pote Rotlen mediano,caja x 100,16500,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-046,Envases,Pote Rotlen grande,caja x 100,19800,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+ENV-047,Envases,Pote dorado con tapa Rotlen N° 2971,unidad,500,,si,si,si,anotado 500 x 800 +IVA,WhatsApp Image 2026-10-02 at 17.48.19.jpeg
+BAN-001,Bandejas de cartón,Bandeja de cartón rectangular N° 1,x 100,2150,,no,si,si,presentación de precio no clara; caja x 2000; descuento -10% o -21% desde 1000,WhatsApp Image 2026-10-02 at 17.48.20 (16).jpeg
+BAN-002,Bandejas de cartón,Bandeja de cartón rectangular ecológica N° 1,x 100,1200,,si,si,si,hay dos columnas de precio ecológica (1750 y 1200); se tomó la más nueva,WhatsApp Image 2026-10-02 at 17.48.20 (16).jpeg
+BAN-003,Bandejas de cartón,Bandeja de cartón rectangular N° 2,x 100,2650,,no,si,si,presentación de precio no clara; caja x 1500; descuento -10% o -21% desde 1000,WhatsApp Image 2026-10-02 at 17.48.20 (16).jpeg
+BAN-004,Bandejas de cartón,Bandeja de cartón rectangular ecológica N° 2,x 100,1450,,si,si,si,hay dos columnas de precio ecológica (2100 y 1450); se tomó la más nueva,WhatsApp Image 2026-10-02 at 17.48.20 (16).jpeg
+BAN-005,Bandejas de cartón,Bandeja de cartón rectangular N° 3,x 100,3400,,no,si,si,presentación de precio no clara; caja x 1500; descuento -10% o -21% desde 1000,WhatsApp Image 2026-10-02 at 17.48.20 (16).jpeg
+BAN-006,Bandejas de cartón,Bandeja de cartón rectangular ecológica N° 3,x 100,1800,,si,si,si,hay dos columnas de precio ecológica (2800 y 1800); se tomó la más nueva,WhatsApp Image 2026-10-02 at 17.48.20 (16).jpeg
+BAN-007,Bandejas de cartón,Bandeja de cartón rectangular N° 4,x 100,4300,,no,si,si,presentación de precio no clara; caja x 600; descuento -10% o -21% desde 1000,WhatsApp Image 2026-10-02 at 17.48.20 (16).jpeg
+BAN-008,Bandejas de cartón,Bandeja de cartón rectangular ecológica N° 4,x 100,2300,,si,si,si,hay dos columnas de precio ecológica (3600 y 2300); se tomó la más nueva,WhatsApp Image 2026-10-02 at 17.48.20 (16).jpeg
+BAN-009,Bandejas de cartón,Bandeja de cartón rectangular N° 5,x 100,5310,,no,si,si,presentación de precio no clara; caja x 600; descuento -10% o -21% desde 1000,WhatsApp Image 2026-10-02 at 17.48.20 (16).jpeg
+BAN-010,Bandejas de cartón,Bandeja de cartón rectangular ecológica N° 5,x 100,2900,,si,si,si,hay dos columnas de precio ecológica (4300 y 2900); se tomó la más nueva,WhatsApp Image 2026-10-02 at 17.48.20 (16).jpeg
+BAN-011,Bandejas de cartón,Bandeja de cartón rectangular N° 6,x 100,7400,,no,si,si,presentación de precio no clara; caja x 400; descuento -10% o -21% desde 1000,WhatsApp Image 2026-10-02 at 17.48.20 (16).jpeg
+BAN-012,Bandejas de cartón,Bandeja de cartón rectangular ecológica N° 6,x 100,3980,,si,si,si,presentación de precio no clara,WhatsApp Image 2026-10-02 at 17.48.20 (16).jpeg
+BAN-013,Bandejas de cartón,Bandeja de cartón rectangular N° 7,x 100,12200,,no,si,si,presentación de precio no clara; caja x 400; descuento -10% o -21% desde 1000,WhatsApp Image 2026-10-02 at 17.48.20 (16).jpeg
+BAN-014,Bandejas de cartón,Bandeja de cartón rectangular N° 8,x 100,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (16).jpeg
+BAN-015,Bandejas de cartón,Bandeja de cartón rectangular N° 8 pesada,x 100,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (16).jpeg
+BAN-016,Bandejas de cartón,Bandeja de cartón redonda N° 11 (16 cm),x 100,3800,,no,si,si,presentación de precio no clara,WhatsApp Image 2026-10-02 at 17.48.20 (16).jpeg
+BAN-017,Bandejas de cartón,Bandeja de cartón redonda N° 12 (19 cm),x 100,4350,,no,si,si,presentación de precio no clara,WhatsApp Image 2026-10-02 at 17.48.20 (16).jpeg
+BAN-018,Bandejas de cartón,Bandeja de cartón redonda N° 12 1/2 (21 cm),x 100,5300,,no,si,si,presentación de precio no clara,WhatsApp Image 2026-10-02 at 17.48.20 (16).jpeg
+BAN-019,Bandejas de cartón,Bandeja de cartón redonda N° 13 (23 cm),x 100,5550,,no,si,si,presentación de precio no clara,WhatsApp Image 2026-10-02 at 17.48.20 (16).jpeg
+BAN-020,Bandejas de cartón,Bandeja de cartón redonda N° 13 1/2 (24.5 cm),x 100,6100,,no,si,si,presentación de precio no clara; anotados 4600 y 12010 al costado,WhatsApp Image 2026-10-02 at 17.48.20 (16).jpeg
+BAN-021,Bandejas de cartón,Bandeja de cartón redonda N° 14 (26 cm),x 100,7250,,no,si,si,presentación de precio no clara,WhatsApp Image 2026-10-02 at 17.48.20 (16).jpeg
+BAN-022,Bandejas de cartón,Bandeja de cartón redonda N° 14 1/2 (30 cm),x 100,,,no,no,si,sin precio en la lista; presentación de precio no clara,WhatsApp Image 2026-10-02 at 17.48.20 (16).jpeg
+BAN-023,Bandejas de cartón,Bandeja de cartón redonda N° 15 (31 cm),x 100,11100,,no,si,si,presentación de precio no clara; anotados 4600 y 12010 al costado,WhatsApp Image 2026-10-02 at 17.48.20 (16).jpeg
+BAN-024,Bandejas de cartón,Bandeja de cartón redonda N° 16 (34 cm),x 100,11400,,no,si,si,presentación de precio no clara; anotados 4600 y 12010 al costado,WhatsApp Image 2026-10-02 at 17.48.20 (16).jpeg
+BAN-025,Bandejas de cartón,Disco dorado 18 cm,unidad,180,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (16).jpeg
+BAN-026,Bandejas de cartón,Disco dorado 20 cm,unidad,240,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (16).jpeg
+BAN-027,Bandejas de cartón,Disco dorado 22 cm,unidad,280,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (16).jpeg
+BAN-028,Bandejas de cartón,Disco dorado 24 cm,unidad,300,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (16).jpeg
+BAN-029,Bandejas de cartón,Disco dorado 26 cm,unidad,460,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (16).jpeg
+BAN-030,Bandejas de cartón,Disco dorado 28 cm,unidad,520,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (16).jpeg
+BAN-031,Bandejas de cartón,Lingote,unidad,130,,si,si,si,"anotado ""lingote dorado""",WhatsApp Image 2026-10-02 at 17.48.20 (16).jpeg
+BAN-032,Bandejas de cartón,Bandeja/caja hamburguesa,unidad,95,,no,si,si,c/u,WhatsApp Image 2026-10-02 at 17.48.20 (16).jpeg
+BAN-033,Bandejas de cartón,Bandeja para pionono,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (16).jpeg
+BAN-034,Bandejas de cartón,Discos de cartón,por kg,3400,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (16).jpeg
+BAN-035,Bandejas de cartón,Fajas de cartón blancas económicas,paquete,2600,,si,si,si,también c/u $50,WhatsApp Image 2026-10-02 at 17.48.20 (16).jpeg
+BAN-036,Bandejas de cartón,Tirillas de cartón,paquete,,,si,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (16).jpeg
+CAR-001,Cajas de cartón,Caja de cartón 20 x 20 x 10,unidad,310,,no,si,si,cód 004.01.001,WhatsApp Image 2026-10-02 at 17.48.20 (1).jpeg
+CAR-002,Cajas de cartón,Caja de cartón 20 x 20 x 20,unidad,410,,no,si,si,cód 004.01.002,WhatsApp Image 2026-10-02 at 17.48.20 (1).jpeg
+CAR-003,Cajas de cartón,Caja de cartón 25 x 20 x 10,unidad,,,no,no,si,sin precio en la lista; cód 004.01.003,WhatsApp Image 2026-10-02 at 17.48.20 (1).jpeg
+CAR-004,Cajas de cartón,Caja de cartón 25 x 25 x 10,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (1).jpeg
+CAR-005,Cajas de cartón,Caja de cartón 25 x 25 x 15,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (1).jpeg
+CAR-006,Cajas de cartón,Caja de cartón 26 x 12 x 18,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (1).jpeg
+CAR-007,Cajas de cartón,Caja de cartón 30 x 20 x 20,unidad,510,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.20 (1).jpeg
+CAR-008,Cajas de cartón,Caja de cartón 30 x 30 x 20,unidad,730,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.20 (1).jpeg
+CAR-009,Cajas de cartón,Caja de cartón 35 x 25 x 20,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (1).jpeg
+CAR-010,Cajas de cartón,Caja de cartón 35 x 25 x 25,unidad,730,,no,si,si,igual a 30x30x20,WhatsApp Image 2026-10-02 at 17.48.20 (1).jpeg
+CAR-011,Cajas de cartón,Caja de cartón 40 x 30 x 20,unidad,830,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.20 (1).jpeg
+CAR-012,Cajas de cartón,Caja de cartón 40 x 30 x 30,unidad,990,,no,si,si,la medida aparece dos veces en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (1).jpeg
+CAR-013,Cajas de cartón,Caja de cartón 40 x 40 x 30,unidad,1290,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.20 (1).jpeg
+CAR-014,Cajas de cartón,Caja de cartón 50 x 40 x 30,unidad,1450,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.20 (1).jpeg
+CAR-015,Cajas de cartón,Caja de cartón 50 x 40 x 40,unidad,1650,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.20 (1).jpeg
+CAR-016,Cajas de cartón,Caja de cartón 60 x 40 x 40,unidad,1850,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.20 (1).jpeg
+CAR-017,Cajas de cartón,Caja de cartón 70 x 50 x 50,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (1).jpeg
+CAR-018,Cajas de cartón,Caja de cartón 80 x 30 x 30,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (1).jpeg
+CAR-019,Cajas de cartón,Caja de cartón 80 x 50 x 50,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (1).jpeg
+CAJ-001,Cajas de cartulina,Caja 1/4 kg dorada,unidad,1100,,si,si,si,c/u,WhatsApp Image 2026-10-02 at 17.48.20.jpeg
+CAJ-002,Cajas de cartulina,Caja 1/2 kg blanca,unidad,,,si,no,si,precio viejo en la lista: 100,WhatsApp Image 2026-10-02 at 17.48.20.jpeg
+CAJ-003,Cajas de cartulina,Caja 1 kg rosa 30 x 15 x 6,unidad,,,si,no,si,precio viejo en la lista: 175,WhatsApp Image 2026-10-02 at 17.48.20.jpeg
+CAJ-004,Cajas de cartulina,Caja 1/2 kg con visor color,unidad,1100,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.20.jpeg
+CAJ-005,Cajas de cartulina,Caja corazones dorada/roja,unidad,950,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.20.jpeg
+CAJ-006,Cajas de cartulina,Caja con visor 21 x 21,unidad,1200,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.20.jpeg
+CAJ-007,Cajas de cartulina,Caja desayuno 30 x 30 x 12,unidad,1400,,si,si,si,anotado junto a 25x25x12 con el mismo precio,WhatsApp Image 2026-10-02 at 17.48.20.jpeg
+CAJ-008,Cajas de cartulina,Caja desayuno 25 x 25 x 12,unidad,1400,,si,si,si,anotado junto a 30x30x12 con el mismo precio,WhatsApp Image 2026-10-02 at 17.48.20.jpeg
+CAJ-009,Cajas de cartulina,Caja bombón 1/2 kg roja,unidad,900,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.20.jpeg
+CAJ-010,Cajas de cartulina,Caja desayuno 30 x 30 x 12 base estampada,unidad,920,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.20.jpeg
+CAJ-011,Cajas de cartulina,Caja valija 25 x 14 x 13,unidad,900,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.20.jpeg
+CAJ-012,Cajas de cartulina,Caja para torta tipo valija 24 x 24 x 10,unidad,2100,,si,si,si,+IVA no anotado,WhatsApp Image 2026-10-02 at 17.48.20.jpeg
+CAJ-013,Cajas de cartulina,Caja para torta tipo valija 27 x 27 x 10,unidad,2400,,si,si,si,+IVA no anotado,WhatsApp Image 2026-10-02 at 17.48.20.jpeg
+CAJ-014,Cajas de cartulina,Caja para torta tipo valija 30 x 30 x 10,unidad,2400,,si,si,si,igual a 27x27; +IVA no anotado,WhatsApp Image 2026-10-02 at 17.48.20.jpeg
+CAJ-015,Cajas de cartulina,Caja para cupcake con visor corazón x 6,unidad,500,,no,si,si,c/u,WhatsApp Image 2026-10-02 at 17.48.20.jpeg
+CAJ-016,Cajas de cartulina,Caja para budín 19 x 10 x 8,unidad,750,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.20.jpeg
+CAJ-017,Cajas de cartulina,Caja torta alta 20 x 20 x 20,unidad,3200,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.20.jpeg
+CAJ-018,Cajas de cartulina,Caja torta alta 25 x 25 x 25,unidad,3400,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.20.jpeg
+CAJ-019,Cajas de cartulina,Caja tortera alta 30 x 30 x 25,unidad,3900,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.20.jpeg
+CAJ-020,Cajas de cartulina,Caja con visor 13 x 13 x 17,unidad,1600,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.20.jpeg
+CAJ-021,Cajas de cartulina,Caja Frozen corazón 24 x 24 x 9,unidad,710,,si,si,si,precio poco legible,WhatsApp Image 2026-10-02 at 17.48.20.jpeg
+CAJ-022,Cajas de cartulina,Caja micro 19 x 27 x 7,x 50,11000,,si,si,si,no queda claro a qué caja corresponde,WhatsApp Image 2026-10-02 at 17.48.20.jpeg
+CAJ-023,Cajas de cartulina,Caja micro 19 x 27 x 7,unidad,240,,si,si,si,c/u; no queda claro a qué caja corresponde,WhatsApp Image 2026-10-02 at 17.48.20.jpeg
+CAJ-024,Cajas de cartulina,Caja para ravioles,x 50,,,no,no,si,sin precio en la lista; c/u anotado 90,WhatsApp Image 2026-10-02 at 17.48.20.jpeg
+CAJ-025,Cajas de cartulina,Caja para empanadas 1 docena marrón claro,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20.jpeg
+CAJ-026,Cajas de cartulina,Caja para empanadas 1/2 docena marrón claro,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20.jpeg
+CAJ-027,Cajas de cartulina,Caja para hamburguesas,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20.jpeg
+CAJ-028,Cajas de cartulina,Caja modelo dorado 1/4 kg,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20.jpeg
+CAJ-029,Cajas de cartulina,Caja modelo dorado 1/2 kg,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20.jpeg
+CAJ-030,Cajas de cartulina,Caja modelo dorado 1 kg,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20.jpeg
+CAJ-031,Cajas de cartulina,Caja bombones color,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20.jpeg
+EMB-001,Embalaje,Rollo de cartón corrugado 100 cm x 25 m,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (3).jpeg
+EMB-002,Embalaje,Rollo de cartón corrugado 70 cm x 30 m,unidad,8200,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (3).jpeg
+EMB-003,Embalaje,Rollo de cartón corrugado 100 cm x 30 m,unidad,11700,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (3).jpeg
+EMB-004,Embalaje,Rollo de cartón corrugado 120 cm x 30 m,unidad,14000,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (3).jpeg
+EMB-005,Embalaje,Rollo de cartón corrugado 140 cm x 30 m,unidad,16400,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (3).jpeg
+EMB-006,Embalaje,Rollo de polietileno con burbujas 20 cm x 100 m,unidad,,,no,no,si,sin precio en la lista; IVA incluido,WhatsApp Image 2026-10-02 at 17.48.17 (3).jpeg
+EMB-007,Embalaje,Rollo de polietileno con burbujas 100 cm x 50 m,unidad,19800,,no,si,no,IVA incluido,WhatsApp Image 2026-10-02 at 17.48.17 (3).jpeg
+EMB-008,Embalaje,Rollo de polietileno con burbujas 100 cm x 100 m,unidad,,,no,no,si,sin precio en la lista; IVA incluido; precio tapado,WhatsApp Image 2026-10-02 at 17.48.17 (3).jpeg
+EMB-009,Embalaje,Polietileno con burbujas 50 cm x 4 m,unidad,2200,,no,si,no,IVA incluido,WhatsApp Image 2026-10-02 at 17.48.17 (3).jpeg
+EMB-010,Embalaje,Film stretch virgen 10 cm cristal,rollo,6100,7400,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (4).jpeg
+EMB-011,Embalaje,Film stretch virgen 10 cm negro,rollo,6400,7800,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (4).jpeg
+EMB-012,Embalaje,Film stretch para paletizar 50 cm,rollo,,,si,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (4).jpeg
+EMB-013,Embalaje,Film stretch para paletizar recuperado 50 cm,rollo,,,si,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (4).jpeg
+EMB-014,Embalaje,Porta bobinas N° 20,unidad,,,si,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (8).jpeg
+EMB-015,Embalaje,Porta bobinas N° 40,unidad,39900,,si,si,si,39900 o 39400,WhatsApp Image 2026-10-02 at 17.48.17 (8).jpeg
+EMB-016,Embalaje,Porta bobinas N° 60,unidad,48500,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (8).jpeg
+EMB-017,Embalaje,Porta bobinas N° 80,unidad,,,si,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (8).jpeg
+EMB-018,Embalaje,Porta bobinas 20-40,unidad,,,si,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (8).jpeg
+EMB-019,Embalaje,Porta bobinas 40-60,unidad,55000,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (8).jpeg
+EMB-020,Embalaje,Porta bobinas 20-40-60,unidad,,,si,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (8).jpeg
+EMB-021,Embalaje,Porta hilo,unidad,,,no,no,si,precio viejo en la lista: 450,WhatsApp Image 2026-10-02 at 17.48.17 (8).jpeg
+EMB-022,Embalaje,Porta stretch,unidad,,,si,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (8).jpeg
+EMB-023,Embalaje,Racionador para cinta engomada,unidad,,,si,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (8).jpeg
+EMB-024,Embalaje,Guillotina,unidad,39500,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (8).jpeg
+EMB-025,Embalaje,Precintos plásticos 6 cm,x 1000,2500,,no,si,no,IVA incluido,WhatsApp Image 2026-10-02 at 17.48.17 (9).jpeg
+EMB-026,Embalaje,Precintos plásticos 7 cm,x 1000,3000,,no,si,no,IVA incluido,WhatsApp Image 2026-10-02 at 17.48.17 (9).jpeg
+EMB-027,Embalaje,Precintos plásticos 8 cm,x 1000,3200,,no,si,no,IVA incluido,WhatsApp Image 2026-10-02 at 17.48.17 (9).jpeg
+EMB-028,Embalaje,Precintos plásticos 9 cm,x 1000,3600,,no,si,si,IVA incluido; 3600 o 8600,WhatsApp Image 2026-10-02 at 17.48.17 (9).jpeg
+EMB-029,Embalaje,Precintos plásticos 10 cm,x 1000,3900,,no,si,no,IVA incluido,WhatsApp Image 2026-10-02 at 17.48.17 (9).jpeg
+EMB-030,Embalaje,Precintos plásticos 12 cm,x 1000,5100,,no,si,no,IVA incluido,WhatsApp Image 2026-10-02 at 17.48.17 (9).jpeg
+EMB-031,Embalaje,Precintos plásticos 15 cm,x 1000,5700,,no,si,no,IVA incluido,WhatsApp Image 2026-10-02 at 17.48.17 (9).jpeg
+EMB-032,Embalaje,Precintos de nylon 20 cm,x 100,,,no,no,si,precio viejo en la lista: 260; IVA incluido; 10% de descuento por 10 paquetes,WhatsApp Image 2026-10-02 at 17.48.17 (9).jpeg
+EMB-033,Embalaje,Precintos de nylon 25 cm,x 100,,,no,no,si,precio viejo en la lista: 390; IVA incluido; 10% de descuento por 10 paquetes,WhatsApp Image 2026-10-02 at 17.48.17 (9).jpeg
+EMB-034,Embalaje,Precintos de nylon 30 cm,x 100,,,no,no,si,sin precio en la lista; IVA incluido; 10% de descuento por 10 paquetes,WhatsApp Image 2026-10-02 at 17.48.17 (9).jpeg
+EMB-035,Embalaje,Precintos numerados,x 100,,,no,no,si,sin precio en la lista; IVA incluido,WhatsApp Image 2026-10-02 at 17.48.17 (9).jpeg
+EMB-036,Embalaje,Precintos plásticos de seguridad,x 100,,,no,no,si,sin precio en la lista; IVA incluido,WhatsApp Image 2026-10-02 at 17.48.17 (9).jpeg
+EMB-037,Embalaje,Precintos metálicos de seguridad,x 100,,,no,no,si,sin precio en la lista; IVA incluido,WhatsApp Image 2026-10-02 at 17.48.17 (9).jpeg
+EMB-038,Embalaje,Precintos metálicos,por kg,,,no,no,si,sin precio en la lista; IVA incluido,WhatsApp Image 2026-10-02 at 17.48.17 (9).jpeg
+EMB-039,Embalaje,Hilo plástico fino bobina 400 g polietileno,unidad,,,no,no,si,sin precio en la lista; IVA incluido,WhatsApp Image 2026-10-02 at 17.48.17 (14).jpeg
+EMB-040,Embalaje,Hilo retorcido virgen,unidad,8700,,si,si,si,no queda claro si el precio es del retorcido o del hilo cinta,WhatsApp Image 2026-10-02 at 17.48.17 (14).jpeg
+EMB-041,Embalaje,Hilo cinta virgen,unidad,,,si,no,si,sin precio en la lista; cód 001.02.003,WhatsApp Image 2026-10-02 at 17.48.17 (14).jpeg
+EMB-042,Embalaje,Hilo cinta blanca,unidad,,,si,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (14).jpeg
+EMB-043,Embalaje,Hilo de algodón,por kg,,,no,no,si,sin precio en la lista; IVA incluido,WhatsApp Image 2026-10-02 at 17.48.17 (14).jpeg
+EMB-044,Embalaje,Hilo de algodón ovillito chico 25 g,unidad,,,no,no,si,precio viejo en la lista: 4; cód 002.01.002,WhatsApp Image 2026-10-02 at 17.48.17 (14).jpeg
+EMB-045,Embalaje,Hilo choricero amarillo,por kg,,,no,no,si,precio viejo en la lista: 49; cód 002.02.001,WhatsApp Image 2026-10-02 at 17.48.17 (14).jpeg
+EMB-046,Embalaje,Hilo choricero bicolor,por kg,,,no,no,si,precio viejo en la lista: 64,WhatsApp Image 2026-10-02 at 17.48.17 (14).jpeg
+EMB-047,Embalaje,Hilo choricero ovillito chico amarillo 25 g,unidad,,,no,no,si,precio viejo en la lista: 5,WhatsApp Image 2026-10-02 at 17.48.17 (14).jpeg
+EMB-048,Embalaje,Hilo sisal chico,unidad,,,no,no,si,sin precio en la lista; IVA incluido,WhatsApp Image 2026-10-02 at 17.48.17 (14).jpeg
+EMB-049,Embalaje,Fleje plástico recuperado negro 10-13,por kg,3450,,no,si,no,IVA incluido,WhatsApp Image 2026-10-02 at 17.48.17 (15).jpeg
+EMB-050,Embalaje,Fleje plástico blanco para máquina automática 10,por kg,6900,,no,si,no,IVA incluido,WhatsApp Image 2026-10-02 at 17.48.17 (15).jpeg
+EMB-051,Embalaje,Fleje plástico virgen,por kg,8600,,no,si,no,IVA incluido,WhatsApp Image 2026-10-02 at 17.48.17 (15).jpeg
+EMB-052,Embalaje,Fleje negro para máquina automática,por kg,,,si,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (15).jpeg
+EMB-053,Embalaje,Precintos metálicos 10 mm,por kg,11900,,no,si,si,IVA incluido; 11900 o 11400,WhatsApp Image 2026-10-02 at 17.48.17 (15).jpeg
+EMB-054,Embalaje,Precintos metálicos 13 mm,por kg,11900,,no,si,si,IVA incluido; 11900 o 11400,WhatsApp Image 2026-10-02 at 17.48.17 (15).jpeg
+EMB-055,Embalaje,Film PVC Resinite 30 cm x 1000 m,rollo,,,si,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (16).jpeg
+EMB-056,Embalaje,Film PVC Resinite 38 cm x 1000 m,rollo,35200,,si,si,si,anotado brillo,WhatsApp Image 2026-10-02 at 17.48.17 (16).jpeg
+EMB-057,Embalaje,Film PVC Resinite 45 cm x 1000 m,rollo,47500,,si,si,si,44500 o 47500,WhatsApp Image 2026-10-02 at 17.48.17 (16).jpeg
+EMB-058,Embalaje,Film PVC 30 cm x 500 m,rollo,14800,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (16).jpeg
+EMB-059,Embalaje,Film PVC 38 cm x 500 m,rollo,19300,,si,si,si,19300 o 18300,WhatsApp Image 2026-10-02 at 17.48.17 (16).jpeg
+EMB-060,Embalaje,Film PVC 38 cm x 1000 m,rollo,36500,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (16).jpeg
+EMB-061,Embalaje,Film PVC 45 cm x 500 m,rollo,23100,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (16).jpeg
+EMB-062,Embalaje,Film PVC 45 cm x 1000 m,rollo,44000,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (16).jpeg
+EMB-063,Embalaje,Film cristal 10-14 cm de ancho,por kg,,,si,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (10).jpeg
+EMB-064,Embalaje,Film cristal 15-90 cm de ancho,por kg,785,,si,si,si,,WhatsApp Image 2026-10-02 at 17.48.20 (10).jpeg
+CIN-001,Cintas,Cinta de embalaje 24 mm x 50 m,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.19 (1).jpeg
+CIN-002,Cintas,Cinta de embalaje 36 mm x 50 m,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.19 (1).jpeg
+CIN-003,Cintas,Cinta de embalaje 48 mm x 50 m,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.19 (1).jpeg
+CIN-004,Cintas,Cinta de embalaje 72 mm x 50 m,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.19 (1).jpeg
+CIN-005,Cintas,Cinta de embalaje frágil blanca,unidad,2100,,no,si,si,cód 001.01.020,WhatsApp Image 2026-10-02 at 17.48.19 (1).jpeg
+CIN-006,Cintas,Cinta de embalaje frágil transparente,unidad,,,no,no,si,sin precio en la lista; cód 001.01.021,WhatsApp Image 2026-10-02 at 17.48.19 (1).jpeg
+CIN-007,Cintas,Cinta de embalaje color,unidad,1800,,no,si,si,cód 001.01.022,WhatsApp Image 2026-10-02 at 17.48.19 (1).jpeg
+CIN-008,Cintas,Cinta de enmascarar 10 mm x 50 m,unidad,,,no,no,si,sin precio en la lista; cód 001.01.006,WhatsApp Image 2026-10-02 at 17.48.19 (1).jpeg
+CIN-009,Cintas,Cinta de enmascarar 12 mm x 50 m,unidad,2400,,no,si,no,cód 001.01.007,WhatsApp Image 2026-10-02 at 17.48.19 (1).jpeg
+CIN-010,Cintas,Cinta de enmascarar 15 mm x 50 m,unidad,3000,,no,si,no,cód 001.01.008,WhatsApp Image 2026-10-02 at 17.48.19 (1).jpeg
+CIN-011,Cintas,Cinta de enmascarar 18 mm x 50 m,unidad,3700,,no,si,no,cód 001.01.009,WhatsApp Image 2026-10-02 at 17.48.19 (1).jpeg
+CIN-012,Cintas,Cinta de enmascarar 24 mm x 50 m,unidad,4800,,no,si,no,cód 001.01.010,WhatsApp Image 2026-10-02 at 17.48.19 (1).jpeg
+CIN-013,Cintas,Cinta de enmascarar 36 mm x 50 m,unidad,7100,,no,si,no,cód 001.01.011,WhatsApp Image 2026-10-02 at 17.48.19 (1).jpeg
+CIN-014,Cintas,Cinta de enmascarar 48 mm x 50 m,unidad,9400,,no,si,no,cód 001.01.012,WhatsApp Image 2026-10-02 at 17.48.19 (1).jpeg
+CIN-015,Cintas,Cinta de enmascarar Pilcomayo 12 mm,unidad,1500,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.19 (1).jpeg
+CIN-016,Cintas,Cinta de enmascarar Pilcomayo 18 mm,unidad,2000,,no,si,si,fila poco clara (18 o 24 mm),WhatsApp Image 2026-10-02 at 17.48.19 (1).jpeg
+CIN-017,Cintas,Cinta de enmascarar Pilcomayo 24 mm,unidad,2700,,no,si,si,fila poco clara (24 o 36 mm),WhatsApp Image 2026-10-02 at 17.48.19 (1).jpeg
+CIN-018,Cintas,Cinta de enmascarar Pilcomayo 36 mm,unidad,4000,,no,si,si,fila poco clara,WhatsApp Image 2026-10-02 at 17.48.19 (1).jpeg
+CIN-019,Cintas,Cinta de enmascarar Pilcomayo 48 mm,unidad,5300,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.19 (1).jpeg
+CIN-020,Cintas,Cinta engomada kraft 1 pulgada,unidad,3500,,no,si,si,3500 o 8500,WhatsApp Image 2026-10-02 at 17.48.19 (1).jpeg
+CIN-021,Cintas,Cinta engomada kraft 2 pulgadas,unidad,7000,,no,si,no,cód 001.04.002,WhatsApp Image 2026-10-02 at 17.48.19 (1).jpeg
+CIN-022,Cintas,Cinta engomada kraft 3 pulgadas,unidad,10500,,no,si,no,cód 001.04.003,WhatsApp Image 2026-10-02 at 17.48.19 (1).jpeg
+CIN-023,Cintas,Cinta engomada kraft 4 pulgadas,unidad,14000,,no,si,no,cód 001.04.004,WhatsApp Image 2026-10-02 at 17.48.19 (1).jpeg
+CIN-024,Cintas,Cinta doble faz 12 mm x 30 m,unidad,6100,,no,si,no,cód 001.01.013,WhatsApp Image 2026-10-02 at 17.48.19 (1).jpeg
+CIN-025,Cintas,Cinta doble faz 18 mm x 30 m,unidad,8500,,no,si,no,cód 001.01.014,WhatsApp Image 2026-10-02 at 17.48.19 (1).jpeg
+CIN-026,Cintas,Cinta doble faz 24 mm x 30 m,unidad,11200,,no,si,no,cód 001.01.015,WhatsApp Image 2026-10-02 at 17.48.19 (1).jpeg
+CIN-027,Cintas,Cinta doble faz 36 mm x 30 m,unidad,16900,,no,si,si,16900 o 16400,WhatsApp Image 2026-10-02 at 17.48.19 (1).jpeg
+CIN-028,Cintas,Cinta doble faz 48 mm x 30 m,unidad,22500,,no,si,no,cód 001.01.017,WhatsApp Image 2026-10-02 at 17.48.19 (1).jpeg
+CIN-029,Cintas,Cinta doble faz 310 mm x 30 m,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.19 (1).jpeg
+CIN-030,Cintas,Cinta azul 18 mm x 50 m,unidad,2700,,no,si,no,cód 0001.01.018,WhatsApp Image 2026-10-02 at 17.48.19 (1).jpeg
+CIN-031,Cintas,Cinta azul 24 mm x 50 m,unidad,3600,,no,si,no,cód 0001.01.019,WhatsApp Image 2026-10-02 at 17.48.19 (1).jpeg
+HIG-001,Papel e higiene,Servilletas Garbo 14.5 x 14.5,x 10000,16500,,no,si,si,precio RTO; no queda claro a qué fila corresponde,WhatsApp Image 2026-10-02 at 17.48.17 (2).jpeg
+HIG-002,Papel e higiene,Servilletas Elegante Garbo 18 x 18,x 2000,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (2).jpeg
+HIG-003,Papel e higiene,Servilletas 30 x 30,x 1000,11100,,si,si,si,no queda claro si es de 30x30 o 33x32,WhatsApp Image 2026-10-02 at 17.48.17 (2).jpeg
+HIG-004,Papel e higiene,Servilletas 33 x 32,x 1000,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (2).jpeg
+HIG-005,Papel e higiene,Servilletas mágicas,x 1000,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (2).jpeg
+HIG-006,Papel e higiene,Servilletas zig-zag,x 10000,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (2).jpeg
+HIG-007,Papel e higiene,Rollo de limpieza,x 24,15500,19100,no,si,si,presentación poco legible (24 u?),WhatsApp Image 2026-10-02 at 17.48.17 (2).jpeg
+HIG-008,Papel e higiene,Rollo de limpieza 20 cm x 400 m,unidad,12500,15300,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (2).jpeg
+HIG-009,Papel e higiene,Servilletas tissue azul 18 x 18,x 2000,9100,10600,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (2).jpeg
+HIG-010,Papel e higiene,Servilletas tissue eco 18 x 18,x 2000,7150,8350,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (2).jpeg
+HIG-011,Papel e higiene,Servilletas 24 x 24,x 1000,6800,8250,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (2).jpeg
+HIG-012,Papel e higiene,Rollo de limpieza Keep doble hoja,24 x 4,10000,11950,no,si,si,precio c/u; presentación poco legible,WhatsApp Image 2026-10-02 at 17.48.17 (2).jpeg
+HIG-013,Papel e higiene,Toallas blancas Letmi verdes,unidad,9200,,no,si,si,solo precio RTO,WhatsApp Image 2026-10-02 at 17.48.17 (2).jpeg
+HIG-014,Papel e higiene,Toallas para dispenser blancas 17.5 x 27,x 2500,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (2).jpeg
+HIG-015,Papel e higiene,Toallas para dispenser blancas 20 x 27,x 2500,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (2).jpeg
+HIG-016,Papel e higiene,Toallas para dispenser blancas 22 x 27,x 2500,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (2).jpeg
+HIG-017,Papel e higiene,Toallas Elegante blancas premium,x 2500,20900,25500,no,si,no,art 1029,WhatsApp Image 2026-10-02 at 17.48.17 (2).jpeg
+HIG-018,Papel e higiene,Rollo higiénico premium buje grande 300 m,x 8,20600,25600,no,si,no,art 1047; buje grande y chico,WhatsApp Image 2026-10-02 at 17.48.17 (2).jpeg
+HIG-019,Papel e higiene,Higiénico Keep 300 m,x 8,14800,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (2).jpeg
+HIG-020,Papel e higiene,Pañuelos descartables,30 x 6 x 12,25900,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (2).jpeg
+HIG-021,Papel e higiene,Pañuelos descartables,36 paq x 150,33700,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (2).jpeg
+HIG-022,Papel e higiene,Rollo papel cubre camilla 100 m,unidad,9600,11700,no,si,si,primer dígito poco legible,WhatsApp Image 2026-10-02 at 17.48.17 (2).jpeg
+HIG-023,Papel e higiene,Toalla en bobina 300 m sin hueco,unidad,8100,10100,no,si,no,cod 1028,WhatsApp Image 2026-10-02 at 17.48.17 (2).jpeg
+HIG-024,Papel e higiene,Bobina de papel Murillo 40 cm x 200 m,unidad,22000,,no,si,no,IVA incluido,WhatsApp Image 2026-10-02 at 17.48.20 (5).jpeg
+HIG-025,Papel e higiene,Bobina de papel Murillo 60 cm x 200 m,unidad,32000,,no,si,no,IVA incluido,WhatsApp Image 2026-10-02 at 17.48.20 (5).jpeg
+HIG-026,Papel e higiene,Rollo de cocina Elegante x 40 paños,bolsón x 12 paq,13900,15150,no,si,no,precio contado (RTO) en p46; con IVA en p45,WhatsApp Image 2026-10-02 at 17.48.20 (21).jpeg
+HIG-027,Papel e higiene,Rollo de cocina Elegante x 50 paños,bolsón x 8 paq,10700,11700,no,si,no,precio contado (RTO) en p46; con IVA en p45,WhatsApp Image 2026-10-02 at 17.48.20 (21).jpeg
+HIG-028,Papel e higiene,Rollo de cocina Elegante x 60 paños,bolsón x 8 paq,12100,13150,no,si,no,precio contado (RTO) en p46; con IVA en p45,WhatsApp Image 2026-10-02 at 17.48.20 (21).jpeg
+HIG-029,Papel e higiene,Rollo de cocina Elegante x 100 paños,bolsón x 5 paq,12300,13400,no,si,no,precio contado (RTO) en p46; con IVA en p45,WhatsApp Image 2026-10-02 at 17.48.20 (21).jpeg
+HIG-030,Papel e higiene,Rollo de cocina Elegante x 200 paños,bolsón x 12 paq,19950,21900,no,si,no,precio contado (RTO) en p46; con IVA en p45,WhatsApp Image 2026-10-02 at 17.48.20 (21).jpeg
+HIG-031,Papel e higiene,Rollo de cocina Elegante x 200 paños alto,bolsón x 12 paq,,,no,no,si,sin precio en la lista; con IVA 24600 (tachado),WhatsApp Image 2026-10-02 at 17.48.20 (20).jpeg
+HIG-032,Papel e higiene,Papel higiénico Elegante 4 x 30 m hoja simple,bolsón x 12 paq,14400,15700,no,si,no,precio contado (RTO) en p46; con IVA en p45,WhatsApp Image 2026-10-02 at 17.48.20 (21).jpeg
+HIG-033,Papel e higiene,Papel higiénico Elegante 4 x 30 m hoja doble,bolsón x 10 paq,20950,22900,no,si,no,precio contado (RTO) en p46; con IVA en p45,WhatsApp Image 2026-10-02 at 17.48.20 (21).jpeg
+HIG-034,Papel e higiene,Papel higiénico Elegante 4 x 80 m hoja simple,bolsón x 10 paq,30400,33100,no,si,no,precio contado (RTO) en p46; con IVA en p45,WhatsApp Image 2026-10-02 at 17.48.20 (21).jpeg
+HIG-035,Papel e higiene,Papel higiénico Elegante 24 x 50 m hoja simple,bolsón,11800,12900,no,si,no,precio contado (RTO) en p46; con IVA en p45,WhatsApp Image 2026-10-02 at 17.48.20 (21).jpeg
+HIG-036,Papel e higiene,Pañuelos descartables 12 u x 6,bolsón x 30 paq,,,no,no,si,sin precio en la lista; ver también p06,WhatsApp Image 2026-10-02 at 17.48.20 (20).jpeg
+HIG-037,Papel e higiene,Pañuelos descartables 150 u,bolsón x 36 paq,,,no,no,si,sin precio en la lista; ver también p06,WhatsApp Image 2026-10-02 at 17.48.20 (20).jpeg
+REP-001,Repostería,Pirotines N° 3,x 1000,5300,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (8).jpeg
+REP-002,Repostería,Pirotines N° 4,x 1000,5400,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (8).jpeg
+REP-003,Repostería,Pirotines N° 5,x 1000,6500,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (8).jpeg
+REP-004,Repostería,Pirotines N° 6,x 1000,8000,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (8).jpeg
+REP-005,Repostería,Pirotines N° 7,x 1000,8900,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (8).jpeg
+REP-006,Repostería,Pirotines N° 8,x 1000,10700,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (8).jpeg
+REP-007,Repostería,Pirotines N° 9,x 1000,11000,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (8).jpeg
+REP-008,Repostería,Pirotines N° 10,x 1000,18500,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (8).jpeg
+REP-009,Repostería,Pirotines N° 3,x 100,1000,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (8).jpeg
+REP-010,Repostería,Pirotines N° 4,x 100,1100,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (8).jpeg
+REP-011,Repostería,Pirotines N° 5,x 100,1400,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (8).jpeg
+REP-012,Repostería,Pirotines N° 6,x 100,1600,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (8).jpeg
+REP-013,Repostería,Pirotines N° 7,x 100,2000,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (8).jpeg
+REP-014,Repostería,Pirotines N° 8,x 100,2100,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (8).jpeg
+REP-015,Repostería,Pirotines N° 9,x 100,2200,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (8).jpeg
+REP-016,Repostería,Pirotines N° 10,x 60,2000,,no,si,si,anotado 2000 x 60,WhatsApp Image 2026-10-02 at 17.48.17 (8).jpeg
+REP-017,Repostería,Pirotines N° 10,x 50,,,no,no,si,precio viejo en la lista: 140,WhatsApp Image 2026-10-02 at 17.48.17 (8).jpeg
+REP-018,Repostería,Pirotines color N° 6,x 50,,,no,no,si,precio viejo en la lista: 98,WhatsApp Image 2026-10-02 at 17.48.17 (8).jpeg
+REP-019,Repostería,Pirotines color N° 10,x 50,,,no,no,si,precio viejo en la lista: 175,WhatsApp Image 2026-10-02 at 17.48.17 (8).jpeg
+REP-020,Repostería,Pirotines económicos fantasía,x 40,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (8).jpeg
+REP-021,Repostería,Pirotines fantasía,x 48,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (8).jpeg
+REP-022,Repostería,Molde pan dulce fantasía 1/4 kg,x 100,7200,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (12).jpeg
+REP-023,Repostería,Molde pan dulce fantasía 1/2 kg,x 100,8400,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (12).jpeg
+REP-024,Repostería,Molde pan dulce fantasía 3/4 kg,x 100,9300,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (12).jpeg
+REP-025,Repostería,Molde pan dulce fantasía 1 kg,x 100,9800,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (12).jpeg
+REP-026,Repostería,Molde pan dulce fantasía 1/4 kg,x 10,1000,,no,si,no,precio final,WhatsApp Image 2026-10-02 at 17.48.17 (12).jpeg
+REP-027,Repostería,Molde pan dulce fantasía 1/2 kg,x 10,1200,,no,si,no,precio final,WhatsApp Image 2026-10-02 at 17.48.17 (12).jpeg
+REP-028,Repostería,Molde pan dulce fantasía 3/4 kg,x 10,1300,,no,si,no,precio final,WhatsApp Image 2026-10-02 at 17.48.17 (12).jpeg
+REP-029,Repostería,Molde pan dulce fantasía 1 kg,x 10,1400,,no,si,no,precio final,WhatsApp Image 2026-10-02 at 17.48.17 (12).jpeg
+REP-030,Repostería,Molde pan dulce 100 g,x 100,6400,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (12).jpeg
+REP-031,Repostería,Molde pan dulce 100 g,x 10,900,,no,si,no,precio final,WhatsApp Image 2026-10-02 at 17.48.17 (12).jpeg
+REP-032,Repostería,Molde de rosca N° 20,x 5,1800,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (12).jpeg
+REP-033,Repostería,Molde de rosca N° 22,x 5,2200,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (12).jpeg
+REP-034,Repostería,Molde de rosca N° 24,x 5,2200,,no,si,si,igual al N° 22: revisar,WhatsApp Image 2026-10-02 at 17.48.17 (12).jpeg
+REP-035,Repostería,Molde de rosca N° 26,x 5,2500,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (12).jpeg
+REP-036,Repostería,Molde de rosca N° 20,x 100,27000,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (12).jpeg
+REP-037,Repostería,Molde de rosca N° 22,x 100,28500,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (12).jpeg
+REP-038,Repostería,Molde de rosca N° 24,x 100,33000,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (12).jpeg
+REP-039,Repostería,Molde de rosca N° 26,x 100,37500,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (12).jpeg
+REP-040,Repostería,Molde budinera de papel,unidad,170,,si,si,si,,WhatsApp Image 2026-10-02 at 17.48.17 (12).jpeg
+REP-041,Repostería,Molde budinera de papel,x 100,14200,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (12).jpeg
+REP-042,Repostería,Molde huevo de Pascua N° 5,unidad,500,,no,si,si,precio de lista impresa,WhatsApp Image 2026-10-02 at 17.48.17 (12).jpeg
+REP-043,Repostería,Molde huevo de Pascua N° 6,unidad,500,,no,si,si,precio de lista impresa,WhatsApp Image 2026-10-02 at 17.48.17 (12).jpeg
+REP-044,Repostería,Molde huevo de Pascua N° 7,unidad,500,,no,si,si,precio de lista impresa,WhatsApp Image 2026-10-02 at 17.48.17 (12).jpeg
+REP-045,Repostería,Molde huevo de Pascua N° 8,unidad,500,,no,si,si,precio de lista impresa,WhatsApp Image 2026-10-02 at 17.48.17 (12).jpeg
+REP-046,Repostería,Molde huevo de Pascua N° 9,unidad,500,,no,si,si,precio de lista impresa,WhatsApp Image 2026-10-02 at 17.48.17 (12).jpeg
+REP-047,Repostería,Molde huevo de Pascua N° 10,unidad,450,,no,si,si,precio de lista impresa,WhatsApp Image 2026-10-02 at 17.48.17 (12).jpeg
+REP-048,Repostería,Molde huevo de Pascua N° 11,unidad,450,,no,si,si,precio de lista impresa,WhatsApp Image 2026-10-02 at 17.48.17 (12).jpeg
+REP-049,Repostería,Molde huevo de Pascua N° 15,unidad,450,,no,si,si,precio de lista impresa,WhatsApp Image 2026-10-02 at 17.48.17 (12).jpeg
+REP-050,Repostería,Molde huevo de Pascua N° 18,unidad,500,,no,si,si,500 o 300,WhatsApp Image 2026-10-02 at 17.48.17 (12).jpeg
+REP-051,Repostería,Molde huevo de Pascua N° 20,unidad,500,,no,si,si,precio de lista impresa,WhatsApp Image 2026-10-02 at 17.48.17 (12).jpeg
+REP-052,Repostería,Molde huevo de Pascua N° 25,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (12).jpeg
+REP-053,Repostería,Molde huevo de Pascua N° 30,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (12).jpeg
+REP-054,Repostería,Molde huevo de Pascua N° 35,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (12).jpeg
+REP-055,Repostería,Base para huevo de Pascua 5 cm,unidad,150,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.17 (12).jpeg
+REP-056,Repostería,Base para huevo de Pascua 7 cm,unidad,200,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.17 (12).jpeg
+REP-057,Repostería,Base para huevo de Pascua 10 cm,unidad,250,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.17 (12).jpeg
+REP-058,Repostería,Molde conejito N° 5,unidad,550,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.17 (12).jpeg
+REP-059,Repostería,Placa para bombones,unidad,550,,no,si,si,c/u,WhatsApp Image 2026-10-02 at 17.48.17 (12).jpeg
+REP-060,Repostería,Blondas caladas N° 10,x 100,1100,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (2).jpeg
+REP-061,Repostería,Blondas caladas N° 13,x 100,1500,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (2).jpeg
+REP-062,Repostería,Blondas caladas N° 15,x 100,2000,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (2).jpeg
+REP-063,Repostería,Blondas caladas N° 18,x 100,2500,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.20 (2).jpeg
+REP-064,Repostería,Blondas caladas N° 20,x 100,3000,,si,si,no,suelta 60,WhatsApp Image 2026-10-02 at 17.48.20 (2).jpeg
+REP-065,Repostería,Blondas caladas N° 24,x 100,3800,,si,si,si,impreso 23 y corregido 24; suelta 80,WhatsApp Image 2026-10-02 at 17.48.20 (2).jpeg
+REP-066,Repostería,Blondas caladas N° 26,x 100,4500,,si,si,no,suelta 90,WhatsApp Image 2026-10-02 at 17.48.20 (2).jpeg
+REP-067,Repostería,Blondas caladas N° 28,x 100,4800,,si,si,no,suelta 90,WhatsApp Image 2026-10-02 at 17.48.20 (2).jpeg
+REP-068,Repostería,Blondas caladas N° 30,x 100,5400,,si,si,no,suelta 100,WhatsApp Image 2026-10-02 at 17.48.20 (2).jpeg
+REP-069,Repostería,Blondas caladas N° 32,x 100,5800,,si,si,no,suelta 110,WhatsApp Image 2026-10-02 at 17.48.20 (2).jpeg
+REP-070,Repostería,Blondas caladas N° 34,x 100,6500,,si,si,no,suelta 130,WhatsApp Image 2026-10-02 at 17.48.20 (2).jpeg
+REP-071,Repostería,Blondas caladas N° 36,x 100,7000,,si,si,no,suelta 140,WhatsApp Image 2026-10-02 at 17.48.20 (2).jpeg
+REP-072,Repostería,Blondas caladas N° 38,x 100,8000,,si,si,no,suelta 160,WhatsApp Image 2026-10-02 at 17.48.20 (2).jpeg
+REP-073,Repostería,Blondas caladas N° 40,x 100,8800,,si,si,no,suelta 180,WhatsApp Image 2026-10-02 at 17.48.20 (2).jpeg
+REP-074,Repostería,Blondas caladas N° 45,x 100,9900,,si,si,no,suelta 200,WhatsApp Image 2026-10-02 at 17.48.20 (2).jpeg
+REP-075,Repostería,Blondas caladas N° 50,x 100,,,si,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (2).jpeg
+REP-076,Repostería,Blondas caladas rectangulares 18 x 25,x 100,3900,,si,si,no,suelta 100,WhatsApp Image 2026-10-02 at 17.48.20 (2).jpeg
+REP-077,Repostería,Blondas caladas rectangulares 21 x 27,x 100,4700,,si,si,no,suelta 100,WhatsApp Image 2026-10-02 at 17.48.20 (2).jpeg
+REP-078,Repostería,Blondas caladas rectangulares 26 x 32,x 100,6300,,si,si,no,suelta 150,WhatsApp Image 2026-10-02 at 17.48.20 (2).jpeg
+REP-079,Repostería,Blondas caladas rectangulares 29 x 34,x 100,6800,,si,si,no,suelta 150,WhatsApp Image 2026-10-02 at 17.48.20 (2).jpeg
+REP-080,Repostería,Blondas caladas rectangulares 31 x 37,x 100,7200,,si,si,no,suelta 200,WhatsApp Image 2026-10-02 at 17.48.20 (2).jpeg
+REP-081,Repostería,Blondas caladas rectangulares 35 x 45,x 100,9500,,si,si,no,suelta 250,WhatsApp Image 2026-10-02 at 17.48.20 (2).jpeg
+REP-082,Repostería,Blondas caladas rectangulares 40 x 50,x 100,12000,,si,si,no,suelta 300,WhatsApp Image 2026-10-02 at 17.48.20 (2).jpeg
+REP-083,Repostería,Blonda corazón N° 10,unidad,1300,,si,si,si,presentación no indicada,WhatsApp Image 2026-10-02 at 17.48.20 (2).jpeg
+REP-084,Repostería,Blonda corazón N° 15,unidad,2000,,si,si,si,precio sobrescrito; presentación no indicada,WhatsApp Image 2026-10-02 at 17.48.20 (2).jpeg
+REP-085,Repostería,Blondas gofradas alta densidad N° 26,x 200,,,si,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (2).jpeg
+REP-086,Repostería,Blondas gofradas alta densidad N° 28,x 200,,,si,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (2).jpeg
+REP-087,Repostería,Blondas gofradas alta densidad N° 30,x 200,,,si,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (2).jpeg
+REP-088,Repostería,Blondas gofradas alta densidad N° 32,x 200,,,si,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (2).jpeg
+REP-089,Repostería,Blondas gofradas alta densidad N° 34,x 200,,,si,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (2).jpeg
+REP-090,Repostería,Blondas gofradas alta densidad N° 36,x 200,,,si,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (2).jpeg
+REP-091,Repostería,Blondas gofradas alta densidad N° 38,x 200,,,si,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.20 (2).jpeg
+REP-092,Repostería,Blondas parafinadas,x 200,,,si,no,si,sin precio en la lista; números ilegibles,WhatsApp Image 2026-10-02 at 17.48.20 (2).jpeg
+LIB-001,Librería,Tarjeta color N° 1,unidad,3600,,si,si,si,+IVA cortado en la foto,WhatsApp Image 2026-10-02 at 17.48.17 (1).jpeg
+LIB-002,Librería,Tarjeta color N° 2,unidad,5300,,si,si,si,+IVA cortado en la foto,WhatsApp Image 2026-10-02 at 17.48.17 (1).jpeg
+LIB-003,Librería,Tarjeta color N° 3,unidad,6100,,si,si,si,+IVA cortado en la foto,WhatsApp Image 2026-10-02 at 17.48.17 (1).jpeg
+LIB-004,Librería,Tarjeta color N° 4,unidad,8400,,si,si,si,+IVA cortado en la foto,WhatsApp Image 2026-10-02 at 17.48.17 (1).jpeg
+LIB-005,Librería,Tarjeta color N° 5,unidad,9600,,si,si,si,+IVA cortado en la foto,WhatsApp Image 2026-10-02 at 17.48.17 (1).jpeg
+LIB-006,Librería,Plancha de telgopor 0.50 x 0.50 m,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (1).jpeg
+LIB-007,Librería,Plancha de telgopor 0.50 x 1 m,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (1).jpeg
+LIB-008,Librería,Plancha de telgopor 1 x 1 m,unidad,4300,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (1).jpeg
+LIB-009,Librería,Plasticola 30 g,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (11).jpeg
+LIB-010,Librería,Plasticola 50 g,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (11).jpeg
+LIB-011,Librería,Plasticola 60 g,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (11).jpeg
+LIB-012,Librería,Plasticola 100 g,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (11).jpeg
+LIB-013,Librería,Plasticola 120 g,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (11).jpeg
+LIB-014,Librería,Plasticola 250 g,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (11).jpeg
+LIB-015,Librería,Plasticola 300 g,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (11).jpeg
+LIB-016,Librería,Plasticola 500 cc,unidad,4000,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (11).jpeg
+LIB-017,Librería,Plasticola 1 litro,unidad,7500,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (11).jpeg
+LIB-018,Librería,Plasticola sintética 1 litro,unidad,10500,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (11).jpeg
+LIB-019,Librería,Cola semilíquida 1 litro,unidad,,,no,no,si,precio viejo en la lista: 110,WhatsApp Image 2026-10-02 at 17.48.17 (11).jpeg
+LIB-020,Librería,Cola semilíquida 5 litros,unidad,,,no,no,si,precio viejo en la lista: 420,WhatsApp Image 2026-10-02 at 17.48.17 (11).jpeg
+LIB-021,Librería,Pasta blanca 6 kg,unidad,,,no,no,si,precio viejo en la lista: 510,WhatsApp Image 2026-10-02 at 17.48.17 (11).jpeg
+LIB-022,Librería,Tinta para sellos,unidad,,,no,no,si,precio viejo en la lista: 720,WhatsApp Image 2026-10-02 at 17.48.17 (11).jpeg
+PAP-001,Papelería,Resma afiche liso,x 100,,,no,no,si,precio viejo en la lista: 110; decía 110 final,WhatsApp Image 2026-10-02 at 17.48.17 (7).jpeg
+PAP-002,Papelería,Resma afiche hoja chica 50 x 75,x 100,,,si,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (7).jpeg
+PAP-003,Papelería,Resma afiche dorado 75 x 100,x 100,,,si,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (7).jpeg
+PAP-004,Papelería,Resma papel seda,unidad,,,no,no,si,sin precio en la lista; IVA incluido,WhatsApp Image 2026-10-02 at 17.48.17 (7).jpeg
+PAP-005,Papelería,Resma muresco,x 100,3670,,si,si,si,,WhatsApp Image 2026-10-02 at 17.48.17 (7).jpeg
+PAP-006,Papelería,Resma metalizada,x 50,12500,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (7).jpeg
+PAP-007,Papelería,Hoja metalizada,unidad,,,si,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (7).jpeg
+PAP-008,Papelería,Resma polipropileno biorientado,unidad,,,si,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (7).jpeg
+PAP-009,Papelería,Resma polipropileno color,x 100,,,si,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.17 (7).jpeg
+PAP-010,Papelería,Resma polipropileno común,x 100,16900,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (7).jpeg
+COT-001,Cotillón,Asusta suegra boquilla con flecos,x 12,,,no,no,si,sin precio en la lista; precio ilegible (borrado),WhatsApp Image 2026-10-02 at 17.48.16 (2).jpeg
+COT-002,Cotillón,Asusta suegra metal boquillón payaso,x 12,,,no,no,si,sin precio en la lista; precio ilegible (borrado),WhatsApp Image 2026-10-02 at 17.48.16 (2).jpeg
+COT-003,Cotillón,Asusta suegra Cotillopi,x 12,,,no,no,si,sin precio en la lista; precio ilegible (borrado),WhatsApp Image 2026-10-02 at 17.48.16 (2).jpeg
+COT-004,Cotillón,Asusta suegra metal,x 36,,,no,no,si,sin precio en la lista; precio ilegible (borrado),WhatsApp Image 2026-10-02 at 17.48.16 (2).jpeg
+COT-005,Cotillón,Bastón caballero curvo Chaplin,unidad,,,no,no,si,precio viejo en la lista: 69,WhatsApp Image 2026-10-02 at 17.48.16 (2).jpeg
+COT-006,Cotillón,Bastón caballero mago puño dorado,unidad,,,no,no,si,precio viejo en la lista: 110; art 107,WhatsApp Image 2026-10-02 at 17.48.16 (2).jpeg
+COT-007,Cotillón,Bastón chifle caravela,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.16 (2).jpeg
+COT-008,Cotillón,Bastón patrio,unidad,25,,no,si,si,precio manuscrito incompleto,WhatsApp Image 2026-10-02 at 17.48.16 (2).jpeg
+COT-009,Cotillón,Barba y bigote negro,unidad,,,no,no,si,sin precio en la lista; precio ilegible (borrado),WhatsApp Image 2026-10-02 at 17.48.16 (2).jpeg
+COT-010,Cotillón,Bolsa para carnaval carioca gigante,unidad,,,no,no,si,sin precio en la lista,WhatsApp Image 2026-10-02 at 17.48.16 (2).jpeg
+COT-011,Cotillón,Bolsa para carnaval metalizada,unidad,280,,no,si,si,c/u,WhatsApp Image 2026-10-02 at 17.48.16 (2).jpeg
+COT-012,Cotillón,Cabeza de telgopor,unidad,,,no,no,si,precio viejo en la lista: 85,WhatsApp Image 2026-10-02 at 17.48.16 (2).jpeg
+COT-013,Cotillón,Careta Hombre Araña,unidad,,,no,no,si,precio viejo en la lista: 11,WhatsApp Image 2026-10-02 at 17.48.16 (2).jpeg
+COT-014,Cotillón,Capa rey adulto,unidad,,,no,no,si,precio viejo en la lista: 39.50,WhatsApp Image 2026-10-02 at 17.48.16 (2).jpeg
+COT-015,Cotillón,Cinta cable,unidad,,,no,no,si,precio viejo en la lista: 45,WhatsApp Image 2026-10-02 at 17.48.16 (2).jpeg
+COT-016,Cotillón,Collares económicos con carioca,unidad,,,no,no,si,precio viejo en la lista: 15,WhatsApp Image 2026-10-02 at 17.48.16 (2).jpeg
+COT-017,Cotillón,Collares flúor con carioca,unidad,,,no,no,si,precio viejo en la lista: 18,WhatsApp Image 2026-10-02 at 17.48.16 (2).jpeg
+COT-018,Cotillón,Collar hawaiano con flecos,unidad,,,no,no,si,precio viejo en la lista: 8.50,WhatsApp Image 2026-10-02 at 17.48.16 (2).jpeg
+COT-019,Cotillón,Corneta carioca plástica Stasio,x 12,,,no,no,si,precio viejo en la lista: 35,WhatsApp Image 2026-10-02 at 17.48.16 (2).jpeg
+COT-020,Cotillón,Corneta Pierrot,x 12,,,no,no,si,precio viejo en la lista: 33,WhatsApp Image 2026-10-02 at 17.48.16 (2).jpeg
+COT-021,Cotillón,Cornetín P,x 36,,,no,no,si,precio viejo en la lista: 119,WhatsApp Image 2026-10-02 at 17.48.16 (2).jpeg
+COT-022,Cotillón,Corneta Stasio,x 12,,,no,no,si,precio viejo en la lista: 29,WhatsApp Image 2026-10-02 at 17.48.16 (2).jpeg
+COT-023,Cotillón,Corneta aerosol,unidad,,,no,no,si,precio viejo en la lista: 16.90,WhatsApp Image 2026-10-02 at 17.48.16 (2).jpeg
+COT-024,Cotillón,Diente Drácula,unidad,,,no,no,si,precio viejo en la lista: 5.20; unidad suelta 1,WhatsApp Image 2026-10-02 at 17.48.16 (2).jpeg
+COT-025,Cotillón,Disfraz de hada especial lila Ale T3,unidad,,,no,no,si,precio viejo en la lista: 49,WhatsApp Image 2026-10-02 at 17.48.16 (2).jpeg
+COT-026,Cotillón,Disfraz Hombre Araña,unidad,,,no,no,si,precio viejo en la lista: 65,WhatsApp Image 2026-10-02 at 17.48.16 (2).jpeg
+COT-027,Cotillón,Disfraz Mickey,unidad,,,no,no,si,precio viejo en la lista: 75,WhatsApp Image 2026-10-02 at 17.48.16 (2).jpeg
+COT-028,Cotillón,Disfraz payaso adulto,unidad,,,no,no,si,precio viejo en la lista: 29.50,WhatsApp Image 2026-10-02 at 17.48.16 (2).jpeg
+COT-029,Cotillón,Disfraz Power,unidad,,,no,no,si,precio viejo en la lista: 58,WhatsApp Image 2026-10-02 at 17.48.16 (2).jpeg
+COT-030,Cotillón,Espada pirata,unidad,,,no,no,si,precio viejo en la lista: 13.90,WhatsApp Image 2026-10-02 at 17.48.16 (2).jpeg
+COT-031,Cotillón,Espada plástica Zorro,unidad,,,no,no,si,precio viejo en la lista: 13.90,WhatsApp Image 2026-10-02 at 17.48.16 (2).jpeg
+COT-032,Cotillón,Flor pimpollo (San Patricio),unidad,,,no,no,si,precio viejo en la lista: 98,WhatsApp Image 2026-10-02 at 17.48.16 (2).jpeg
+COT-033,Cotillón,Flor rosa rococó mini,unidad,,,no,no,si,precio viejo en la lista: 8,WhatsApp Image 2026-10-02 at 17.48.16 (2).jpeg
+COT-034,Cotillón,Flor rosa rococó,unidad,,,no,no,si,precio viejo en la lista: 95; unidad suelta 10,WhatsApp Image 2026-10-02 at 17.48.16 (2).jpeg
+COT-035,Cotillón,Galera arlequín,unidad,,,no,no,si,precio viejo en la lista: 31.50,WhatsApp Image 2026-10-02 at 17.48.16 (2).jpeg
+COT-036,Cotillón,Galera patria chica,unidad,,,no,no,si,precio viejo en la lista: 19,WhatsApp Image 2026-10-02 at 17.48.16 (2).jpeg
+COT-037,Cotillón,Galera patria grande,unidad,,,no,no,si,precio viejo en la lista: 24,WhatsApp Image 2026-10-02 at 17.48.16 (2).jpeg
+COT-038,Cotillón,Gorro plástico egresado,unidad,,,no,no,si,sin precio en la lista; precio manuscrito ilegible,WhatsApp Image 2026-10-02 at 17.48.16 (2).jpeg
+COT-039,Cotillón,Gorro granadero crepé,unidad,,,no,no,si,precio viejo en la lista: 35; aparece dos veces en la lista,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-040,Cotillón,Gorro carioca económico,x 50,355,,no,si,si,,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-041,Cotillón,Gorro bruja negro plástico,unidad,,,no,no,si,precio viejo en la lista: 2.50,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-042,Cotillón,Gorro cocinero de tela,unidad,,,no,no,si,precio viejo en la lista: 9.50,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-043,Cotillón,Gorro Colón ABC,unidad,,,no,no,si,precio viejo en la lista: 15.50,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-044,Cotillón,Gorro de preso,unidad,,,no,no,si,precio viejo en la lista: 7.90,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-045,Cotillón,Gorro enfermera paño,unidad,,,no,no,si,precio viejo en la lista: 7.90,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-046,Cotillón,Gorro estrella 8 puntas paño,unidad,,,no,no,si,precio viejo en la lista: 5.90,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-047,Cotillón,Gorro funyi carioca,x 25,,,no,no,si,precio viejo en la lista: 16.90; unidad suelta 0.90,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-048,Cotillón,Gorro marinero paño,unidad,,,no,no,si,precio viejo en la lista: 7.90,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-049,Cotillón,Gorro policía paño,unidad,,,no,no,si,precio viejo en la lista: 7.90,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-050,Cotillón,Gorro policía RG,unidad,,,no,no,si,precio viejo en la lista: 12.80,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-051,Cotillón,Gorro rancho cristal,unidad,,,no,no,si,precio viejo en la lista: 3,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-052,Cotillón,Gorro vaquero,unidad,,,no,no,si,precio viejo en la lista: 9.50,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-053,Cotillón,Gorro tanguero,unidad,,,no,no,si,precio viejo en la lista: 27,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-054,Cotillón,Gorro carioca bombín y rancho,unidad,,,no,no,si,precio viejo en la lista: 9,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-055,Cotillón,Hostias blancas y amarillas,x 500,265,,si,si,si,,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-056,Cotillón,Hostias,x 25,,,no,no,si,precio viejo en la lista: 30,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-057,Cotillón,Herramientas Stasio,x 36,,,no,no,si,precio viejo en la lista: 4.20,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-058,Cotillón,Maracas,x 10,,,no,no,si,precio viejo en la lista: 15,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-059,Cotillón,Matraca económica,x 12,,,no,no,si,precio viejo en la lista: 3.50,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-060,Cotillón,Matraca económica Stasio,x 12,,,no,no,si,precio viejo en la lista: 39,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-061,Cotillón,Matraca Pierrot multicolor,x 12,,,no,no,si,precio viejo en la lista: 12.50,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-062,Cotillón,Matraca de madera chica,unidad,,,no,no,si,precio viejo en la lista: 5; oferta por unidad,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-063,Cotillón,Matraca de madera súper gigante,unidad,,,no,no,si,precio viejo en la lista: 15.50,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-064,Cotillón,Mini pelotitas,x 36,,,no,no,si,precio viejo en la lista: 9.50,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-065,Cotillón,Nariz de payaso esponja,unidad,,,no,no,si,precio viejo en la lista: 5,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-066,Cotillón,Nariz de payaso roja Stasio,x 36,,,no,no,si,precio viejo en la lista: 22; unidad suelta 1,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-067,Cotillón,Nieve en aerosol Nashville,unidad,2000,,si,si,no,precio actualizado en p01,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-068,Cotillón,Nieve bruma chica Nashville,unidad,,,no,no,si,sin precio en la lista; precio tapado,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-069,Cotillón,Papel picado metalizado,por kg,,,no,no,si,precio viejo en la lista: 49,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-070,Cotillón,Parche pirata,unidad,,,no,no,si,sin precio en la lista; art 916; precio ilegible,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-071,Cotillón,Pechera de cartón con sable,unidad,,,no,no,si,precio viejo en la lista: 21,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-072,Cotillón,Pechera policía paño,unidad,,,no,no,si,precio viejo en la lista: 12.80,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-073,Cotillón,Pitos chicos Stasio,x 144,,,no,no,si,precio viejo en la lista: 82; unidad suelta 1,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-074,Cotillón,Pitos chicos Pierrot,x 144,,,no,no,si,precio viejo en la lista: 21.50; unidad suelta 0.25,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-075,Cotillón,Porras,unidad,,,no,no,si,precio viejo en la lista: 50,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-076,Cotillón,Porras metalizadas,unidad,,,no,no,si,precio viejo en la lista: 7,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-077,Cotillón,Sable curvo San Martín,unidad,,,no,no,si,precio viejo en la lista: 9.90,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-078,Cotillón,Serpentina en aerosol,unidad,2100,,no,si,si,precio manuscrito en p01 (serpentina $2100) sin +IVA,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-079,Cotillón,Serpentina de papel,x 20,,,no,no,si,precio viejo en la lista: 25,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-080,Cotillón,Sombrero marinero,unidad,,,no,no,si,precio viejo en la lista: 18,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-081,Cotillón,Sombrero mexicano multicolor,unidad,,,no,no,si,precio viejo en la lista: 15.50,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-082,Cotillón,Trompeta aerosol,unidad,,,no,no,si,precio viejo en la lista: 22.50,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-083,Cotillón,Turbante tiara flúor,unidad,,,no,no,si,precio viejo en la lista: 8.70,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-084,Cotillón,Vincha conejo/a,unidad,,,no,no,si,precio viejo en la lista: 9,WhatsApp Image 2026-10-02 at 17.48.16 (1).jpeg
+COT-085,Cotillón,Vincha diablo,unidad,,,no,no,si,precio viejo en la lista: 9,WhatsApp Image 2026-10-02 at 17.48.16.jpeg
+COT-086,Cotillón,Vincha indio flúor,x 6,,,no,no,si,precio viejo en la lista: 9,WhatsApp Image 2026-10-02 at 17.48.16.jpeg
+COT-087,Cotillón,Vincha mini plástica,unidad,,,no,no,si,precio viejo en la lista: 9,WhatsApp Image 2026-10-02 at 17.48.16.jpeg
+COT-088,Cotillón,Vincha Mickey,unidad,,,no,no,si,precio viejo en la lista: 9,WhatsApp Image 2026-10-02 at 17.48.16.jpeg
+COT-089,Cotillón,Zapato payaso de tela,unidad,,,no,no,si,precio viejo en la lista: 29.50; ROX 905,WhatsApp Image 2026-10-02 at 17.48.16.jpeg
+COT-090,Cotillón,Vincha con resorte,unidad,,,no,no,si,precio viejo en la lista: 9,WhatsApp Image 2026-10-02 at 17.48.16.jpeg
+COT-091,Cotillón,Vincha Halloween,unidad,,,no,no,si,precio viejo en la lista: 9,WhatsApp Image 2026-10-02 at 17.48.16.jpeg
+COT-092,Cotillón,Inflador,unidad,,,no,no,si,precio viejo en la lista: 29.50,WhatsApp Image 2026-10-02 at 17.48.16.jpeg
+COT-093,Cotillón,Nieve en aerosol Rey Momo,unidad,2400,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.16.jpeg
+COT-094,Cotillón,Cañón lanza papeles (serpentina),unidad,3800,,si,si,si,primer dígito corregido: 3600 o 3800,WhatsApp Image 2026-10-02 at 17.48.16.jpeg
+COT-095,Cotillón,Cañón corazones,unidad,3800,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.16.jpeg
+COT-096,Cotillón,Bolsas metalizadas 50x60,unidad,,,si,no,si,sin precio en la lista; c/u; precio tapado,WhatsApp Image 2026-10-02 at 17.48.16.jpeg
+COT-097,Cotillón,Cañón Candela papelitos dorados,unidad,2900,,si,si,si,corregido: 2700 o 2900,WhatsApp Image 2026-10-02 at 17.48.16.jpeg
+COT-098,Cotillón,Cañón estrellas M-Mparti,unidad,2800,,si,si,no,,WhatsApp Image 2026-10-02 at 17.48.16.jpeg
+COT-099,Cotillón,Cañón Cienfuegos papel metalizado,unidad,3900,,si,si,si,corregido: 3500 o 3900,WhatsApp Image 2026-10-02 at 17.48.16.jpeg
+LIP-001,Repuestos selladora Lipari,Silicona para selladora Lipari 10 cm,unidad,9500,,no,si,si,primer dígito poco legible,WhatsApp Image 2026-10-02 at 17.48.17 (6).jpeg
+LIP-002,Repuestos selladora Lipari,Silicona para selladora Lipari 20 cm,unidad,15500,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (6).jpeg
+LIP-003,Repuestos selladora Lipari,Silicona para selladora Lipari 30 cm,unidad,25500,,no,si,si,primer dígito poco legible,WhatsApp Image 2026-10-02 at 17.48.17 (6).jpeg
+LIP-004,Repuestos selladora Lipari,Silicona para selladora Lipari 40 cm,unidad,27500,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (6).jpeg
+LIP-005,Repuestos selladora Lipari,Silicona para selladora Lipari 60 cm,unidad,42000,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (6).jpeg
+LIP-006,Repuestos selladora Lipari,Resistencia para selladora Lipari 10 cm,unidad,21400,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (6).jpeg
+LIP-007,Repuestos selladora Lipari,Resistencia para selladora Lipari 20 cm,unidad,21600,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (6).jpeg
+LIP-008,Repuestos selladora Lipari,Resistencia para selladora Lipari 30 cm,unidad,23900,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (6).jpeg
+LIP-009,Repuestos selladora Lipari,Resistencia para selladora Lipari 40 cm,unidad,24900,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (6).jpeg
+LIP-010,Repuestos selladora Lipari,Resistencia para selladora Lipari 60 cm,unidad,27200,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (6).jpeg
+LIP-011,Repuestos selladora Lipari,Teflón para selladora Lipari 10 cm,unidad,7500,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (6).jpeg
+LIP-012,Repuestos selladora Lipari,Teflón para selladora Lipari 20 cm,unidad,14500,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (6).jpeg
+LIP-013,Repuestos selladora Lipari,Teflón para selladora Lipari 30 cm,unidad,15500,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (6).jpeg
+LIP-014,Repuestos selladora Lipari,Teflón para selladora Lipari 40 cm,unidad,17000,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (6).jpeg
+LIP-015,Repuestos selladora Lipari,Teflón para selladora Lipari 60 cm,unidad,21500,,no,si,no,,WhatsApp Image 2026-10-02 at 17.48.17 (6).jpeg
+LIP-016,Repuestos selladora Lipari,Alambre para termoselladora,unidad,8900,,no,si,si,8900 o 9900,WhatsApp Image 2026-10-02 at 17.48.17 (6).jpeg
+LIP-017,Repuestos selladora Lipari,Repuesto cuchilla para sellador,unidad,,,no,no,si,sin precio en la lista; precio ilegible,WhatsApp Image 2026-10-02 at 17.48.17 (6).jpeg

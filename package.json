@@ -7,6 +7,7 @@
     "db:down": "docker compose down",
     "db:migrate": "pnpm --filter @papelera/api db:migrate",
     "db:seed": "pnpm --filter @papelera/api db:seed",
+    "db:import": "pnpm --filter @papelera/api db:import",
     "db:studio": "pnpm --filter @papelera/api db:studio",
     "dev": "pnpm -r --parallel --filter @papelera/api --filter @papelera/web dev",
     "dev:api": "pnpm --filter @papelera/api dev",

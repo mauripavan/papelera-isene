@@ -11,6 +11,8 @@ export interface PriceableProduct {
   price: number;
   /** true: en transferencia se le suma el IVA. false: mismo precio en ambos medios. */
   discriminaIva: boolean;
+  /** Precio de transferencia fijo. Si viene, pisa el cálculo con IVA. */
+  priceTransfer?: number | null;
 }
 
 export interface ProductPrices {
@@ -20,6 +22,7 @@ export interface ProductPrices {
 
 export function productPrices(product: PriceableProduct, ivaRate = DEFAULT_IVA_RATE): ProductPrices {
   const cash = round2(product.price);
+  if (product.priceTransfer != null) return { cash, transfer: round2(product.priceTransfer) };
   const transfer = product.discriminaIva ? round2(product.price * (1 + ivaRate)) : cash;
   return { cash, transfer };
 }

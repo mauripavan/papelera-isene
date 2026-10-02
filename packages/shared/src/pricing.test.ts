@@ -10,6 +10,11 @@ test('producto que no discrimina IVA: mismo precio en ambos medios', () => {
   assert.deepEqual(productPrices({ price: 1000, discriminaIva: false }), { cash: 1000, transfer: 1000 });
 });
 
+test('precio de transferencia fijo pisa el cálculo', () => {
+  assert.deepEqual(productPrices({ price: 13900, discriminaIva: true, priceTransfer: 15150 }), { cash: 13900, transfer: 15150 });
+  assert.deepEqual(productPrices({ price: 100, discriminaIva: false, priceTransfer: null }), { cash: 100, transfer: 100 });
+});
+
 test('tasa de IVA configurable', () => {
   assert.equal(unitPriceFor({ price: 100, discriminaIva: true }, 'TRANSFERENCIA', 0.105), 110.5);
 });

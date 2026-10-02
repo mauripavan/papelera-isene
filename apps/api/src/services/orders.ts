@@ -61,7 +61,11 @@ export async function quote(draft: Pick<OrderDraft, 'paymentMethod' | 'items'>, 
   const lines = codes.map((code) => {
     const p = byCode.get(code)!;
     const quantity = merged.get(code)!;
-    const unitPrice = unitPriceFor({ price: Number(p.price), discriminaIva: p.discriminaIva }, draft.paymentMethod, settings.ivaRate);
+    const unitPrice = unitPriceFor(
+      { price: Number(p.price), discriminaIva: p.discriminaIva, priceTransfer: p.priceTransfer == null ? null : Number(p.priceTransfer) },
+      draft.paymentMethod,
+      settings.ivaRate,
+    );
     return { productId: p.id, productCode: p.code, productName: p.name, unit: p.unit, unitPrice, quantity, lineTotal: Math.round(unitPrice * quantity * 100) / 100 };
   });
   const total = Math.round(lines.reduce((a, l) => a + l.lineTotal, 0) * 100) / 100;

@@ -5,7 +5,8 @@ type ProductWithCategory = Prisma.ProductGetPayload<{ include: { category: true 
 
 export function serializeProduct(p: ProductWithCategory, ivaRate: number) {
   const price = Number(p.price);
-  const prices = productPrices({ price, discriminaIva: p.discriminaIva }, ivaRate);
+  const priceTransfer = p.priceTransfer == null ? null : Number(p.priceTransfer);
+  const prices = productPrices({ price, discriminaIva: p.discriminaIva, priceTransfer }, ivaRate);
   return {
     id: p.id,
     code: p.code,
@@ -13,7 +14,11 @@ export function serializeProduct(p: ProductWithCategory, ivaRate: number) {
     unit: p.unit,
     price,
     discriminaIva: p.discriminaIva,
+    /** Precio de transferencia cargado a mano (null = se calcula) */
+    priceTransferFixed: priceTransfer,
     active: p.active,
+    needsReview: p.needsReview,
+    reviewNote: p.reviewNote,
     categoryId: p.categoryId,
     category: p.category ? { id: p.category.id, name: p.category.name } : null,
     priceCash: prices.cash,

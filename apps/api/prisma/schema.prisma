@@ -53,7 +53,12 @@ model Product {
   price         Decimal     @db.Decimal(12, 2)
   /// true: en transferencia se suma el IVA. false: mismo precio en efectivo y transferencia.
   discriminaIva Boolean     @default(false)
+  /// Precio de transferencia fijo. Si está cargado, pisa el cálculo con IVA.
+  priceTransfer Decimal?    @db.Decimal(12, 2)
   active        Boolean     @default(true)
+  /// Marcado para revisar (precio dudoso, sin precio, etc.)
+  needsReview   Boolean     @default(false)
+  reviewNote    String?
   categoryId    Int?
   category      Category?   @relation(fields: [categoryId], references: [id], onDelete: SetNull)
   orderItems    OrderItem[]
@@ -61,6 +66,7 @@ model Product {
   updatedAt     DateTime    @updatedAt
 
   @@index([categoryId])
+  @@index([needsReview])
   @@map("products")
 }
 

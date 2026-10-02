@@ -6,20 +6,25 @@ import { api } from '../lib/api.ts';
 import { ars } from '../lib/format.ts';
 import type { Category, Product, Settings } from '../lib/types.ts';
 
-type ProductPatch = Partial<Pick<Product, 'code' | 'name' | 'unit' | 'price' | 'discriminaIva' | 'active' | 'categoryId'>>;
+type ProductPatch = Partial<
+  Pick<Product, 'code' | 'name' | 'unit' | 'price' | 'discriminaIva' | 'priceTransferFixed' | 'active' | 'needsReview' | 'categoryId'>
+>;
 
 export function ProductsPage() {
   const qc = useQueryClient();
   const [q, setQ] = useState('');
   const [categoryId, setCategoryId] = useState<string>('');
   const [showInactive, setShowInactive] = useState(false);
+  const [onlyReview, setOnlyReview] = useState(false);
 
   const settings = useQuery({ queryKey: ['settings'], queryFn: () => api<Settings>('/api/settings') });
   const categories = useQuery({ queryKey: ['categories'], queryFn: () => api<Category[]>('/api/categories') });
   const products = useQuery({
-    queryKey: ['products', q, categoryId, showInactive],
+    queryKey: ['products', q, categoryId, showInactive, onlyReview],
     queryFn: () => {
-      const sp = new URLSearchParams({ active: showInactive ? 'all' : 'true' });
+      // "Para revisar" muestra también los inactivos: la mayoría son productos sin precio.
+      const sp = new URLSearchParams({ active: showInactive || onlyReview ? 'all' : 'true' });
+      if (onlyReview) sp.set('review', 'true');
       if (q.trim()) sp.set('q', q.trim());
       if (categoryId) sp.set('categoryId', categoryId);
       return api<Product[]>(`/api/products?${sp}`);
@@ -29,7 +34,15 @@ export function ProductsPage() {
   const update = useMutation({
     mutationFn: ({ id, patch }: { id: number; patch: ProductPatch }) =>
       api<Product>(`/api/products/${id}`, { method: 'PATCH', json: patch }),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['products'] }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['products'] });
+      qc.invalidateQueries({ queryKey: ['review-count'] });
+    },
+  });
+
+  const reviewCount = useQuery({
+    queryKey: ['review-count'],
+    queryFn: () => api<{ count: number }>('/api/products/review-count'),
   });
 
   const ivaPct = Math.round((settings.data?.ivaRate ?? 0.21) * 1000) / 10;
@@ -52,12 +65,18 @@ export function ProductsPage() {
             <input type="checkbox" checked={showInactive} onChange={(e) => setShowInactive(e.target.checked)} />
             Ver inactivos
           </label>
+          <label className="inline">
+            <input type="checkbox" checked={onlyReview} onChange={(e) => setOnlyReview(e.target.checked)} />
+            Solo para revisar
+            {!!reviewCount.data?.count && <span className="count">{reviewCount.data.count}</span>}
+          </label>
         </div>
       </div>
 
       <p className="muted small">
         El precio que cargás es el de <b>efectivo</b>. Si el producto <b>discrimina IVA</b>, en transferencia se le suma
-        el {ivaPct}%. Si no, cuesta lo mismo en los dos medios.
+        el {ivaPct}%. Si no, cuesta lo mismo en los dos medios. Si cargás un precio de transferencia a mano, se usa ese
+        en lugar del cálculo. Los productos sin precio quedan inactivos y el bot no los ofrece.
       </p>
 
       <div className="grid-2">
@@ -78,12 +97,13 @@ export function ProductsPage() {
               <th className="center">Discrimina IVA</th>
               <th className="num">Transferencia</th>
               <th className="center">Activo</th>
+              <th className="center">Revisión</th>
             </tr>
           </thead>
           <tbody>
             {products.data?.map((p) => (
               <ProductRow
-                key={`${p.id}-${p.price}-${p.name}-${p.unit}`}
+                key={`${p.id}-${p.price}-${p.priceTransferFixed}-${p.name}-${p.unit}`}
                 product={p}
                 categories={categories.data ?? []}
                 ivaRate={settings.data?.ivaRate ?? 0.21}
@@ -112,16 +132,26 @@ function ProductRow({
   const [name, setName] = useState(p.name);
   const [unit, setUnit] = useState(p.unit);
   const [price, setPrice] = useState(String(p.price));
+  const [transfer, setTransfer] = useState(p.priceTransferFixed == null ? '' : String(p.priceTransferFixed));
 
   const priceNum = Number(price.replace(',', '.'));
-  const preview = productPrices({ price: Number.isFinite(priceNum) ? priceNum : p.price, discriminaIva: p.discriminaIva }, ivaRate);
+  const computed = productPrices(
+    { price: Number.isFinite(priceNum) ? priceNum : p.price, discriminaIva: p.discriminaIva },
+    ivaRate,
+  );
 
-  const commit = (field: 'name' | 'unit' | 'price') => {
+  const commit = (field: 'name' | 'unit' | 'price' | 'transfer') => {
     if (field === 'name' && name.trim() && name !== p.name) onSave({ name: name.trim() });
     if (field === 'unit' && unit.trim() && unit !== p.unit) onSave({ unit: unit.trim() });
     if (field === 'price') {
       if (!Number.isFinite(priceNum) || priceNum < 0) return setPrice(String(p.price));
-      if (priceNum !== p.price) onSave({ price: priceNum });
+      // Un producto que no tenía precio se activa al cargarle uno
+      if (priceNum !== p.price) onSave({ price: priceNum, ...(p.price === 0 && priceNum > 0 ? { active: true } : {}) });
+    }
+    if (field === 'transfer') {
+      const t = transfer.trim() === '' ? null : Number(transfer.replace(',', '.'));
+      if (t !== null && (!Number.isFinite(t) || t < 0)) return setTransfer(p.priceTransferFixed == null ? '' : String(p.priceTransferFixed));
+      if (t !== p.priceTransferFixed) onSave({ priceTransferFixed: t });
     }
   };
   const onEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -133,6 +163,7 @@ function ProductRow({
       <td className="mono">{p.code}</td>
       <td>
         <input className="cell" value={name} onChange={(e) => setName(e.target.value)} onBlur={() => commit('name')} onKeyDown={onEnter} />
+        {p.needsReview && p.reviewNote && <div className="review-note">{p.reviewNote}</div>}
       </td>
       <td>
         <input className="cell" value={unit} onChange={(e) => setUnit(e.target.value)} onBlur={() => commit('unit')} onKeyDown={onEnter} />
@@ -165,10 +196,38 @@ function ProductRow({
         <input type="checkbox" checked={p.discriminaIva} onChange={(e) => onSave({ discriminaIva: e.target.checked })} />
       </td>
       <td className="num">
-        {ars(preview.transfer)}
+        <input
+          className="cell num"
+          inputMode="decimal"
+          value={transfer}
+          placeholder={ars(computed.transfer)}
+          title="Vacío: se calcula con el IVA. Cargá un valor para fijarlo."
+          onChange={(e) => setTransfer(e.target.value)}
+          onBlur={() => commit('transfer')}
+          onKeyDown={onEnter}
+        />
       </td>
       <td className="center">
-        <input type="checkbox" checked={p.active} onChange={(e) => onSave({ active: e.target.checked })} />
+        <input
+          type="checkbox"
+          checked={p.active}
+          disabled={!p.active && p.price <= 0}
+          title={!p.active && p.price <= 0 ? 'Cargale un precio para activarlo' : undefined}
+          onChange={(e) => onSave({ active: e.target.checked })}
+        />
+      </td>
+      <td className="center">
+        {p.needsReview ? (
+          <button
+            className="btn sm"
+            title="Marcar como revisado"
+            onClick={() => onSave({ needsReview: false, ...(p.price > 0 ? { active: true } : {}) })}
+          >
+            Listo
+          </button>
+        ) : (
+          <span className="muted small">✓</span>
+        )}
       </td>
     </tr>
   );

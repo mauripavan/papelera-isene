@@ -2,7 +2,7 @@ import { applyPercent } from '@papelera/shared';
 import { Router } from 'express';
 import { z } from 'zod';
 import { prisma } from '../db.ts';
-import { notFound, parseId } from '../lib/http.ts';
+import { notFound, parseId, unprocessable } from '../lib/http.ts';
 import { serializeProduct } from '../services/serializers.ts';
 import { getSettings } from '../services/settings.ts';
 import type { Prisma } from '../generated/prisma/client.ts';
@@ -16,13 +16,15 @@ const listQuery = z.object({
   q: z.string().trim().optional(),
   categoryId: z.coerce.number().int().optional(),
   active: z.enum(['true', 'false', 'all']).default('all'),
+  review: z.enum(['true', 'false', 'all']).default('all'),
 });
 
 productsRouter.get('/', async (req, res) => {
-  const { q, categoryId, active } = listQuery.parse(req.query);
+  const { q, categoryId, active, review } = listQuery.parse(req.query);
   const where: Prisma.ProductWhereInput = {
     ...(categoryId ? { categoryId } : {}),
     ...(active !== 'all' ? { active: active === 'true' } : {}),
+    ...(review !== 'all' ? { needsReview: review === 'true' } : {}),
     ...(q
       ? { OR: [{ name: { contains: q, mode: 'insensitive' } }, { code: { contains: q, mode: 'insensitive' } }] }
       : {}),
@@ -40,21 +42,38 @@ const productBody = z.object({
   unit: z.string().trim().min(1).default('unidad'),
   price: z.coerce.number().nonnegative(),
   discriminaIva: z.boolean().default(false),
+  /** Precio de transferencia fijo; null = se calcula con el IVA */
+  priceTransferFixed: z.coerce.number().nonnegative().nullable().optional(),
   active: z.boolean().default(true),
+  needsReview: z.boolean().optional(),
+  reviewNote: z.string().trim().nullable().optional(),
   categoryId: z.number().int().nullable().optional(),
 });
 
+/** El panel habla de priceTransferFixed; en la base la columna es priceTransfer */
+function toDb<T extends { priceTransferFixed?: number | null }>({ priceTransferFixed, ...rest }: T) {
+  return { ...rest, ...(priceTransferFixed !== undefined ? { priceTransfer: priceTransferFixed } : {}) };
+}
+
+/** Cantidad de productos marcados para revisar */
+productsRouter.get('/review-count', async (_req, res) => {
+  res.json({ count: await prisma.product.count({ where: { needsReview: true } }) });
+});
+
 productsRouter.post('/', async (req, res) => {
-  const data = productBody.parse(req.body);
+  const data = toDb(productBody.parse(req.body));
   const p = await prisma.product.create({ data, include: { category: true } });
   res.status(201).json(serializeProduct(p, (await getSettings()).ivaRate));
 });
 
 productsRouter.patch('/:id', async (req, res) => {
   const id = parseId(req.params.id);
-  const data = productBody.partial().parse(req.body);
-  const exists = await prisma.product.findUnique({ where: { id }, select: { id: true } });
+  const data = toDb(productBody.partial().parse(req.body));
+  const exists = await prisma.product.findUnique({ where: { id }, select: { id: true, price: true, active: true } });
   if (!exists) throw notFound('Producto no encontrado');
+  const finalPrice = data.price ?? Number(exists.price);
+  const finalActive = data.active ?? exists.active;
+  if (finalActive && finalPrice <= 0) throw unprocessable('No se puede activar un producto sin precio');
   const p = await prisma.product.update({ where: { id }, data, include: { category: true } });
   res.json(serializeProduct(p, (await getSettings()).ivaRate));
 });
@@ -83,10 +102,19 @@ productsRouter.post('/bulk-price', async (req, res) => {
       ...(categoryId ? { categoryId } : {}),
       ...(productIds?.length ? { id: { in: productIds } } : {}),
     },
-    select: { id: true, price: true },
+    select: { id: true, price: true, priceTransfer: true },
   });
   await prisma.$transaction(
-    products.map((p) => prisma.product.update({ where: { id: p.id }, data: { price: applyPercent(Number(p.price), percent) } })),
+    products.map((p) =>
+      prisma.product.update({
+        where: { id: p.id },
+        data: {
+          price: applyPercent(Number(p.price), percent),
+          // Si tiene precio de transferencia fijo, también se actualiza
+          ...(p.priceTransfer != null ? { priceTransfer: applyPercent(Number(p.priceTransfer), percent) } : {}),
+        },
+      }),
+    ),
   );
   res.json({ updated: products.length });
 });

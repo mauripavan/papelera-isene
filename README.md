@@ -24,7 +24,31 @@ pnpm db:seed                               # crea el usuario admin
 pnpm dev                                   # API en :3100 y panel en :5173
 ```
 
-Para cargar productos de ejemplo: `SEED_SAMPLE=1 pnpm db:seed`.
+Para cargar el catálogo real: `pnpm db:import` (ver abajo). Para productos de ejemplo: `SEED_SAMPLE=1 pnpm db:seed`.
+
+## Catálogo
+
+El catálogo inicial sale de las fotos de las listas de precios (`apps/listas/`) y está en
+`apps/api/prisma/data/catalogo.csv`, con un código corto por producto (`BOL-001`, `DES-014`…)
+que es el que el cliente usa para pedir por WhatsApp.
+
+```bash
+pnpm db:import                       # crea o actualiza todos los productos por código
+pnpm db:import -- --solo-nuevos      # solo agrega los que faltan, no pisa cambios hechos en el panel
+```
+
+Cada fila tiene un estado de revisión:
+
+- **ok**: precio legible y actualizado. Queda activo.
+- **revisar + activo**: tiene precio pero hay alguna duda (dígito borroso, etiqueta corrida, presentación no clara). Se vende igual.
+- **revisar + inactivo**: sin precio o con un precio viejo de la lista impresa. Queda con precio 0 y el bot no lo ofrece hasta que alguien le cargue precio.
+
+En el panel, *Productos → Solo para revisar* muestra la nota de cada uno y la foto de donde salió.
+Al cargarle precio a un producto sin precio se activa solo. El botón **Listo** lo saca de revisión.
+
+Algunos productos tienen un precio de transferencia fijo que no sale de sumar el 21% (por ejemplo,
+los que en la lista tenían precio contado y precio con IVA por separado). Ese valor se carga en la
+columna *Transferencia*. Si se deja vacía, se calcula con el IVA.
 
 Tests de reglas de precio: `pnpm test`. Chequeo de tipos: `pnpm typecheck`.
 

@@ -20,7 +20,11 @@ export interface Product {
   unit: string;
   price: number;
   discriminaIva: boolean;
+  /** Precio de transferencia cargado a mano (null = se calcula con IVA) */
+  priceTransferFixed: number | null;
   active: boolean;
+  needsReview: boolean;
+  reviewNote: string | null;
   categoryId: number | null;
   category: { id: number; name: string } | null;
   priceCash: number;
