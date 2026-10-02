@@ -2,6 +2,7 @@ import { productPrices } from '@papelera/shared';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState, type FormEvent } from 'react';
 import { ErrorNote } from '../components/Badges.tsx';
+import { Modal } from '../components/Modal.tsx';
 import { api } from '../lib/api.ts';
 import { ars } from '../lib/format.ts';
 import type { Category, Product, Settings } from '../lib/types.ts';
@@ -16,14 +17,23 @@ export function ProductsPage() {
   const [categoryId, setCategoryId] = useState<string>('');
   const [showInactive, setShowInactive] = useState(false);
   const [onlyReview, setOnlyReview] = useState(false);
+  const [modal, setModal] = useState<'new' | 'bulk' | null>(null);
 
-  const settings = useQuery({ queryKey: ['settings'], queryFn: () => api<Settings>('/api/settings') });
-  const categories = useQuery({ queryKey: ['categories'], queryFn: () => api<Category[]>('/api/categories') });
+  const settings = useQuery({
+    queryKey: ['settings'],
+    queryFn: () => api<Settings>('/api/settings'),
+  });
+  const categories = useQuery({
+    queryKey: ['categories'],
+    queryFn: () => api<Category[]>('/api/categories'),
+  });
   const products = useQuery({
     queryKey: ['products', q, categoryId, showInactive, onlyReview],
     queryFn: () => {
       // "Para revisar" muestra también los inactivos: la mayoría son productos sin precio.
-      const sp = new URLSearchParams({ active: showInactive || onlyReview ? 'all' : 'true' });
+      const sp = new URLSearchParams({
+        active: showInactive || onlyReview ? 'all' : 'true',
+      });
       if (onlyReview) sp.set('review', 'true');
       if (q.trim()) sp.set('q', q.trim());
       if (categoryId) sp.set('categoryId', categoryId);
@@ -52,37 +62,48 @@ export function ProductsPage() {
       <div className="page-head">
         <h1>Productos</h1>
         <div className="row">
-          <input className="search" placeholder="Buscar por código o nombre" value={q} onChange={(e) => setQ(e.target.value)} />
-          <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
-            <option value="">Todas las categorías</option>
-            {categories.data?.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.name}
-              </option>
-            ))}
-          </select>
-          <label className="inline">
-            <input type="checkbox" checked={showInactive} onChange={(e) => setShowInactive(e.target.checked)} />
-            Ver inactivos
-          </label>
-          <label className="inline">
-            <input type="checkbox" checked={onlyReview} onChange={(e) => setOnlyReview(e.target.checked)} />
-            Solo para revisar
-            {!!reviewCount.data?.count && <span className="count">{reviewCount.data.count}</span>}
-          </label>
+          <button className="btn" onClick={() => setModal('bulk')}>
+            Actualizar precios por %
+          </button>
+          <button className="btn primary" onClick={() => setModal('new')}>
+            + Nuevo producto
+          </button>
         </div>
       </div>
 
+      <div className="filters row">
+        <input className="search" placeholder="Buscar por código o nombre" value={q} onChange={(e) => setQ(e.target.value)} />
+        <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
+          <option value="">Todas las categorías</option>
+          {categories.data?.map((c) => (
+            <option key={c.id} value={c.id}>
+              {c.name}
+            </option>
+          ))}
+        </select>
+        <label className="inline">
+          <input type="checkbox" checked={showInactive} onChange={(e) => setShowInactive(e.target.checked)} />
+          Ver inactivos
+        </label>
+        <label className="inline">
+          <input type="checkbox" checked={onlyReview} onChange={(e) => setOnlyReview(e.target.checked)} />
+          Solo para revisar
+          {!!reviewCount.data?.count && <span className="count">{reviewCount.data.count}</span>}
+        </label>
+      </div>
+
       <p className="muted small">
-        El precio que cargás es el de <b>efectivo</b>. Si el producto <b>discrimina IVA</b>, en transferencia se le suma
-        el {ivaPct}%. Si no, cuesta lo mismo en los dos medios. Si cargás un precio de transferencia a mano, se usa ese
-        en lugar del cálculo. Los productos sin precio quedan inactivos y el bot no los ofrece.
+        El precio que cargás es el de <b>efectivo</b>. Si el producto <b>discrimina IVA</b>, en transferencia se le suma el {ivaPct}%. Si
+        no, cuesta lo mismo en los dos medios. Si cargás un precio de transferencia a mano, se usa ese en lugar del cálculo. Los productos
+        sin precio quedan inactivos y el bot no los ofrece.
       </p>
 
-      <div className="grid-2">
-        <NewProductForm categories={categories.data ?? []} />
+      <Modal open={modal === 'new'} onClose={() => setModal(null)} title="Nuevo producto">
+        <NewProductForm categories={categories.data ?? []} onDone={() => setModal(null)} />
+      </Modal>
+      <Modal open={modal === 'bulk'} onClose={() => setModal(null)} title="Actualizar precios por %">
         <BulkPriceForm categories={categories.data ?? []} />
-      </div>
+      </Modal>
 
       <ErrorNote error={products.error ?? update.error} />
       <div className="table-wrap">
@@ -136,7 +157,10 @@ function ProductRow({
 
   const priceNum = Number(price.replace(',', '.'));
   const computed = productPrices(
-    { price: Number.isFinite(priceNum) ? priceNum : p.price, discriminaIva: p.discriminaIva },
+    {
+      price: Number.isFinite(priceNum) ? priceNum : p.price,
+      discriminaIva: p.discriminaIva,
+    },
     ivaRate,
   );
 
@@ -146,11 +170,16 @@ function ProductRow({
     if (field === 'price') {
       if (!Number.isFinite(priceNum) || priceNum < 0) return setPrice(String(p.price));
       // Un producto que no tenía precio se activa al cargarle uno
-      if (priceNum !== p.price) onSave({ price: priceNum, ...(p.price === 0 && priceNum > 0 ? { active: true } : {}) });
+      if (priceNum !== p.price)
+        onSave({
+          price: priceNum,
+          ...(p.price === 0 && priceNum > 0 ? { active: true } : {}),
+        });
     }
     if (field === 'transfer') {
       const t = transfer.trim() === '' ? null : Number(transfer.replace(',', '.'));
-      if (t !== null && (!Number.isFinite(t) || t < 0)) return setTransfer(p.priceTransferFixed == null ? '' : String(p.priceTransferFixed));
+      if (t !== null && (!Number.isFinite(t) || t < 0))
+        return setTransfer(p.priceTransferFixed == null ? '' : String(p.priceTransferFixed));
       if (t !== p.priceTransferFixed) onSave({ priceTransferFixed: t });
     }
   };
@@ -172,7 +201,11 @@ function ProductRow({
         <select
           className="cell"
           value={p.categoryId ?? ''}
-          onChange={(e) => onSave({ categoryId: e.target.value ? Number(e.target.value) : null })}
+          onChange={(e) =>
+            onSave({
+              categoryId: e.target.value ? Number(e.target.value) : null,
+            })
+          }
         >
           <option value="">—</option>
           {categories.map((c) => (
@@ -221,7 +254,12 @@ function ProductRow({
           <button
             className="btn sm"
             title="Marcar como revisado"
-            onClick={() => onSave({ needsReview: false, ...(p.price > 0 ? { active: true } : {}) })}
+            onClick={() =>
+              onSave({
+                needsReview: false,
+                ...(p.price > 0 ? { active: true } : {}),
+              })
+            }
           >
             Listo
           </button>
@@ -233,9 +271,16 @@ function ProductRow({
   );
 }
 
-function NewProductForm({ categories }: { categories: Category[] }) {
+function NewProductForm({ categories, onDone }: { categories: Category[]; onDone: () => void }) {
   const qc = useQueryClient();
-  const empty = { code: '', name: '', unit: 'unidad', price: '', discriminaIva: false, categoryId: '' };
+  const empty = {
+    code: '',
+    name: '',
+    unit: 'unidad',
+    price: '',
+    discriminaIva: false,
+    categoryId: '',
+  };
   const [form, setForm] = useState(empty);
   const create = useMutation({
     mutationFn: () =>
@@ -254,6 +299,7 @@ function NewProductForm({ categories }: { categories: Category[] }) {
       setForm(empty);
       qc.invalidateQueries({ queryKey: ['products'] });
       qc.invalidateQueries({ queryKey: ['categories'] });
+      onDone();
     },
   });
   const newCategory = useMutation({
@@ -270,8 +316,7 @@ function NewProductForm({ categories }: { categories: Category[] }) {
   };
 
   return (
-    <form className="card form-grid" onSubmit={onSubmit}>
-      <h2>Nuevo producto</h2>
+    <form className="form-grid" onSubmit={onSubmit}>
       <label>
         Código
         <input value={form.code} onChange={(e) => setForm({ ...form, code: e.target.value.toUpperCase() })} placeholder="R-A4" required />
@@ -331,7 +376,10 @@ function BulkPriceForm({ categories }: { categories: Category[] }) {
     mutationFn: () =>
       api<{ updated: number }>('/api/products/bulk-price', {
         method: 'POST',
-        json: { percent: Number(percent.replace(',', '.')), categoryId: categoryId ? Number(categoryId) : undefined },
+        json: {
+          percent: Number(percent.replace(',', '.')),
+          categoryId: categoryId ? Number(categoryId) : undefined,
+        },
       }),
     onSuccess: (r) => {
       setResult(`Se actualizaron ${r.updated} productos.`);
@@ -343,13 +391,14 @@ function BulkPriceForm({ categories }: { categories: Category[] }) {
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     setResult(null);
-    const scope = categoryId ? `la categoría "${categories.find((c) => String(c.id) === categoryId)?.name}"` : 'TODOS los productos activos';
+    const scope = categoryId
+      ? `la categoría "${categories.find((c) => String(c.id) === categoryId)?.name}"`
+      : 'TODOS los productos activos';
     if (window.confirm(`¿Aplicar ${percent}% a ${scope}?`)) bulk.mutate();
   };
 
   return (
-    <form className="card form-grid" onSubmit={onSubmit}>
-      <h2>Actualizar precios por %</h2>
+    <form className="form-grid" onSubmit={onSubmit}>
       <p className="muted small span-2">Usá un número negativo para bajar precios. Se redondea a centavos.</p>
       <label>
         Porcentaje

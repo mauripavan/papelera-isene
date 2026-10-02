@@ -221,3 +221,18 @@ input.cell.num { text-align: right; max-width: 130px; margin-left: auto; display
 }
 input.cell.num::placeholder { color: var(--ink-2); opacity: 0.8; }
 tr.inactive td .review-note { opacity: 1; }
+
+/* ─── Filtros y modal ───────────────────────────────────── */
+.filters { margin-bottom: 12px; }
+.modal {
+  width: min(560px, calc(100vw - 32px));
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: 0 20px 50px rgba(29, 33, 38, 0.18);
+}
+.modal::backdrop { background: rgba(29, 33, 38, 0.35); }
+.modal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.modal-head h2 { margin: 0; }
