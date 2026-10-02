@@ -21,7 +21,7 @@ cp apps/api/.env.example apps/api/.env     # completá JWT_SECRET, BOT_API_KEY y
 pnpm db:up                                 # Postgres en Docker
 pnpm db:migrate --name init                # crea las tablas (primera vez)
 pnpm db:seed                               # crea el usuario admin
-pnpm dev                                   # API en :3000 y panel en :5173
+pnpm dev                                   # API en :3100 y panel en :5173
 ```
 
 Para cargar productos de ejemplo: `SEED_SAMPLE=1 pnpm db:seed`.
