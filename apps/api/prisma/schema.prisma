@@ -1,0 +1,177 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Panel ───────────────────────────────────────────────────────────────────
+
+model User {
+  id           Int      @id @default(autoincrement())
+  username     String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+
+  @@map("users")
+}
+
+/// Configuración del negocio. Hay una única fila (id = 1).
+model Settings {
+  id            Int     @id @default(1)
+  businessName  String  @default("Papelera Isene")
+  /// Tasa de IVA para productos que discriminan (0.21 = 21%)
+  ivaRate       Decimal @default(0.21) @db.Decimal(5, 4)
+  /// Texto con los datos para transferir (alias, CBU, titular) que el bot le pasa al cliente
+  transferInfo  String  @default("")
+  pickupAddress String  @default("")
+
+  @@map("settings")
+}
+
+// ─── Catálogo ────────────────────────────────────────────────────────────────
+
+model Category {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  sortOrder Int       @default(0)
+  products  Product[]
+
+  @@map("categories")
+}
+
+model Product {
+  id            Int         @id @default(autoincrement())
+  /// Código corto que el cliente usa para pedir por WhatsApp (ej. R-A4)
+  code          String      @unique
+  name          String
+  /// Presentación: unidad, caja x 50, resma x 500...
+  unit          String      @default("unidad")
+  /// Precio en efectivo. Si discriminaIva = true, es el precio SIN IVA.
+  price         Decimal     @db.Decimal(12, 2)
+  /// true: en transferencia se suma el IVA. false: mismo precio en efectivo y transferencia.
+  discriminaIva Boolean     @default(false)
+  active        Boolean     @default(true)
+  categoryId    Int?
+  category      Category?   @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  orderItems    OrderItem[]
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@index([categoryId])
+  @@map("products")
+}
+
+// ─── Pedidos ─────────────────────────────────────────────────────────────────
+
+enum PaymentMethod {
+  EFECTIVO
+  TRANSFERENCIA
+}
+
+enum DeliveryMethod {
+  RETIRO
+  ENVIO
+}
+
+enum OrderStatus {
+  PENDIENTE_REVISION
+  ESPERANDO_CLIENTE
+  CONFIRMADO
+  PROGRAMADO
+  ENTREGADO
+  CANCELADO
+}
+
+enum ItemStatus {
+  PENDIENTE
+  DISPONIBLE
+  FALTANTE
+}
+
+enum PaymentStatus {
+  PENDIENTE
+  COMPROBANTE_RECIBIDO
+  PAGADO
+}
+
+model Customer {
+  id        Int      @id @default(autoincrement())
+  /// Teléfono en formato internacional sin "+" (ej. 5491122334455). Es la identidad en WhatsApp.
+  phone     String   @unique
+  name      String?
+  address   String?
+  orders    Order[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("customers")
+}
+
+model Order {
+  id              Int             @id @default(autoincrement())
+  customerId      Int
+  customer        Customer        @relation(fields: [customerId], references: [id])
+  status          OrderStatus     @default(PENDIENTE_REVISION)
+  paymentMethod   PaymentMethod
+  paymentStatus   PaymentStatus   @default(PENDIENTE)
+  deliveryMethod  DeliveryMethod
+  /// Dirección de envío (copia al momento del pedido)
+  deliveryAddress String?
+  /// Fecha en la que el pedido está listo para retirar o se envía
+  scheduledFor    DateTime?
+  /// Referencia al comprobante de transferencia (URL o id de media de WhatsApp)
+  receiptRef      String?
+  notes           String?
+  items           OrderItem[]
+  messages        OutboundMessage[]
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  @@index([status])
+  @@index([customerId])
+  @@map("orders")
+}
+
+model OrderItem {
+  id          Int        @id @default(autoincrement())
+  orderId     Int
+  order       Order      @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId   Int
+  product     Product    @relation(fields: [productId], references: [id])
+  /// Copias al momento del pedido: si después cambia la lista, el pedido no se altera.
+  productCode String
+  productName String
+  unitPrice   Decimal    @db.Decimal(12, 2)
+  quantity    Int
+  status      ItemStatus @default(PENDIENTE)
+
+  @@index([orderId])
+  @@map("order_items")
+}
+
+enum MessageStatus {
+  PENDING
+  SENT
+  FAILED
+}
+
+/// Mensajes que el bot tiene que mandarle al cliente (outbox).
+/// La API los genera cuando cambia el pedido; el bot los levanta y los envía.
+model OutboundMessage {
+  id        Int           @id @default(autoincrement())
+  orderId   Int?
+  order     Order?        @relation(fields: [orderId], references: [id], onDelete: SetNull)
+  phone     String
+  body      String
+  status    MessageStatus @default(PENDING)
+  attempts  Int           @default(0)
+  lastError String?
+  createdAt DateTime      @default(now())
+  sentAt    DateTime?
+
+  @@index([status, createdAt])
+  @@map("outbound_messages")
+}
