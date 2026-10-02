@@ -19,7 +19,7 @@ Requisitos: Node 22+, pnpm 10, Docker (para Postgres).
 pnpm install
 cp apps/api/.env.example apps/api/.env     # completá JWT_SECRET, BOT_API_KEY y ADMIN_PASSWORD
 pnpm db:up                                 # Postgres en Docker
-pnpm db:migrate -- --name init             # crea las tablas (primera vez)
+pnpm db:migrate --name init                # crea las tablas (primera vez)
 pnpm db:seed                               # crea el usuario admin
 pnpm dev                                   # API en :3000 y panel en :5173
 ```
