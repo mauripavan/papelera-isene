@@ -67,6 +67,9 @@ const BTN = {
   NO: 'MISSING_NO',
 } as const;
 
+/** "pedido", "hacer un pedido", "quiero hacer un pedido", "pedir", "nuevo pedido"… */
+const ORDER_WORDS = /^(QUIERO )?((HACER|ARMAR) (UN )?|NUEVO )?PEDIDO$|^(QUIERO )?PEDIR$/;
+
 export function listUrl() {
   return `${publicUrl}/lista`;
 }
@@ -151,13 +154,24 @@ export async function handleInbound(ctx: InboundContext, wa: Messenger) {
     state = 'IDLE';
   }
 
+  // "Hacer un pedido" funciona en cualquier paso (el botón puede venir de un menú viejo)
+  if (buttonId === BTN.ORDER || ORDER_WORDS.test(word.replace(/[¡!¿?.,]/g, '').trim())) {
+    if (state !== 'IDLE' && Object.keys(data.cart ?? {}).length) {
+      await saveSession(phone, 'ORDERING', data);
+      await wa.text(
+        phone,
+        `Ya tenés un pedido a medio armar:\n\n${await cartText(data.cart ?? {})}\n\n` +
+          'Seguí agregando productos o escribí *LISTO*. Para empezar de cero, escribí *CANCELAR*.',
+      );
+      return;
+    }
+    await saveSession(phone, 'ORDERING', { cart: {} });
+    await sendOrderingHelp(phone, wa);
+    return;
+  }
+
   switch (state) {
     case 'IDLE': {
-      if (buttonId === BTN.ORDER || word === 'PEDIDO' || word === 'HACER PEDIDO') {
-        await saveSession(phone, 'ORDERING', { cart: {} });
-        await sendOrderingHelp(phone, wa);
-        return;
-      }
       // Atajo: si ya manda códigos, arrancamos el pedido directo
       const parsed = parseItems(text);
       if (parsed.items.length) {
