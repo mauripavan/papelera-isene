@@ -9,6 +9,7 @@ import type { Messenger } from './bot/whatsapp.ts';
 import { errorHandler } from './middleware/error.ts';
 import { authRouter } from './routes/auth.ts';
 import { publicRouter } from './routes/public.ts';
+import { whatsappAdminRouter } from './routes/whatsapp-admin.ts';
 import { whatsappRouter } from './routes/whatsapp.ts';
 import { botRouter } from './routes/bot.ts';
 import { ordersRouter } from './routes/orders.ts';
@@ -18,7 +19,21 @@ import { settingsRouter } from './routes/settings.ts';
 export function createApp(opts: { messenger?: Messenger } = {}) {
   const app = express();
   app.set('trust proxy', 1);
-  app.use(helmet());
+  app.use(
+    helmet({
+      // El botón "Conectar WhatsApp" usa el SDK de Facebook: carga su script y abre un popup
+      // que nos habla con postMessage (por eso COOP permite popups).
+      crossOriginOpenerPolicy: { policy: 'same-origin-allow-popups' },
+      contentSecurityPolicy: {
+        directives: {
+          'script-src': ["'self'", 'https://connect.facebook.net'],
+          'frame-src': ["'self'", 'https://www.facebook.com', 'https://web.facebook.com', 'https://*.facebook.com'],
+          'connect-src': ["'self'", 'https://*.facebook.com', 'https://graph.facebook.com'],
+          'img-src': ["'self'", 'data:', 'blob:', 'https:'],
+        },
+      },
+    }),
+  );
   app.use(cors({ origin: env.WEB_ORIGIN.split(',').map((s) => s.trim()) }));
   // Guardamos el body crudo para validar la firma de los webhooks de WhatsApp
   app.use(
@@ -45,6 +60,7 @@ export function createApp(opts: { messenger?: Messenger } = {}) {
   admin.use('/categories', categoriesRouter);
   admin.use('/orders', ordersRouter);
   admin.use('/settings', settingsRouter);
+  admin.use('/whatsapp', whatsappAdminRouter);
   app.use('/api', admin);
 
   // Bot: requiere x-bot-key

@@ -2,8 +2,8 @@ import { ORDER_STATUSES } from '@papelera/shared';
 import { Router } from 'express';
 import { z } from 'zod';
 import { prisma } from '../db.ts';
+import { isWhatsappEnabled } from '../bot/credentials.ts';
 import { whatsapp } from '../bot/whatsapp.ts';
-import { whatsappEnabled } from '../env.ts';
 import { badRequest, notFound, parseId } from '../lib/http.ts';
 import * as orders from '../services/orders.ts';
 import { orderInclude, serializeOrder } from '../services/serializers.ts';
@@ -60,7 +60,7 @@ ordersRouter.get('/:id', async (req, res) => {
 ordersRouter.get('/:id/receipt', async (req, res) => {
   const order = await prisma.order.findUnique({ where: { id: parseId(req.params.id) }, select: { receiptRef: true } });
   if (!order?.receiptRef) throw notFound('El pedido no tiene comprobante');
-  if (!order.receiptRef.startsWith('wa:') || !whatsappEnabled) throw badRequest('El comprobante no está disponible para descargar');
+  if (!order.receiptRef.startsWith('wa:') || !isWhatsappEnabled()) throw badRequest('El comprobante no está disponible para descargar');
   const info = await whatsapp.mediaInfo(order.receiptRef.slice(3));
   const file = await whatsapp.downloadMedia(info.url);
   if (!file.ok) throw notFound('WhatsApp ya no tiene el archivo (se guarda unos 30 días)');

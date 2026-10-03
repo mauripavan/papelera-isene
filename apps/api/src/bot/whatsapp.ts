@@ -1,5 +1,6 @@
 import { createHmac, timingSafeEqual } from 'node:crypto';
 import { env } from '../env.ts';
+import { getCredentials } from './credentials.ts';
 
 /**
  * Cliente mínimo de WhatsApp Cloud API (Graph API de Meta).
@@ -30,14 +31,20 @@ export class WhatsAppError extends Error {
 
 const GRAPH = 'https://graph.facebook.com';
 
-function graphUrl(path: string) {
-  return `${GRAPH}/${env.WHATSAPP_API_VERSION}/${path}`;
+function graphUrl(path: string, token: string) {
+  const url = new URL(`${GRAPH}/${env.WHATSAPP_API_VERSION}/${path}`);
+  // appsecret_proof: Meta lo exige si la app tiene activado "Requerir clave secreta de la app"
+  if (env.WHATSAPP_APP_SECRET) url.searchParams.set('appsecret_proof', createHmac('sha256', env.WHATSAPP_APP_SECRET).update(token).digest('hex'));
+  return url.toString();
 }
 
-async function graph<T>(path: string, init: RequestInit = {}): Promise<T> {
-  const res = await fetch(graphUrl(path), {
+/** Llamada a la Graph API. Por defecto usa las credenciales del bot; se puede pasar otro token. */
+export async function graph<T>(path: string, init: RequestInit = {}, token?: string): Promise<T> {
+  const t = token ?? getCredentials()?.token;
+  if (!t) throw new WhatsAppError('WhatsApp no está configurado');
+  const res = await fetch(graphUrl(path, t), {
     ...init,
-    headers: { authorization: `Bearer ${env.WHATSAPP_TOKEN}`, 'content-type': 'application/json', ...init.headers },
+    headers: { authorization: `Bearer ${t}`, 'content-type': 'application/json', ...init.headers },
   });
   const body = (await res.json().catch(() => ({}))) as { error?: { message?: string; code?: number; error_data?: unknown } };
   if (!res.ok || body.error) {
@@ -59,7 +66,7 @@ const RECIPIENT_ERRORS = new Set([131030, 131026]);
 
 async function sendMessage(to: string, payload: Record<string, unknown>) {
   const send = (recipient: string) =>
-    graph(`${env.WHATSAPP_PHONE_NUMBER_ID}/messages`, {
+    graph(`${getCredentials()?.phoneNumberId}/messages`, {
       method: 'POST',
       body: JSON.stringify({ messaging_product: 'whatsapp', recipient_type: 'individual', to: recipient, ...payload }),
     });
@@ -102,7 +109,7 @@ export const whatsapp: Messenger & {
   },
 
   downloadMedia(url) {
-    return fetch(url, { headers: { authorization: `Bearer ${env.WHATSAPP_TOKEN}` } });
+    return fetch(url, { headers: { authorization: `Bearer ${getCredentials()?.token}` } });
   },
 };
 

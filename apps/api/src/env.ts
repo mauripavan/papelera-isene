@@ -20,7 +20,17 @@ const schema = z.object({
   WHATSAPP_VERIFY_TOKEN: z.string().optional(),
   /** Para validar la firma de los webhooks (App settings → Basic → App secret) */
   WHATSAPP_APP_SECRET: z.string().optional(),
-  WHATSAPP_API_VERSION: z.string().default('v23.0'),
+  WHATSAPP_API_VERSION: z.string().default('v25.0'),
+  /** Si el dueño responde a mano desde la app, el bot se calla en ese chat durante estos minutos */
+  WHATSAPP_HUMAN_PAUSE_MINUTES: z.coerce.number().default(240),
+
+  // Embedded Signup (botón "Conectar WhatsApp" del panel)
+  /** ID de la app de Meta (Configuración de la app → Básica) */
+  META_APP_ID: z.string().optional(),
+  /** ID de la configuración de Facebook Login for Business con Embedded Signup */
+  META_CONFIG_ID: z.string().optional(),
+  /** Clave para cifrar el token guardado en la base. Si falta, se deriva de JWT_SECRET. */
+  TOKEN_ENCRYPTION_KEY: z.string().optional(),
   /** Cada cuántos ms el bot revisa la cola de mensajes a enviar */
   WHATSAPP_OUTBOX_INTERVAL_MS: z.coerce.number().default(5000),
 });
@@ -37,4 +47,3 @@ export const env = parsed.data;
 export const publicUrl =
   env.PUBLIC_URL?.replace(/\/$/, '') ?? (env.RAILWAY_PUBLIC_DOMAIN ? `https://${env.RAILWAY_PUBLIC_DOMAIN}` : `http://localhost:${env.PORT}`);
 
-export const whatsappEnabled = Boolean(env.WHATSAPP_TOKEN && env.WHATSAPP_PHONE_NUMBER_ID);

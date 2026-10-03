@@ -29,3 +29,10 @@ publicRouter.get('/price-list', async (_req, res) => {
     }),
   });
 });
+
+/** Datos del negocio para las páginas públicas (privacidad, borrado de datos). */
+publicRouter.get('/info', async (_req, res) => {
+  const s = await getSettings();
+  res.setHeader('Cache-Control', 'public, max-age=300');
+  res.json({ businessName: s.businessName, pickupAddress: s.pickupAddress });
+});

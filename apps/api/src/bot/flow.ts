@@ -79,6 +79,8 @@ export async function handleInbound(ctx: InboundContext, wa: Messenger) {
   const text = message.kind === 'text' ? message.text : message.kind === 'button' ? message.title : '';
   const buttonId = message.kind === 'button' ? message.id : null;
   const word = normalize(text);
+  const pausedUntil = (await prisma.botSession.findUnique({ where: { phone }, select: { pausedUntil: true } }))?.pausedUntil;
+  const paused = Boolean(pausedUntil && pausedUntil > new Date());
 
   // 1. Respuesta a un pedido con faltantes
   const waiting = await prisma.order.findFirst({
@@ -107,11 +109,27 @@ export async function handleInbound(ctx: InboundContext, wa: Messenger) {
       await orders.attachReceipt(unpaid.id, `wa:${message.mediaId}`);
       return;
     }
-    await wa.text(phone, 'Recibimos tu archivo 👍 Si querías hacer un pedido, escribí *MENU*.');
+    if (!paused) await wa.text(phone, 'Recibimos tu archivo 👍 Si querías hacer un pedido, escribí *MENU*.');
     return;
   }
 
-  // 3. Comandos que funcionan siempre
+  // 3. Borrado de datos: funciona siempre, aunque el bot esté en pausa
+  if (word === 'BORRAR MIS DATOS') {
+    await forgetCustomer(phone);
+    await wa.text(
+      phone,
+      'Listo, borramos tu nombre, tu dirección y la conversación con el bot. ' +
+        'Los pedidos que ya hiciste se conservan sin esos datos porque los necesitamos para la contabilidad.',
+    );
+    return;
+  }
+  // 4. Si el dueño está atendiendo este chat a mano, el bot no conversa (salvo que pidan MENU)
+  if (paused) {
+    if (word !== 'MENU') return;
+    await prisma.botSession.update({ where: { phone }, data: { pausedUntil: null } });
+  }
+
+  // 5. Comandos que funcionan siempre
   if (word === 'CANCELAR') {
     await saveSession(phone, 'IDLE', {});
     await wa.text(phone, 'Listo, cancelé el pedido que estabas armando. Cuando quieras, escribí *MENU*.');
@@ -315,6 +333,14 @@ export async function handleInbound(ctx: InboundContext, wa: Messenger) {
 }
 
 // ─── Sesión ──────────────────────────────────────────────────────────────────
+
+/** Pedido de borrado de datos (lo pide Meta y está explicado en /eliminar-datos). */
+export async function forgetCustomer(phone: string) {
+  await prisma.botSession.deleteMany({ where: { phone } });
+  await prisma.customer.updateMany({ where: { phone }, data: { name: null, address: null } });
+  const customer = await prisma.customer.findUnique({ where: { phone }, select: { id: true } });
+  if (customer) await prisma.order.updateMany({ where: { customerId: customer.id }, data: { deliveryAddress: null } });
+}
 
 async function loadSession(phone: string): Promise<{ state: State; data: SessionData }> {
   const s = await prisma.botSession.findUnique({ where: { phone } });

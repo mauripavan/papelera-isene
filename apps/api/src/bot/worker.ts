@@ -1,5 +1,6 @@
 import { prisma } from '../db.ts';
 import { env } from '../env.ts';
+import { isWhatsappEnabled } from './credentials.ts';
 import { whatsapp, WhatsAppError, type Messenger } from './whatsapp.ts';
 
 /**
@@ -15,6 +16,7 @@ const MAX_ATTEMPTS = 5;
 const OUTSIDE_WINDOW = 131047;
 
 export async function flushOutbox(wa: Messenger = whatsapp) {
+  if (wa === whatsapp && !isWhatsappEnabled()) return 0;
   const pending = await prisma.outboundMessage.findMany({
     where: { status: 'PENDING', attempts: { lt: MAX_ATTEMPTS } },
     orderBy: { createdAt: 'asc' },

@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { Layout } from './components/Layout.tsx';
 import { useAuth } from './lib/auth.tsx';
+import { DataDeletionPage, PrivacyPage } from './pages/LegalPages.tsx';
 import { LoginPage } from './pages/LoginPage.tsx';
 import { OrderDetailPage } from './pages/OrderDetailPage.tsx';
 import { OrdersPage } from './pages/OrdersPage.tsx';
@@ -14,6 +15,8 @@ export function App() {
 
   // Lista de precios pública: la abre cualquiera desde el link del bot, sin login
   if (location.pathname === '/lista') return <PriceListPage />;
+  if (location.pathname === '/privacidad') return <PrivacyPage />;
+  if (location.pathname === '/eliminar-datos') return <DataDeletionPage />;
 
   if (loading) return <div className="splash">Cargando…</div>;
   if (!user) {

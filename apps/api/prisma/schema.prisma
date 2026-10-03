@@ -193,6 +193,8 @@ model BotSession {
   state     String   @default("IDLE")
   /// Datos parciales del pedido en curso (carrito, medio de pago, etc.)
   data      Json     @default("{}")
+  /// Si el dueño respondió a mano desde la app, el bot no conversa hasta esta hora
+  pausedUntil DateTime?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -207,4 +209,22 @@ model InboundMessage {
 
   @@index([receivedAt])
   @@map("inbound_messages")
+}
+
+/// Número de WhatsApp conectado con Embedded Signup. Hay una sola fila (id = 1).
+/// Si no existe, el bot usa las variables WHATSAPP_TOKEN / WHATSAPP_PHONE_NUMBER_ID.
+model WhatsappConnection {
+  id            Int      @id @default(1)
+  wabaId        String
+  phoneNumberId String
+  displayPhone  String?
+  verifiedName  String?
+  /// Token del usuario del sistema de la integración, cifrado (AES-256-GCM)
+  tokenEnc      String
+  /// Conectado en modo coexistencia (sigue usándose la app WhatsApp Business)
+  coexistence   Boolean  @default(true)
+  connectedAt   DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("whatsapp_connection")
 }

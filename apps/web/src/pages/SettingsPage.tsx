@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState, type FormEvent } from 'react';
 import { ErrorNote } from '../components/Badges.tsx';
+import { WhatsAppCard } from '../components/WhatsAppCard.tsx';
 import { api } from '../lib/api.ts';
 import type { Settings } from '../lib/types.ts';
 
@@ -10,6 +11,7 @@ export function SettingsPage() {
       <div className="page-head">
         <h1>Ajustes</h1>
       </div>
+      <WhatsAppCard />
       <div className="grid-2">
         <BusinessForm />
         <PasswordForm />

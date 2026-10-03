@@ -153,3 +153,24 @@ contra la base local y muestra lo que respondería el bot.
 
 Variables: `WHATSAPP_TOKEN`, `WHATSAPP_PHONE_NUMBER_ID`, `WHATSAPP_VERIFY_TOKEN`,
 `WHATSAPP_APP_SECRET` (ver `apps/api/.env.example`). Sin ellas el bot queda apagado.
+
+### Número real (coexistencia)
+
+En *Ajustes → WhatsApp* del panel está el botón **Conectar WhatsApp de la papelera**. Abre el
+Embedded Signup de Meta en modo coexistencia: el número sigue funcionando en la app WhatsApp
+Business del celular y además lo atiende el bot. El servidor canjea el código por un token
+permanente (se guarda cifrado en `whatsapp_connection`), suscribe la app a la cuenta y pide la
+sincronización de contactos e historial. Desde ese momento el bot usa ese número en lugar de las
+variables `WHATSAPP_TOKEN` / `WHATSAPP_PHONE_NUMBER_ID`.
+
+Requisitos en Meta: ser Tech Provider (verificación del negocio + revisión de la app con
+`whatsapp_business_messaging` y `whatsapp_business_management`), una configuración de Facebook
+Login for Business para Embedded Signup (`META_CONFIG_ID`), la app en modo Live y suscribirse a los
+campos de webhook `messages`, `smb_message_echoes`, `history` y `smb_app_state_sync`.
+
+- Si el dueño responde a mano desde la app, el bot se calla en ese chat durante
+  `WHATSAPP_HUMAN_PAUSE_MINUTES` (4 h por defecto). Si el cliente escribe MENU, vuelve.
+- Hay que abrir WhatsApp Business en el celular al menos una vez cada 14 días o Meta corta la conexión.
+- Páginas públicas que pide Meta: `/privacidad` y `/eliminar-datos`. El cliente puede escribir
+  `BORRAR MIS DATOS` y el bot borra su nombre, dirección y conversación.
+- `scripts/test-connection.ts` prueba la conexión y la pausa con la Graph API simulada.

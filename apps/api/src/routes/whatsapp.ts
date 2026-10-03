@@ -38,7 +38,12 @@ export function whatsappRouter(wa: Messenger = whatsapp) {
     res.sendStatus(200);
     const messages = extractMessages(req.body);
     const statuses = countStatuses(req.body);
-    console.log(`[bot] webhook recibido: ${messages.length} mensaje(s), ${statuses.length} aviso(s) de estado`);
+    const echoes = extractEchoes(req.body);
+    console.log(
+      `[bot] webhook recibido: ${messages.length} mensaje(s), ${echoes.length} respuesta(s) desde la app, ${statuses.length} aviso(s) de estado`,
+    );
+    // El dueño contestó a mano desde WhatsApp Business: el bot se calla en ese chat por un rato
+    for (const to of new Set(echoes)) enqueue(to, () => pauseBot(to));
     for (const s of statuses.filter((s) => s.status === 'failed')) console.warn(`[bot] WhatsApp no pudo entregar un mensaje a ${s.recipient}: ${s.error}`);
     for (const msg of messages) enqueue(msg.phone, () => processMessage(msg, wa));
   });
@@ -76,6 +81,23 @@ export function extractMessages(body: unknown): WaMessage[] {
     }
   }
   return out;
+}
+
+/** Mensajes que el dueño mandó desde la app WhatsApp Business (coexistencia). Devuelve a quién. */
+export function extractEchoes(body: unknown): string[] {
+  const out: string[] = [];
+  for (const entry of ((body as { entry?: any[] })?.entry ?? []) as any[]) {
+    for (const change of entry.changes ?? []) {
+      for (const echo of change.value?.message_echoes ?? []) if (echo?.to) out.push(String(echo.to));
+    }
+  }
+  return out;
+}
+
+async function pauseBot(phone: string) {
+  const pausedUntil = new Date(Date.now() + env.WHATSAPP_HUMAN_PAUSE_MINUTES * 60_000);
+  await prisma.botSession.upsert({ where: { phone }, create: { phone, pausedUntil }, update: { pausedUntil } });
+  console.log(`[bot] respuesta manual a ${phone}: bot en pausa en ese chat hasta ${pausedUntil.toISOString()}`);
 }
 
 /** Avisos de estado de mensajes enviados (sent, delivered, read, failed). */
