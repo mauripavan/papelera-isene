@@ -27,6 +27,8 @@ model Settings {
   /// Texto con los datos para transferir (alias, CBU, titular) que el bot le pasa al cliente
   transferInfo  String  @default("")
   pickupAddress String  @default("")
+  /// Compra mínima para envío (0 = sin mínimo)
+  minOrderForDelivery Decimal @default(0) @db.Decimal(12, 2)
 
   @@map("settings")
 }
@@ -94,7 +96,18 @@ enum OrderStatus {
 enum ItemStatus {
   PENDIENTE
   DISPONIBLE
+  /// Hay menos de lo pedido: ver availableQuantity
+  PARCIAL
   FALTANTE
+}
+
+/// Lo decide el dueño al revisar un pedido con envío
+enum ShippingStatus {
+  PENDIENTE
+  GRATIS
+  CON_COSTO
+  /// No llegan con envío a esa zona: el pedido pasa a retiro (el cliente tiene que aceptar)
+  FUERA_ZONA
 }
 
 enum PaymentStatus {
@@ -128,6 +141,9 @@ model Order {
   deliveryMethod  DeliveryMethod
   /// Dirección de envío (copia al momento del pedido)
   deliveryAddress String?
+  /// Solo para pedidos con envío. null en los de retiro.
+  shippingStatus  ShippingStatus?
+  shippingCost    Decimal         @default(0) @db.Decimal(12, 2)
   /// Fecha en la que el pedido está listo para retirar o se envía
   scheduledFor    DateTime?
   /// Referencia al comprobante de transferencia (URL o id de media de WhatsApp)
@@ -155,6 +171,8 @@ model OrderItem {
   unitPrice   Decimal    @db.Decimal(12, 2)
   quantity    Int
   status      ItemStatus @default(PENDIENTE)
+  /// Cantidad que hay cuando el ítem es PARCIAL
+  availableQuantity Int?
 
   @@index([orderId])
   @@map("order_items")

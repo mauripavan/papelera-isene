@@ -39,8 +39,12 @@ export interface OrderItem {
   unitPrice: number;
   quantity: number;
   status: ItemStatus;
+  availableQuantity: number | null;
+  deliveredQuantity: number;
   lineTotal: number;
 }
+
+export type ShippingStatus = 'PENDIENTE' | 'GRATIS' | 'CON_COSTO' | 'FUERA_ZONA';
 
 export interface Order {
   id: number;
@@ -49,6 +53,8 @@ export interface Order {
   paymentStatus: PaymentStatus;
   deliveryMethod: DeliveryMethod;
   deliveryAddress: string | null;
+  shippingStatus: ShippingStatus | null;
+  shippingCost: number;
   scheduledFor: string | null;
   receiptRef: string | null;
   notes: string | null;
@@ -56,6 +62,7 @@ export interface Order {
   customer: { id: number; phone: string; name: string | null; address: string | null };
   items: OrderItem[];
   subtotal: number;
+  itemsTotal: number;
   total: number;
 }
 
@@ -78,4 +85,5 @@ export interface Settings {
   ivaRate: number;
   transferInfo: string;
   pickupAddress: string;
+  minOrderForDelivery: number;
 }

@@ -102,11 +102,17 @@ async function main() {
   const order = await prisma.order.findFirstOrThrow({ where: { customer: { phone: PHONE } }, include: { items: true }, orderBy: { id: 'desc' } });
   console.log(`\n🗂  Pedido #${order.id} creado: ${order.status}, ${order.items.length} ítems, ${order.paymentMethod}, ${order.deliveryMethod} a ${order.deliveryAddress}`);
 
-  // Panel: marca un faltante y avisa
-  await orders.setItemStatus(order.id, order.items[0]!.id, 'FALTANTE');
+  // Panel: el primero es parcial (pidió 2, hay 1), el resto disponible y el envío tiene costo
+  await orders.setItemStatus(order.id, order.items[0]!.id, 'PARCIAL', 1);
   for (const it of order.items.slice(1)) await orders.setItemStatus(order.id, it.id, 'DISPONIBLE');
+  try {
+    await orders.submitReview(order.id);
+  } catch (e) {
+    console.log(`\n⛔ Revisión sin definir envío: ${(e as Error).message}`);
+  }
+  await orders.setShipping(order.id, 'CON_COSTO', 1500);
   await orders.submitReview(order.id);
-  await flush('Panel: revisión con faltantes');
+  await flush('Panel: revisión con parcial + envío con costo');
 
   await text('Si');
   await flush('Cliente aceptó');
@@ -116,13 +122,34 @@ async function main() {
   const after = await prisma.order.findUniqueOrThrow({ where: { id: order.id } });
   console.log(`\n🗂  Pedido #${order.id}: ${after.status}, pago ${after.paymentStatus}, comprobante ${after.receiptRef}`);
 
-  // Segundo pedido: atajo mandando códigos directo, retiro y efectivo, con la dirección guardada
+  // Segundo pedido: compra mínima para envío que no se alcanza
+  const prevSettings = await prisma.settings.findUniqueOrThrow({ where: { id: 1 } });
+  await prisma.settings.update({ where: { id: 1 }, data: { minOrderForDelivery: 999999999 } });
   await text(`${a} 1`);
   await text('listo');
   await text('efectivo');
+  await text('envio'); // no se permite: vuelve a avisar el mínimo
+  await button('DEL_SEGUIR', 'Seguir comprando');
+  await text(`${b} 1`);
+  await text('listo');
+  await text('efectivo');
+  // Baja el mínimo: ahora sí lo supera
+  await prisma.settings.update({ where: { id: 1 }, data: { minOrderForDelivery: 1 } });
   await button('DEL_ENVIO', 'Envío');
   await button('ADDR_OK', 'Sí, ahí');
   await text('si');
+  await prisma.settings.update({ where: { id: 1 }, data: { minOrderForDelivery: prevSettings.minOrderForDelivery } });
+
+  // Panel: fuera de zona → pasa a retiro y el cliente tiene que aceptar
+  const order2 = await prisma.order.findFirstOrThrow({ where: { customer: { phone: PHONE } }, include: { items: true }, orderBy: { id: 'desc' } });
+  await orders.markAllAvailable(order2.id);
+  await orders.setShipping(order2.id, 'FUERA_ZONA');
+  await orders.submitReview(order2.id);
+  await flush('Panel: fuera de zona');
+  await text('si');
+  await flush('Cliente aceptó retirar');
+  const o2 = await prisma.order.findUniqueOrThrow({ where: { id: order2.id } });
+  console.log(`\n🗂  Pedido #${o2.id}: ${o2.status}, ${o2.deliveryMethod}, envío ${o2.shippingStatus}`);
 
   // Duplicado: Meta reintenta el mismo id
   const dup = { type: 'text', text: { body: 'Hola' }, id: 'wamid.dup.1' };

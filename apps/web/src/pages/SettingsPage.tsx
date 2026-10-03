@@ -23,7 +23,7 @@ export function SettingsPage() {
 function BusinessForm() {
   const qc = useQueryClient();
   const settings = useQuery({ queryKey: ['settings'], queryFn: () => api<Settings>('/api/settings') });
-  const [form, setForm] = useState({ businessName: '', ivaPct: '21', transferInfo: '', pickupAddress: '' });
+  const [form, setForm] = useState({ businessName: '', ivaPct: '21', transferInfo: '', pickupAddress: '', minOrder: '0' });
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
@@ -33,6 +33,7 @@ function BusinessForm() {
       ivaPct: String(Math.round(settings.data.ivaRate * 1000) / 10),
       transferInfo: settings.data.transferInfo,
       pickupAddress: settings.data.pickupAddress,
+      minOrder: String(settings.data.minOrderForDelivery),
     });
   }, [settings.data]);
 
@@ -45,6 +46,7 @@ function BusinessForm() {
           ivaRate: Number(form.ivaPct.replace(',', '.')) / 100,
           transferInfo: form.transferInfo,
           pickupAddress: form.pickupAddress,
+          minOrderForDelivery: Number(form.minOrder.replace(',', '.')) || 0,
         },
       }),
     onSuccess: () => {
@@ -70,6 +72,11 @@ function BusinessForm() {
       <label>
         IVA para productos que discriminan (%)
         <input value={form.ivaPct} onChange={(e) => setForm({ ...form, ivaPct: e.target.value })} inputMode="decimal" required />
+      </label>
+      <label className="span-2">
+        Compra mínima para envío ($)
+        <input value={form.minOrder} onChange={(e) => setForm({ ...form, minOrder: e.target.value })} inputMode="decimal" />
+        <span className="muted small">0 = sin mínimo. El bot lo avisa al preguntar retiro o envío.</span>
       </label>
       <label className="span-2">
         Dirección para retirar

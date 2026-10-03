@@ -32,6 +32,14 @@ test('el total no cobra los faltantes', () => {
   assert.equal(total, 231.5);
 });
 
+test('parciales: se cobra lo que hay', () => {
+  const total = orderTotal([
+    { unitPrice: 100, quantity: 10, status: 'PARCIAL', availableQuantity: 5 },
+    { unitPrice: 50, quantity: 2, status: 'DISPONIBLE' },
+  ]);
+  assert.equal(total, 600);
+});
+
 test('aumento porcentual', () => {
   assert.equal(applyPercent(1000, 12.5), 1125);
   assert.equal(applyPercent(1000, -10), 900);

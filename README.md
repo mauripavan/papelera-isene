@@ -66,16 +66,18 @@ El cálculo vive en `packages/shared/src/pricing.ts`. Cada ítem de un pedido gu
 **Pedidos.**
 
 ```
-PENDIENTE_REVISION ──(todo disponible)──────────────▶ CONFIRMADO ──(fecha)──▶ PROGRAMADO ──▶ ENTREGADO
+PENDIENTE_REVISION ──(todo como lo pidió)──────────▶ CONFIRMADO ──(fecha)──▶ PROGRAMADO ──▶ ENTREGADO
       │                                                   ▲
-      └──(hay faltantes)──▶ ESPERANDO_CLIENTE ──(acepta)──┘
+      └──(hay cambios)───▶ ESPERANDO_CLIENTE ──(acepta)──┘
                                     └──(rechaza)──▶ CANCELADO
 ```
 
 1. El bot toma teléfono, productos, medio de pago (efectivo/transferencia) y envío o retiro, informa el monto (`POST /bot/quote`) y crea el pedido (`POST /bot/orders`).
-2. Desde el panel se marca cada producto como **Hay** o **Falta** y se confirma la revisión:
-   - Si está todo, el pedido queda confirmado y el bot avisa al cliente. Si paga por transferencia, le pasa los datos y le pide el comprobante.
-   - Si falta algo, el bot informa los faltantes con el nuevo total y espera **SI**/**NO** (`POST /bot/orders/:id/customer-response`).
+   Si en *Ajustes* hay una **compra mínima para envío**, el bot la avisa al preguntar retiro/envío y no deja elegir envío por debajo del mínimo (ofrece retirar o seguir comprando).
+2. Desde el panel se marca cada producto como **Hay**, **Parcial** (cuántos hay de lo pedido) o **Falta**. Si es con envío, además se define si el envío es **gratis**, **con costo** (se suma al total) o **fuera de zona** (pasa a retiro). Después se confirma la revisión:
+   - Si está todo como lo pidió (y el envío es gratis), el pedido queda confirmado y el bot avisa al cliente. Si paga por transferencia, le pasa los datos y le pide el comprobante.
+   - Si hay faltantes, parciales, costo de envío o fuera de zona, el bot informa los cambios con el nuevo total y espera **SI**/**NO** (`POST /bot/orders/:id/customer-response`).
+   - Si no hay nada, se cancela y se le avisa.
 3. El comprobante entra por `POST /bot/orders/:id/receipt`.
 4. Desde el panel se asigna la fecha de envío o retiro y el bot se la informa al cliente.
 
@@ -95,7 +97,8 @@ PENDIENTE_REVISION ──(todo disponible)────────────�
 | `POST /api/products/bulk-price` `{percent, categoryId?}` | aumento masivo |
 | `GET/POST/PATCH/DELETE /api/categories` | categorías |
 | `GET /api/orders?status=A,B&q=`, `GET /api/orders/counts`, `GET /api/orders/:id` | pedidos |
-| `PATCH /api/orders/:id/items/:itemId` `{status}`, `POST …/items/all-available` | revisión de stock |
+| `PATCH /api/orders/:id/items/:itemId` `{status, availableQuantity?}`, `POST …/items/all-available` | revisión de stock (parcial: cuántos hay) |
+| `POST /api/orders/:id/shipping` `{shippingStatus, shippingCost?}` | envío gratis / con costo / fuera de zona |
 | `POST /api/orders/:id/review` | cierra la revisión y avisa al cliente |
 | `POST /api/orders/:id/schedule` `{scheduledFor}` | fecha de envío/retiro |
 | `POST /api/orders/:id/payment` `{paymentStatus}`, `/deliver`, `/cancel` | |

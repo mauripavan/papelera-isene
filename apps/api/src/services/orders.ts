@@ -97,6 +97,8 @@ export async function createOrder(draft: OrderDraft) {
         paymentMethod: draft.paymentMethod,
         deliveryMethod: draft.deliveryMethod,
         deliveryAddress: draft.deliveryMethod === 'ENVIO' ? address : null,
+        // El dueño define al revisar si el envío es gratis, con costo o fuera de zona
+        shippingStatus: draft.deliveryMethod === 'ENVIO' ? 'PENDIENTE' : null,
         notes: draft.notes,
         items: {
           create: q.lines.map((l) => ({
@@ -116,12 +118,26 @@ export async function createOrder(draft: OrderDraft) {
 
 // ─── Revisión de stock (panel) ───────────────────────────────────────────────
 
-export async function setItemStatus(orderId: number, itemId: number, status: 'PENDIENTE' | 'DISPONIBLE' | 'FALTANTE') {
+export async function setItemStatus(
+  orderId: number,
+  itemId: number,
+  status: 'PENDIENTE' | 'DISPONIBLE' | 'PARCIAL' | 'FALTANTE',
+  availableQuantity?: number,
+) {
   return prisma.$transaction(async (tx) => {
     const order = await loadOrder(tx, orderId);
     assertStatus(order, ['PENDIENTE_REVISION'], 'modificar ítems de');
-    if (!order.items.some((i) => i.id === itemId)) throw notFound('Ítem no encontrado en el pedido');
-    await tx.orderItem.update({ where: { id: itemId }, data: { status } });
+    const item = order.items.find((i) => i.id === itemId);
+    if (!item) throw notFound('Ítem no encontrado en el pedido');
+    if (status === 'PARCIAL') {
+      if (availableQuantity == null || availableQuantity < 1 || availableQuantity >= item.quantity) {
+        throw unprocessable(`Para un faltante parcial, indicá cuántos hay (entre 1 y ${item.quantity - 1})`);
+      }
+    }
+    await tx.orderItem.update({
+      where: { id: itemId },
+      data: { status, availableQuantity: status === 'PARCIAL' ? availableQuantity : null },
+    });
     return serializeOrder(await loadOrder(tx, orderId));
   });
 }
@@ -136,18 +152,40 @@ export async function markAllAvailable(orderId: number) {
   });
 }
 
+// ─── Envío (panel) ───────────────────────────────────────────────────────────
+
+/** Define si el envío es gratis, con costo o fuera de zona. Solo mientras se revisa el pedido. */
+export async function setShipping(orderId: number, shippingStatus: 'PENDIENTE' | 'GRATIS' | 'CON_COSTO' | 'FUERA_ZONA', shippingCost?: number) {
+  return prisma.$transaction(async (tx) => {
+    const order = await loadOrder(tx, orderId);
+    assertStatus(order, ['PENDIENTE_REVISION'], 'cambiar el envío de');
+    if (order.deliveryMethod !== 'ENVIO' && order.shippingStatus !== 'FUERA_ZONA') throw conflict('El pedido es para retirar');
+    if (shippingStatus === 'CON_COSTO' && !(shippingCost && shippingCost > 0)) throw unprocessable('Indicá el costo del envío');
+    return update(tx, orderId, {
+      shippingStatus,
+      shippingCost: shippingStatus === 'CON_COSTO' ? shippingCost : 0,
+      // Fuera de zona: el pedido pasa a retiro (el cliente lo tiene que aceptar al cerrar la revisión)
+      deliveryMethod: shippingStatus === 'FUERA_ZONA' ? 'RETIRO' : 'ENVIO',
+    });
+  });
+}
+
 /**
  * Cierra la revisión:
- *  - todo disponible → CONFIRMADO y el bot confirma (pidiendo comprobante si es transferencia)
- *  - algún faltante  → ESPERANDO_CLIENTE y el bot pregunta si sigue con lo que hay
  *  - nada disponible → CANCELADO y el bot avisa
+ *  - hay cambios que el cliente tiene que aceptar (faltantes, parciales, costo de envío o
+ *    fuera de zona) → ESPERANDO_CLIENTE y el bot le pregunta si sigue
+ *  - todo como lo pidió → CONFIRMADO y el bot confirma (pidiendo comprobante si es transferencia)
  */
 export async function submitReview(orderId: number) {
   return prisma.$transaction(async (tx) => {
     const order = await loadOrder(tx, orderId);
     assertStatus(order, ['PENDIENTE_REVISION'], 'revisar');
     if (order.items.some((i) => i.status === 'PENDIENTE')) {
-      throw unprocessable('Marcá cada ítem como disponible o faltante antes de confirmar');
+      throw unprocessable('Marcá cada ítem como disponible, parcial o faltante antes de confirmar');
+    }
+    if (order.shippingStatus === 'PENDIENTE') {
+      throw unprocessable('Definí el envío: gratis, con costo o fuera de zona');
     }
     const settings = await getSettings(tx);
     const missing = order.items.filter((i) => i.status === 'FALTANTE').length;
@@ -157,9 +195,13 @@ export async function submitReview(orderId: number) {
       await enqueue(tx, updated, messages.nothingAvailable(updated));
       return updated;
     }
-    if (missing > 0) {
+    const needsApproval =
+      order.items.some((i) => i.status === 'FALTANTE' || i.status === 'PARCIAL') ||
+      order.shippingStatus === 'CON_COSTO' ||
+      order.shippingStatus === 'FUERA_ZONA';
+    if (needsApproval) {
       const updated = await update(tx, orderId, { status: 'ESPERANDO_CLIENTE' });
-      await enqueue(tx, updated, messages.missingItems(updated));
+      await enqueue(tx, updated, messages.changesToApprove(updated, settings));
       return updated;
     }
     const updated = await update(tx, orderId, { status: 'CONFIRMADO' });

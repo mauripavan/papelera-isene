@@ -1,4 +1,4 @@
-import { formatARS, PAYMENT_METHOD_LABEL, productPrices, type DeliveryMethod, type PaymentMethod } from '@papelera/shared';
+import { formatARS, PAYMENT_METHOD_LABEL, productPrices, round2, type DeliveryMethod, type PaymentMethod } from '@papelera/shared';
 import { prisma } from '../db.ts';
 import { publicUrl } from '../env.ts';
 import { HttpError } from '../lib/http.ts';
@@ -58,6 +58,7 @@ const BTN = {
   TRANSFER: 'PAY_TRANSFERENCIA',
   PICKUP: 'DEL_RETIRO',
   DELIVERY: 'DEL_ENVIO',
+  KEEP_SHOPPING: 'DEL_SEGUIR',
   ADDR_OK: 'ADDR_OK',
   ADDR_OTHER: 'ADDR_OTHER',
   CONFIRM: 'ORDER_CONFIRM',
@@ -217,7 +218,7 @@ export async function handleInbound(ctx: InboundContext, wa: Messenger) {
       if (!method) return askPayment(phone, wa);
       data = { ...data, paymentMethod: method };
       await saveSession(phone, 'ASK_DELIVERY', data);
-      await askDelivery(phone, wa);
+      await askDelivery(phone, data, wa);
       return;
     }
 
@@ -228,7 +229,16 @@ export async function handleInbound(ctx: InboundContext, wa: Messenger) {
           : buttonId === BTN.DELIVERY || /^(2|ENVIO|ENVIO A DOMICILIO|DOMICILIO)$/.test(word)
             ? 'ENVIO'
             : null;
-      if (!delivery) return askDelivery(phone, wa);
+      if (buttonId === BTN.KEEP_SHOPPING || /^(SEGUIR|SEGUIR COMPRANDO|AGREGAR)$/.test(word)) {
+        await saveSession(phone, 'ORDERING', data);
+        await wa.text(phone, `${await cartText(data.cart ?? {})}\n\nSeguí agregando productos y escribí *LISTO* cuando termines.`);
+        return;
+      }
+      if (!delivery) return askDelivery(phone, data, wa);
+      if (delivery === 'ENVIO') {
+        const { minOrderForDelivery } = await getSettings();
+        if (minOrderForDelivery > 0 && (await cartTotal(data)).total < minOrderForDelivery) return askDelivery(phone, data, wa);
+      }
       data = { ...data, deliveryMethod: delivery };
       if (delivery === 'RETIRO') {
         await saveSession(phone, 'CONFIRM_ORDER', data);
@@ -424,14 +434,8 @@ async function askPayment(phone: string, wa: Messenger) {
   ]);
 }
 
-async function askDelivery(phone: string, wa: Messenger) {
-  await wa.buttons(phone, '¿Lo retirás por el local o te lo enviamos?', [
-    { id: BTN.PICKUP, title: 'Retiro en local' },
-    { id: BTN.DELIVERY, title: 'Envío' },
-  ]);
-}
-
-async function askConfirm(phone: string, data: SessionData, wa: Messenger) {
+/** Total del carrito según el medio de pago elegido (y el de efectivo, para comparar). */
+async function cartTotal(data: SessionData) {
   const settings = await getSettings();
   const lines = await cartLines(data.cart ?? {});
   let total = 0;
@@ -447,8 +451,36 @@ async function askConfirm(phone: string, data: SessionData, wa: Messenger) {
     totalCash += prices.cash * l.quantity;
     return `• ${l.quantity} x ${p.name} — ${formatARS(unit * l.quantity)}`;
   });
+  return { rows, total: round2(total), totalCash: round2(totalCash) };
+}
+
+async function askDelivery(phone: string, data: SessionData, wa: Messenger) {
+  const { minOrderForDelivery: min } = await getSettings();
+  const { total } = await cartTotal(data);
+  const zoneNote = 'El costo del envío depende de la zona: te lo confirmamos cuando revisemos el pedido.';
+  if (min > 0 && total < min) {
+    await wa.buttons(
+      phone,
+      `Hacemos envíos en compras desde *${formatARS(min)}* (tu pedido: ${formatARS(total)}).\n\n` +
+        'Podés retirarlo por el local o seguir agregando productos para llegar al mínimo.',
+      [
+        { id: BTN.PICKUP, title: 'Retiro en local' },
+        { id: BTN.KEEP_SHOPPING, title: 'Seguir comprando' },
+      ],
+    );
+    return;
+  }
+  const minNote = min > 0 ? `✅ Tu pedido supera la compra mínima para envío (${formatARS(min)}).\n` : '';
+  await wa.buttons(phone, `¿Lo retirás por el local o te lo enviamos?\n\n${minNote}${zoneNote}`, [
+    { id: BTN.PICKUP, title: 'Retiro en local' },
+    { id: BTN.DELIVERY, title: 'Envío' },
+  ]);
+}
+
+async function askConfirm(phone: string, data: SessionData, wa: Messenger) {
+  const { rows, total, totalCash } = await cartTotal(data);
   const method = PAYMENT_METHOD_LABEL[data.paymentMethod!].toLowerCase();
-  const delivery = data.deliveryMethod === 'RETIRO' ? 'Retiro en el local' : `Envío a ${data.address}`;
+  const delivery = data.deliveryMethod === 'RETIRO' ? 'Retiro en el local' : `Envío a ${data.address} (costo de envío a confirmar)`;
   const savings = data.paymentMethod === 'TRANSFERENCIA' && totalCash < total - 0.01 ? `\n(En efectivo saldría ${formatARS(totalCash)})` : '';
 
   const summary = `🧾 *Resumen del pedido*\n${rows.join('\n')}\n\n*Total (${method}): ${formatARS(total)}*${savings}\n📦 ${delivery}`;

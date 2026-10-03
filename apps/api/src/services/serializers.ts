@@ -1,4 +1,4 @@
-import { orderTotal, productPrices, round2 } from '@papelera/shared';
+import { deliveredQuantity, orderTotal, productPrices, round2 } from '@papelera/shared';
 import type { Prisma } from '../generated/prisma/client.ts';
 
 type ProductWithCategory = Prisma.ProductGetPayload<{ include: { category: true } }>;
@@ -45,9 +45,14 @@ export function serializeOrder(o: FullOrder) {
       unitPrice,
       quantity: i.quantity,
       status: i.status,
-      lineTotal: round2(unitPrice * i.quantity),
+      availableQuantity: i.availableQuantity,
+      /** Lo que efectivamente se entrega (0 si falta, lo disponible si es parcial) */
+      deliveredQuantity: deliveredQuantity(i),
+      lineTotal: round2(unitPrice * deliveredQuantity(i)),
     };
   });
+  const shippingCost = Number(o.shippingCost);
+  const itemsTotal = orderTotal(items);
   return {
     id: o.id,
     status: o.status,
@@ -55,6 +60,8 @@ export function serializeOrder(o: FullOrder) {
     paymentStatus: o.paymentStatus,
     deliveryMethod: o.deliveryMethod,
     deliveryAddress: o.deliveryAddress,
+    shippingStatus: o.shippingStatus,
+    shippingCost,
     scheduledFor: o.scheduledFor,
     receiptRef: o.receiptRef,
     notes: o.notes,
@@ -62,10 +69,12 @@ export function serializeOrder(o: FullOrder) {
     updatedAt: o.updatedAt,
     customer: { id: o.customer.id, phone: o.customer.phone, name: o.customer.name, address: o.customer.address },
     items,
-    /** Total original, sin descontar faltantes */
+    /** Total original de los productos, sin descontar faltantes */
     subtotal: orderTotal(items.map((i) => ({ ...i, status: 'DISPONIBLE' as const }))),
-    /** Total a cobrar: no incluye ítems faltantes */
-    total: orderTotal(items),
+    /** Productos que se entregan (sin faltantes, parciales por lo que hay) */
+    itemsTotal,
+    /** Total a cobrar: productos + envío */
+    total: round2(itemsTotal + shippingCost),
   };
 }
 

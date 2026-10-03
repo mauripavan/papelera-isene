@@ -1,4 +1,4 @@
-import { ORDER_STATUSES } from '@papelera/shared';
+import { ORDER_STATUSES, SHIPPING_STATUSES } from '@papelera/shared';
 import { Router } from 'express';
 import { z } from 'zod';
 import { prisma } from '../db.ts';
@@ -69,11 +69,25 @@ ordersRouter.get('/:id/receipt', async (req, res) => {
   res.send(Buffer.from(await file.arrayBuffer()));
 });
 
-const itemStatusBody = z.object({ status: z.enum(['PENDIENTE', 'DISPONIBLE', 'FALTANTE']) });
+const itemStatusBody = z.object({
+  status: z.enum(['PENDIENTE', 'DISPONIBLE', 'PARCIAL', 'FALTANTE']),
+  /** Solo para PARCIAL: cuántos hay */
+  availableQuantity: z.number().int().positive().optional(),
+});
 
 ordersRouter.patch('/:id/items/:itemId', async (req, res) => {
-  const { status } = itemStatusBody.parse(req.body);
-  res.json(await orders.setItemStatus(parseId(req.params.id), parseId(req.params.itemId), status));
+  const { status, availableQuantity } = itemStatusBody.parse(req.body);
+  res.json(await orders.setItemStatus(parseId(req.params.id), parseId(req.params.itemId), status, availableQuantity));
+});
+
+const shippingBody = z.object({
+  shippingStatus: z.enum(SHIPPING_STATUSES),
+  shippingCost: z.number().positive().optional(),
+});
+
+ordersRouter.post('/:id/shipping', async (req, res) => {
+  const { shippingStatus, shippingCost } = shippingBody.parse(req.body);
+  res.json(await orders.setShipping(parseId(req.params.id), shippingStatus, shippingCost));
 });
 
 ordersRouter.post('/:id/items/all-available', async (req, res) => {

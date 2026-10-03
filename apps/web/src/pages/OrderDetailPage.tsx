@@ -3,6 +3,7 @@ import {
   DELIVERY_METHOD_LABEL,
   PAYMENT_METHOD_LABEL,
   SCHEDULABLE_STATUSES,
+  SHIPPING_STATUS_LABEL,
   type ItemStatus,
   type PaymentStatus,
 } from '@papelera/shared';
@@ -12,7 +13,7 @@ import { Link, useParams } from 'react-router-dom';
 import { ErrorNote, PaymentBadge, StatusBadge } from '../components/Badges.tsx';
 import { api, tokenStore } from '../lib/api.ts';
 import { ars, dateTime, longDate, toLocalInput, waLink } from '../lib/format.ts';
-import type { Order, OrderDetail } from '../lib/types.ts';
+import type { Order, OrderDetail, OrderItem, ShippingStatus } from '../lib/types.ts';
 
 /** El comprobante se pide con el token del panel y se abre en otra pestaña. */
 async function openReceipt(orderId: number) {
@@ -29,6 +30,132 @@ async function openReceipt(orderId: number) {
     tab?.close();
     window.alert((e as Error).message);
   }
+}
+
+type SetItem = (itemId: number, status: ItemStatus, availableQuantity?: number) => void;
+
+/** Hay / Parcial / Falta. "Parcial" pide cuántos hay (entre 1 y lo pedido − 1). */
+function ItemStock({ item, setItem, busy }: { item: OrderItem; setItem: SetItem; busy: boolean }) {
+  const [editing, setEditing] = useState(false);
+  const [qty, setQty] = useState(String(item.availableQuantity ?? ''));
+  useEffect(() => setQty(String(item.availableQuantity ?? '')), [item.availableQuantity]);
+  const canPartial = item.quantity > 1;
+  const showInput = editing || item.status === 'PARCIAL';
+  const n = Number(qty);
+  const valid = Number.isInteger(n) && n >= 1 && n < item.quantity;
+  const save = () => {
+    if (!valid) return;
+    setItem(item.id, 'PARCIAL', n);
+    setEditing(false);
+  };
+  return (
+    <div className="stock-cell">
+      <div className="segmented">
+        <button className={item.status === 'DISPONIBLE' ? 'on ok' : ''} onClick={() => (setEditing(false), setItem(item.id, 'DISPONIBLE'))} disabled={busy}>
+          Hay
+        </button>
+        {canPartial && (
+          <button className={item.status === 'PARCIAL' || editing ? 'on warn' : ''} onClick={() => setEditing(true)} disabled={busy}>
+            Parcial
+          </button>
+        )}
+        <button className={item.status === 'FALTANTE' ? 'on danger' : ''} onClick={() => (setEditing(false), setItem(item.id, 'FALTANTE'))} disabled={busy}>
+          Falta
+        </button>
+      </div>
+      {showInput && (
+        <form
+          className="partial"
+          onSubmit={(e) => {
+            e.preventDefault();
+            save();
+          }}
+        >
+          <span className="small">Hay</span>
+          <input
+            type="number"
+            min={1}
+            max={item.quantity - 1}
+            value={qty}
+            autoFocus={editing}
+            onChange={(e) => setQty(e.target.value)}
+            onBlur={() => valid && n !== item.availableQuantity && save()}
+          />
+          <span className="small muted">de {item.quantity}</span>
+          {editing && item.status !== 'PARCIAL' && (
+            <button className="btn sm" disabled={!valid || busy}>
+              OK
+            </button>
+          )}
+        </form>
+      )}
+    </div>
+  );
+}
+
+function stockBadge(i: OrderItem) {
+  if (i.status === 'FALTANTE') return <span className="badge danger">Faltante</span>;
+  if (i.status === 'PARCIAL') return <span className="badge warn">Parcial: {i.availableQuantity} de {i.quantity}</span>;
+  return <span className="badge ok">Disponible</span>;
+}
+
+/** Para pedidos con envío: gratis, con costo o fuera de zona (pasa a retiro). */
+function ShippingCard({ order, busy, onSave }: { order: Order; busy: boolean; onSave: (status: ShippingStatus, cost?: number) => void }) {
+  const [cost, setCost] = useState(order.shippingCost ? String(order.shippingCost) : '');
+  useEffect(() => setCost(order.shippingCost ? String(order.shippingCost) : ''), [order.shippingCost]);
+  const [withCost, setWithCost] = useState(false);
+  const st = order.shippingStatus;
+  const showCost = withCost || st === 'CON_COSTO';
+  const n = Number(cost.replace(',', '.'));
+  const validCost = cost !== '' && n > 0;
+  return (
+    <div className="card">
+      <h2>Envío</h2>
+      <p className="muted small">
+        Dirección: <strong>{order.deliveryAddress ?? order.customer.address ?? '—'}</strong>
+      </p>
+      <div className="segmented">
+        <button className={st === 'GRATIS' ? 'on ok' : ''} onClick={() => (setWithCost(false), onSave('GRATIS'))} disabled={busy}>
+          Gratis
+        </button>
+        <button className={st === 'CON_COSTO' || withCost ? 'on warn' : ''} onClick={() => setWithCost(true)} disabled={busy}>
+          Con costo
+        </button>
+        <button className={st === 'FUERA_ZONA' ? 'on danger' : ''} onClick={() => (setWithCost(false), onSave('FUERA_ZONA'))} disabled={busy}>
+          Fuera de zona
+        </button>
+      </div>
+      {showCost && (
+        <form
+          className="row"
+          style={{ marginTop: 12 }}
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (validCost) {
+              onSave('CON_COSTO', n);
+              setWithCost(false);
+            }
+          }}
+        >
+          <span className="small">Costo $</span>
+          <input
+            type="number"
+            min={1}
+            step="0.01"
+            value={cost}
+            onChange={(e) => setCost(e.target.value)}
+            autoFocus={withCost}
+            style={{ width: 140 }}
+          />
+          <button className="btn sm" disabled={!validCost || busy || (st === 'CON_COSTO' && n === order.shippingCost)}>
+            Guardar costo
+          </button>
+        </form>
+      )}
+      {st === 'FUERA_ZONA' && <p className="note">El pedido pasa a retiro en el local. Se le avisa al cliente y tiene que aceptar.</p>}
+      {st === 'PENDIENTE' && <p className="muted small">Definí el envío antes de confirmar el pedido.</p>}
+    </div>
+  );
 }
 
 export function OrderDetailPage() {
@@ -63,9 +190,29 @@ export function OrderDetailPage() {
   const reviewing = o.status === 'PENDIENTE_REVISION';
   const pendingItems = o.items.filter((i) => i.status === 'PENDIENTE').length;
   const missingItems = o.items.filter((i) => i.status === 'FALTANTE').length;
+  const partialItems = o.items.filter((i) => i.status === 'PARCIAL').length;
+  const shippingPending = o.shippingStatus === 'PENDIENTE';
+  const shippingChange = o.shippingStatus === 'CON_COSTO' || o.shippingStatus === 'FUERA_ZONA';
+  const allMissing = missingItems === o.items.length;
+  const needsApproval = missingItems > 0 || partialItems > 0 || shippingChange;
 
-  const setItem = (itemId: number, status: ItemStatus) =>
-    action.mutate({ path: `/items/${itemId}`, method: 'PATCH', body: { status } });
+  const setItem: SetItem = (itemId, status, availableQuantity) =>
+    action.mutate({ path: `/items/${itemId}`, method: 'PATCH', body: { status, availableQuantity } });
+
+  const reviewHint = () => {
+    if (pendingItems > 0) return `Faltan revisar ${pendingItems} producto(s).`;
+    if (shippingPending) return 'Falta definir el envío (gratis, con costo o fuera de zona).';
+    if (allMissing) return 'No hay ningún producto: el pedido se cancela y se le avisa al cliente.';
+    if (needsApproval) {
+      const parts = [];
+      if (missingItems) parts.push(`${missingItems} faltante(s)`);
+      if (partialItems) parts.push(`${partialItems} parcial(es)`);
+      if (o.shippingStatus === 'CON_COSTO') parts.push(`envío de ${ars(o.shippingCost)}`);
+      if (o.shippingStatus === 'FUERA_ZONA') parts.push('fuera de zona (pasa a retiro)');
+      return `Se le avisa al cliente (${parts.join(', ')}) con el nuevo total y se le pregunta si sigue.`;
+    }
+    return 'Se le va a confirmar el pedido al cliente' + (o.paymentMethod === 'TRANSFERENCIA' ? ' y pedir el comprobante.' : '.');
+  };
 
   const cancel = () => {
     const reason = window.prompt('¿Por qué se cancela? (se le informa al cliente, podés dejarlo vacío)');
@@ -102,6 +249,11 @@ export function OrderDetailPage() {
             <dd>
               {DELIVERY_METHOD_LABEL[o.deliveryMethod]}
               {o.deliveryAddress && <div className="muted">{o.deliveryAddress}</div>}
+              {o.shippingStatus && o.shippingStatus !== 'PENDIENTE' && (
+                <div className="small">
+                  {o.shippingStatus === 'CON_COSTO' ? `Envío: ${ars(o.shippingCost)}` : SHIPPING_STATUS_LABEL[o.shippingStatus]}
+                </div>
+              )}
             </dd>
             <dt>Recibido</dt>
             <dd>{dateTime(o.createdAt)}</dd>
@@ -122,7 +274,12 @@ export function OrderDetailPage() {
             <dt>Total</dt>
             <dd className="total">
               {ars(o.total)}
-              {o.subtotal !== o.total && <span className="muted small strike">{ars(o.subtotal)}</span>}
+              {o.subtotal !== o.itemsTotal && <span className="muted small strike">{ars(o.subtotal)}</span>}
+              {o.shippingCost > 0 && (
+                <div className="muted small">
+                  Productos {ars(o.itemsTotal)} + envío {ars(o.shippingCost)}
+                </div>
+              )}
             </dd>
             <dt>Estado</dt>
             <dd>
@@ -185,32 +342,19 @@ export function OrderDetailPage() {
                 <tr key={i.id} className={i.status === 'FALTANTE' ? 'missing' : ''}>
                   <td className="mono">{i.productCode}</td>
                   <td>{i.productName}</td>
-                  <td className="num">{i.quantity}</td>
+                  <td className="num">
+                    {i.status === 'PARCIAL' ? (
+                      <>
+                        <span className="strike muted">{i.quantity}</span> {i.deliveredQuantity}
+                      </>
+                    ) : (
+                      i.quantity
+                    )}
+                  </td>
                   <td className="num">{ars(i.unitPrice)}</td>
                   <td className="num">{ars(i.lineTotal)}</td>
                   <td>
-                    {reviewing ? (
-                      <div className="segmented">
-                        <button
-                          className={i.status === 'DISPONIBLE' ? 'on ok' : ''}
-                          onClick={() => setItem(i.id, 'DISPONIBLE')}
-                          disabled={action.isPending}
-                        >
-                          Hay
-                        </button>
-                        <button
-                          className={i.status === 'FALTANTE' ? 'on danger' : ''}
-                          onClick={() => setItem(i.id, 'FALTANTE')}
-                          disabled={action.isPending}
-                        >
-                          Falta
-                        </button>
-                      </div>
-                    ) : (
-                      <span className={`badge ${i.status === 'FALTANTE' ? 'danger' : 'ok'}`}>
-                        {i.status === 'FALTANTE' ? 'Faltante' : 'Disponible'}
-                      </span>
-                    )}
+                    {reviewing ? <ItemStock item={i} setItem={setItem} busy={action.isPending} /> : stockBadge(i)}
                   </td>
                 </tr>
               ))}
@@ -218,29 +362,31 @@ export function OrderDetailPage() {
           </table>
         </div>
 
-        {reviewing && (
-          <div className="actions">
-            <p className="muted small">
-              {pendingItems > 0
-                ? `Faltan revisar ${pendingItems} producto(s).`
-                : missingItems > 0
-                  ? `Se le va a avisar al cliente que faltan ${missingItems} producto(s) y se le va a preguntar si sigue.`
-                  : 'Se le va a confirmar el pedido al cliente' +
-                    (o.paymentMethod === 'TRANSFERENCIA' ? ' y pedir el comprobante.' : '.')}
-            </p>
-            <button
-              className="btn primary"
-              disabled={pendingItems > 0 || action.isPending}
-              onClick={() => action.mutate({ path: '/review' })}
-            >
-              {missingItems > 0 ? 'Avisar faltantes al cliente' : 'Confirmar pedido'}
-            </button>
-          </div>
-        )}
         {o.status === 'ESPERANDO_CLIENTE' && (
-          <p className="note">Esperando que el cliente responda si sigue con el pedido sin los faltantes.</p>
+          <p className="note">Esperando que el cliente responda si acepta los cambios (SI / NO).</p>
         )}
       </div>
+
+      {reviewing && o.shippingStatus && (
+        <ShippingCard
+          order={o}
+          busy={action.isPending}
+          onSave={(shippingStatus, shippingCost) => action.mutate({ path: '/shipping', body: { shippingStatus, shippingCost } })}
+        />
+      )}
+
+      {reviewing && (
+        <div className="actions">
+          <p className="muted small">{reviewHint()}</p>
+          <button
+            className="btn primary"
+            disabled={pendingItems > 0 || shippingPending || action.isPending}
+            onClick={() => action.mutate({ path: '/review' })}
+          >
+            {allMissing && pendingItems === 0 ? 'Cancelar y avisar' : needsApproval ? 'Avisar cambios al cliente' : 'Confirmar pedido'}
+          </button>
+        </div>
+      )}
 
       {SCHEDULABLE_STATUSES.includes(o.status) && (
         <div className="card">

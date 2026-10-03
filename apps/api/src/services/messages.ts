@@ -14,11 +14,18 @@ function hello(o: SerializedOrder) {
   return first ? `¡Hola ${first}!` : '¡Hola!';
 }
 
-function itemLines(o: SerializedOrder, filter: 'DISPONIBLE' | 'FALTANTE') {
+/** Lo que se entrega: los parciales con la cantidad que hay. */
+function itemLines(o: SerializedOrder) {
   return o.items
-    .filter((i) => (filter === 'FALTANTE' ? i.status === 'FALTANTE' : i.status !== 'FALTANTE'))
-    .map((i) => `• ${i.quantity} x ${i.productName}`)
+    .filter((i) => i.deliveredQuantity > 0)
+    .map((i) => `• ${i.deliveredQuantity} x ${i.productName}`)
     .join('\n');
+}
+
+function shippingLine(o: SerializedOrder) {
+  if (o.shippingStatus === 'GRATIS') return '🚚 Envío: *gratis*';
+  if (o.shippingStatus === 'CON_COSTO') return `🚚 Envío: ${formatARS(o.shippingCost)}`;
+  return '';
 }
 
 function paymentInstructions(o: SerializedOrder, s: AppSettings) {
@@ -45,19 +52,33 @@ export const messages = {
   confirmed(o: SerializedOrder, s: AppSettings) {
     return [
       `${hello(o)} Confirmamos tu pedido #${o.id} ✅`,
-      itemLines(o, 'DISPONIBLE'),
+      itemLines(o),
+      shippingLine(o),
       paymentInstructions(o, s),
       `Te avisamos cuando tengamos la fecha de ${o.deliveryMethod === 'RETIRO' ? 'retiro' : 'envío'}.`,
-    ].join('\n\n');
+    ]
+      .filter(Boolean)
+      .join('\n\n');
   },
 
-  missingItems(o: SerializedOrder) {
-    return [
-      `${hello(o)} Revisamos tu pedido #${o.id} y no tenemos stock de:`,
-      itemLines(o, 'FALTANTE'),
-      `Sin esos productos, el total queda en *${formatARS(o.total)}* (${PAYMENT_METHOD_LABEL[o.paymentMethod].toLowerCase()}).`,
-      'Respondé *SI* para confirmar el pedido con lo que hay, o *NO* para cancelarlo.',
-    ].join('\n\n');
+  /** Faltantes, parciales, costo de envío o fuera de zona: el cliente tiene que aceptar. */
+  changesToApprove(o: SerializedOrder, s: AppSettings) {
+    const missing = o.items.filter((i) => i.status === 'FALTANTE');
+    const partial = o.items.filter((i) => i.status === 'PARCIAL');
+    const blocks = [`${hello(o)} Revisamos tu pedido #${o.id} y hay algunos cambios:`];
+    if (missing.length) blocks.push('❌ No tenemos:\n' + missing.map((i) => `• ${i.productName} (pediste ${i.quantity})`).join('\n'));
+    if (partial.length)
+      blocks.push('⚠️ Tenemos menos de lo que pediste:\n' + partial.map((i) => `• ${i.productName}: pediste ${i.quantity}, tenemos ${i.availableQuantity}`).join('\n'));
+    if (o.shippingStatus === 'CON_COSTO') blocks.push(`🚚 El envío a tu dirección tiene un costo de *${formatARS(o.shippingCost)}*.`);
+    if (o.shippingStatus === 'FUERA_ZONA') {
+      const where = s.pickupAddress.trim() ? ` en ${s.pickupAddress.trim()}` : ' en el local';
+      blocks.push(`📍 No llegamos con envío a tu zona. Podés retirar el pedido${where}.`);
+    }
+    blocks.push(`El pedido queda así:\n${itemLines(o)}`);
+    const shipping = shippingLine(o);
+    blocks.push(`${shipping ? shipping + '\n' : ''}*Total (${PAYMENT_METHOD_LABEL[o.paymentMethod].toLowerCase()}): ${formatARS(o.total)}*`);
+    blocks.push('Respondé *SI* para confirmar el pedido así, o *NO* para cancelarlo.');
+    return blocks.join('\n\n');
   },
 
   nothingAvailable(o: SerializedOrder) {

@@ -7,9 +7,9 @@ export type DeliveryMethod = (typeof DELIVERY_METHODS)[number];
 /**
  * Ciclo de vida de un pedido:
  *
- *  PENDIENTE_REVISION ──(todo disponible)──────────────▶ CONFIRMADO ──(fecha)──▶ PROGRAMADO ──▶ ENTREGADO
+ * *  PENDIENTE_REVISION ──(todo como lo pidió)──────────▶ CONFIRMADO ──(fecha)──▶ PROGRAMADO ──▶ ENTREGADO
  *        │                                                   ▲
- *        └──(hay faltantes)──▶ ESPERANDO_CLIENTE ──(acepta)──┘
+ *        └──(hay cambios)───▶ ESPERANDO_CLIENTE ──(acepta)──┘
  *                                      └──(rechaza)──▶ CANCELADO
  *
  * Cualquier pedido no entregado puede pasar a CANCELADO desde el panel.
@@ -24,8 +24,18 @@ export const ORDER_STATUSES = [
 ] as const;
 export type OrderStatus = (typeof ORDER_STATUSES)[number];
 
-export const ITEM_STATUSES = ['PENDIENTE', 'DISPONIBLE', 'FALTANTE'] as const;
+export const ITEM_STATUSES = ['PENDIENTE', 'DISPONIBLE', 'PARCIAL', 'FALTANTE'] as const;
 export type ItemStatus = (typeof ITEM_STATUSES)[number];
+
+export const SHIPPING_STATUSES = ['PENDIENTE', 'GRATIS', 'CON_COSTO', 'FUERA_ZONA'] as const;
+export type ShippingStatus = (typeof SHIPPING_STATUSES)[number];
+
+export const SHIPPING_STATUS_LABEL: Record<ShippingStatus, string> = {
+  PENDIENTE: 'Sin definir',
+  GRATIS: 'Envío gratis',
+  CON_COSTO: 'Envío con costo',
+  FUERA_ZONA: 'Fuera de zona (pasa a retiro)',
+};
 
 export const PAYMENT_STATUSES = ['PENDIENTE', 'COMPROBANTE_RECIBIDO', 'PAGADO'] as const;
 export type PaymentStatus = (typeof PAYMENT_STATUSES)[number];

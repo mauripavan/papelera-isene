@@ -40,15 +40,20 @@ export interface TotalableItem {
   unitPrice: number;
   quantity: number;
   status?: ItemStatus;
+  /** Cuando el ítem es PARCIAL: cuántos hay */
+  availableQuantity?: number | null;
 }
 
-/** Total del pedido. Los ítems marcados como FALTANTE no se cobran. */
+/** Cantidad que efectivamente se entrega (y se cobra) de un ítem. */
+export function deliveredQuantity(item: Pick<TotalableItem, 'quantity' | 'status' | 'availableQuantity'>): number {
+  if (item.status === 'FALTANTE') return 0;
+  if (item.status === 'PARCIAL') return Math.max(0, Math.min(item.quantity, item.availableQuantity ?? 0));
+  return item.quantity;
+}
+
+/** Total de los productos. Los faltantes no se cobran y los parciales se cobran por lo que hay. */
 export function orderTotal(items: TotalableItem[]): number {
-  return round2(
-    items
-      .filter((i) => i.status !== 'FALTANTE')
-      .reduce((acc, i) => acc + i.unitPrice * i.quantity, 0),
-  );
+  return round2(items.reduce((acc, i) => acc + i.unitPrice * deliveredQuantity(i), 0));
 }
 
 /** Aplica un aumento (o baja, si es negativo) porcentual a un precio. */

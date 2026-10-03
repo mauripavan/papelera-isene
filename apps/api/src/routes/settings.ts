@@ -14,6 +14,8 @@ const body = z.object({
   ivaRate: z.number().min(0).max(1),
   transferInfo: z.string(),
   pickupAddress: z.string(),
+  /** Compra mínima para hacer envíos (0 = sin mínimo) */
+  minOrderForDelivery: z.number().min(0),
 });
 
 settingsRouter.patch('/', async (req, res) => {
