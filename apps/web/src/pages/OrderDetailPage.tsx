@@ -10,9 +10,26 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ErrorNote, PaymentBadge, StatusBadge } from '../components/Badges.tsx';
-import { api } from '../lib/api.ts';
+import { api, tokenStore } from '../lib/api.ts';
 import { ars, dateTime, longDate, toLocalInput, waLink } from '../lib/format.ts';
 import type { Order, OrderDetail } from '../lib/types.ts';
+
+/** El comprobante se pide con el token del panel y se abre en otra pestaña. */
+async function openReceipt(orderId: number) {
+  const tab = window.open('', '_blank');
+  try {
+    const res = await fetch(`${import.meta.env.VITE_API_URL ?? ''}/api/orders/${orderId}/receipt`, {
+      headers: { authorization: `Bearer ${tokenStore.get()}` },
+    });
+    if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error ?? 'No se pudo abrir el comprobante');
+    const url = URL.createObjectURL(await res.blob());
+    if (tab) tab.location.href = url;
+    else window.location.href = url;
+  } catch (e) {
+    tab?.close();
+    window.alert((e as Error).message);
+  }
+}
 
 export function OrderDetailPage() {
   const id = Number(useParams().id);
@@ -114,7 +131,15 @@ export function OrderDetailPage() {
             {o.receiptRef && (
               <>
                 <dt>Comprobante</dt>
-                <dd className="mono small">{o.receiptRef}</dd>
+                <dd>
+                  {o.receiptRef.startsWith('wa:') ? (
+                    <button className="btn sm" onClick={() => openReceipt(o.id)}>
+                      Ver comprobante
+                    </button>
+                  ) : (
+                    <span className="mono small">{o.receiptRef}</span>
+                  )}
+                </dd>
               </>
             )}
           </dl>

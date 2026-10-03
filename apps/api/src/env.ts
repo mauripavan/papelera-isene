@@ -9,6 +9,20 @@ const schema = z.object({
   BOT_API_KEY: z.string().min(8, 'BOT_API_KEY tiene que tener al menos 8 caracteres'),
   /** Carpeta del panel compilado. Si no existe (desarrollo), la API no lo sirve. */
   WEB_DIST: z.string().default('../web/dist'),
+
+  /** URL pública (para los links que manda el bot). En Railway se arma sola con RAILWAY_PUBLIC_DOMAIN. */
+  PUBLIC_URL: z.string().optional(),
+  RAILWAY_PUBLIC_DOMAIN: z.string().optional(),
+
+  // WhatsApp Cloud API. Si faltan, el bot queda apagado y el resto funciona igual.
+  WHATSAPP_TOKEN: z.string().optional(),
+  WHATSAPP_PHONE_NUMBER_ID: z.string().optional(),
+  WHATSAPP_VERIFY_TOKEN: z.string().optional(),
+  /** Para validar la firma de los webhooks (App settings → Basic → App secret) */
+  WHATSAPP_APP_SECRET: z.string().optional(),
+  WHATSAPP_API_VERSION: z.string().default('v23.0'),
+  /** Cada cuántos ms el bot revisa la cola de mensajes a enviar */
+  WHATSAPP_OUTBOX_INTERVAL_MS: z.coerce.number().default(5000),
 });
 
 const parsed = schema.safeParse(process.env);
@@ -19,3 +33,8 @@ if (!parsed.success) {
 }
 
 export const env = parsed.data;
+
+export const publicUrl =
+  env.PUBLIC_URL?.replace(/\/$/, '') ?? (env.RAILWAY_PUBLIC_DOMAIN ? `https://${env.RAILWAY_PUBLIC_DOMAIN}` : `http://localhost:${env.PORT}`);
+
+export const whatsappEnabled = Boolean(env.WHATSAPP_TOKEN && env.WHATSAPP_PHONE_NUMBER_ID);

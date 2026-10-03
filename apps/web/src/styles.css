@@ -236,3 +236,33 @@ tr.inactive td .review-note { opacity: 1; }
 .modal::backdrop { background: rgba(29, 33, 38, 0.35); }
 .modal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
 .modal-head h2 { margin: 0; }
+
+/* ─── Lista de precios pública ──────────────────────────── */
+.pl { max-width: 720px; margin: 0 auto; padding-bottom: 32px; }
+.pl-head {
+  position: sticky; top: 0; z-index: 2;
+  padding: 14px 16px 12px; background: var(--paper);
+  border-bottom: 1px solid var(--line);
+  display: grid; gap: 8px;
+}
+.pl-how { margin: 0; font-size: 13px; color: var(--ink-2); }
+.pl-search { font-size: 16px !important; }
+.pl-pad { padding: 16px; }
+.pl-group { margin-top: 8px; }
+.pl-cat {
+  margin: 0; padding: 14px 16px 4px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.04em;
+  color: var(--ink-2); background: var(--paper);
+}
+.pl-list { list-style: none; margin: 0; padding: 0 16px; }
+.pl-item {
+  display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: center;
+  padding: 10px 0; border-bottom: 1px solid var(--line);
+}
+.pl-code {
+  min-width: 76px; padding: 4px 8px; border-radius: 6px; cursor: pointer;
+  border: 1px solid var(--line-strong); background: var(--surface); color: var(--accent);
+}
+.pl-name { display: grid; gap: 2px; font-size: 14px; }
+.pl-prices { display: grid; justify-items: end; gap: 2px; text-align: right; }
+.pl-cash { font-weight: 600; font-variant-numeric: tabular-nums; }
+.pl-foot { padding: 16px; }

@@ -10,7 +10,8 @@ import type { SerializedOrder } from './serializers.ts';
 const TZ = 'America/Argentina/Buenos_Aires';
 
 function hello(o: SerializedOrder) {
-  return o.customer.name ? `¡Hola ${o.customer.name}!` : '¡Hola!';
+  const first = o.customer.name?.trim().split(/\s+/)[0];
+  return first ? `¡Hola ${first}!` : '¡Hola!';
 }
 
 function itemLines(o: SerializedOrder, filter: 'DISPONIBLE' | 'FALTANTE') {

@@ -128,3 +128,28 @@ Variables del servicio:
 
 La base de producción es la fuente de verdad: los cambios de datos en local no se suben.
 Para traer los datos reales a local: `pg_dump` de prod y `pg_restore` en local, nunca al revés.
+
+## Bot de WhatsApp
+
+Vive dentro de la API (`apps/api/src/bot/`), así que no suma otro servicio:
+
+- `POST /whatsapp/webhook` recibe los mensajes de Meta (valida la firma con `WHATSAPP_APP_SECRET`
+  y descarta reintentos duplicados). `GET /whatsapp/webhook` es la verificación inicial.
+- `src/bot/flow.ts` es la conversación: menú → carrito con `CÓDIGO CANTIDAD` → medio de pago →
+  retiro o envío (recuerda la última dirección) → resumen con total → confirmación. El estado de
+  cada teléfono se guarda en `bot_sessions`.
+- En cualquier momento: `SI`/`NO` responde a un pedido con faltantes, una imagen o PDF se toma como
+  comprobante de transferencia, y `CANCELAR`, `MENU` y `LISTA` funcionan siempre.
+- Los avisos que salen del panel (confirmación, faltantes, fecha, cancelación) se encolan en
+  `outbound_messages` y un worker los manda cada 5 segundos.
+- La lista de precios pública está en `/lista` (sin login) y el bot manda ese link.
+
+Fuera de las 24 h desde el último mensaje del cliente, WhatsApp no deja mandar texto libre. Esos
+avisos quedan como *Falló* en el pedido, con el motivo. Para cubrirlos hay que sumar plantillas
+aprobadas por Meta.
+
+Para probar sin Meta: `pnpm --filter @papelera/api bot:simulate` simula una conversación completa
+contra la base local y muestra lo que respondería el bot.
+
+Variables: `WHATSAPP_TOKEN`, `WHATSAPP_PHONE_NUMBER_ID`, `WHATSAPP_VERIFY_TOKEN`,
+`WHATSAPP_APP_SECRET` (ver `apps/api/.env.example`). Sin ellas el bot queda apagado.

@@ -109,6 +109,8 @@ model Customer {
   phone     String   @unique
   name      String?
   address   String?
+  /// Último mensaje que nos mandó por WhatsApp: define si estamos dentro de la ventana de 24 h
+  lastInboundAt DateTime?
   orders    Order[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -180,4 +182,29 @@ model OutboundMessage {
 
   @@index([status, createdAt])
   @@map("outbound_messages")
+}
+
+// ─── Bot de WhatsApp ─────────────────────────────────────────────────────────
+
+/// Estado de la conversación del bot con cada teléfono.
+model BotSession {
+  phone     String   @id
+  /// Paso actual del flujo (ver apps/api/src/bot/flow.ts)
+  state     String   @default("IDLE")
+  /// Datos parciales del pedido en curso (carrito, medio de pago, etc.)
+  data      Json     @default("{}")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("bot_sessions")
+}
+
+/// Ids de mensajes entrantes ya procesados (Meta reintenta los webhooks).
+model InboundMessage {
+  id         String   @id
+  phone      String
+  receivedAt DateTime @default(now())
+
+  @@index([receivedAt])
+  @@map("inbound_messages")
 }

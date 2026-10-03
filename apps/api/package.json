@@ -14,7 +14,9 @@
     "db:studio": "prisma studio",
     "postinstall": "prisma generate",
     "db:import": "prisma generate && tsx --env-file=.env prisma/import.ts",
-    "start:prod": "node scripts/start-prod.mjs"
+    "start:prod": "node scripts/start-prod.mjs",
+    "test": "node --experimental-strip-types --test src/**/*.test.ts",
+    "bot:simulate": "tsx --env-file=.env scripts/simulate-bot.ts"
   },
   "dependencies": {
     "@papelera/shared": "workspace:*",

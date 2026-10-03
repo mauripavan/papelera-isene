@@ -16,6 +16,7 @@ export default defineConfig(({ mode }) => {
       proxy: {
         '/api': target,
         '/auth': target,
+        '/public': target,
       },
     },
   };

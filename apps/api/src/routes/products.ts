@@ -36,19 +36,33 @@ productsRouter.get('/', async (req, res) => {
   res.json(products.map((p) => serializeProduct(p, settings.ivaRate)));
 });
 
-const productBody = z.object({
+// Ojo: los valores por defecto van SOLO en el alta. En Zod, `.partial()` conserva los
+// `.default()`, y un PATCH con un solo campo pisaría presentación, IVA y activo.
+const productFields = z.object({
   code: z.string().trim().min(1).max(20).transform((s) => s.toUpperCase()),
   name: z.string().trim().min(1),
-  unit: z.string().trim().min(1).default('unidad'),
+  unit: z.string().trim().min(1),
   price: z.coerce.number().nonnegative(),
-  discriminaIva: z.boolean().default(false),
+  discriminaIva: z.boolean(),
   /** Precio de transferencia fijo; null = se calcula con el IVA */
-  priceTransferFixed: z.coerce.number().nonnegative().nullable().optional(),
-  active: z.boolean().default(true),
-  needsReview: z.boolean().optional(),
-  reviewNote: z.string().trim().nullable().optional(),
-  categoryId: z.number().int().nullable().optional(),
+  priceTransferFixed: z.coerce.number().nonnegative().nullable(),
+  active: z.boolean(),
+  needsReview: z.boolean(),
+  reviewNote: z.string().trim().nullable(),
+  categoryId: z.number().int().nullable(),
 });
+
+const createProductBody = productFields.extend({
+  unit: productFields.shape.unit.default('unidad'),
+  discriminaIva: productFields.shape.discriminaIva.default(false),
+  active: productFields.shape.active.default(true),
+  priceTransferFixed: productFields.shape.priceTransferFixed.optional(),
+  needsReview: productFields.shape.needsReview.optional(),
+  reviewNote: productFields.shape.reviewNote.optional(),
+  categoryId: productFields.shape.categoryId.optional(),
+});
+
+const updateProductBody = productFields.partial();
 
 /** El panel habla de priceTransferFixed; en la base la columna es priceTransfer */
 function toDb<T extends { priceTransferFixed?: number | null }>({ priceTransferFixed, ...rest }: T) {
@@ -61,14 +75,14 @@ productsRouter.get('/review-count', async (_req, res) => {
 });
 
 productsRouter.post('/', async (req, res) => {
-  const data = toDb(productBody.parse(req.body));
+  const data = toDb(createProductBody.parse(req.body));
   const p = await prisma.product.create({ data, include: { category: true } });
   res.status(201).json(serializeProduct(p, (await getSettings()).ivaRate));
 });
 
 productsRouter.patch('/:id', async (req, res) => {
   const id = parseId(req.params.id);
-  const data = toDb(productBody.partial().parse(req.body));
+  const data = toDb(updateProductBody.parse(req.body));
   const exists = await prisma.product.findUnique({ where: { id }, select: { id: true, price: true, active: true } });
   if (!exists) throw notFound('Producto no encontrado');
   const finalPrice = data.price ?? Number(exists.price);
@@ -129,7 +143,8 @@ categoriesRouter.get('/', async (_req, res) => {
   res.json(categories.map((c) => ({ id: c.id, name: c.name, sortOrder: c.sortOrder, productCount: c._count.products })));
 });
 
-const categoryBody = z.object({ name: z.string().trim().min(1), sortOrder: z.number().int().default(0) });
+const categoryFields = z.object({ name: z.string().trim().min(1), sortOrder: z.number().int() });
+const categoryBody = categoryFields.extend({ sortOrder: categoryFields.shape.sortOrder.default(0) });
 
 categoriesRouter.post('/', async (req, res) => {
   res.status(201).json(await prisma.category.create({ data: categoryBody.parse(req.body) }));
@@ -137,7 +152,7 @@ categoriesRouter.post('/', async (req, res) => {
 
 categoriesRouter.patch('/:id', async (req, res) => {
   const id = parseId(req.params.id);
-  res.json(await prisma.category.update({ where: { id }, data: categoryBody.partial().parse(req.body) }));
+  res.json(await prisma.category.update({ where: { id }, data: categoryFields.partial().parse(req.body) }));
 });
 
 categoriesRouter.delete('/:id', async (req, res) => {
