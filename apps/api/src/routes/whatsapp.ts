@@ -30,12 +30,17 @@ export function whatsappRouter(wa: Messenger = whatsapp) {
     if (env.WHATSAPP_APP_SECRET) {
       const ok = req.rawBody && validSignature(req.rawBody, req.header('x-hub-signature-256'), env.WHATSAPP_APP_SECRET);
       if (!ok) {
+        console.warn('[bot] webhook rechazado: la firma no coincide (revisá WHATSAPP_APP_SECRET)');
         res.sendStatus(401);
         return;
       }
     }
     res.sendStatus(200);
-    for (const msg of extractMessages(req.body)) enqueue(msg.phone, () => processMessage(msg, wa));
+    const messages = extractMessages(req.body);
+    const statuses = countStatuses(req.body);
+    console.log(`[bot] webhook recibido: ${messages.length} mensaje(s), ${statuses.length} aviso(s) de estado`);
+    for (const s of statuses.filter((s) => s.status === 'failed')) console.warn(`[bot] WhatsApp no pudo entregar un mensaje a ${s.recipient}: ${s.error}`);
+    for (const msg of messages) enqueue(msg.phone, () => processMessage(msg, wa));
   });
 
   return router;
@@ -73,6 +78,19 @@ export function extractMessages(body: unknown): WaMessage[] {
   return out;
 }
 
+/** Avisos de estado de mensajes enviados (sent, delivered, read, failed). */
+function countStatuses(body: unknown) {
+  const out: { status: string; recipient: string; error?: string }[] = [];
+  for (const entry of ((body as { entry?: any[] })?.entry ?? []) as any[]) {
+    for (const change of entry.changes ?? []) {
+      for (const st of change.value?.statuses ?? []) {
+        out.push({ status: st.status, recipient: st.recipient_id, error: st.errors?.map((e: any) => `${e.code} ${e.title}`).join('; ') });
+      }
+    }
+  }
+  return out;
+}
+
 async function processMessage(msg: WaMessage, wa: Messenger) {
   // Meta puede mandar el mismo mensaje más de una vez
   try {
@@ -80,6 +98,7 @@ async function processMessage(msg: WaMessage, wa: Messenger) {
   } catch {
     return;
   }
+  console.log(`[bot] mensaje de ${msg.phone}: ${msg.message.kind === 'text' ? JSON.stringify(msg.message.text.slice(0, 80)) : msg.message.kind}`);
   try {
     if (msg.message.kind === 'other') {
       await wa.text(msg.phone, 'Por ahora solo entiendo mensajes de texto 🙏 Escribí *MENU* para empezar.');
