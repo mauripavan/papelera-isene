@@ -17,11 +17,15 @@ import { drainWhatsappQueues } from '../src/routes/whatsapp.ts';
 import * as orders from '../src/services/orders.ts';
 
 const PHONE = '5491100000000';
+/** Número que tipea en la web alguien que después confirma desde PHONE */
+const OTHER = '5491155550000';
 const outbox: string[] = [];
+const outboxLog: string[] = [];
 
 const fake: Messenger = {
   async text(to, body) {
     outbox.push(`[texto → ${to}]\n${body}`);
+    outboxLog.push(body);
   },
   async buttons(to, body, buttons: ReplyButton[]) {
     outbox.push(`[botones → ${to}]\n${body}\n${buttons.map((b) => `  ( ${b.title} )  id=${b.id}`).join('\n')}`);
@@ -66,50 +70,64 @@ async function flush(label: string) {
   for (const m of outbox.splice(0)) console.log('🤖 ' + m.replace(/\n/g, '\n   '));
 }
 
-async function main() {
-  // Limpieza del teléfono de prueba
-  const customer = await prisma.customer.findUnique({ where: { phone: PHONE } });
-  if (customer) {
-    await prisma.outboundMessage.deleteMany({ where: { phone: PHONE } });
-    await prisma.order.deleteMany({ where: { customerId: customer.id } });
-    await prisma.customer.delete({ where: { id: customer.id } });
-  }
-  await prisma.botSession.deleteMany({ where: { phone: PHONE } });
-  await prisma.inboundMessage.deleteMany({ where: { phone: PHONE } });
+async function post(path: string, body: unknown) {
+  const res = await fetch(`${base}${path}`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
+  return { status: res.status, body: (await res.json()) as Record<string, unknown> };
+}
 
-  const sample = await prisma.product.findMany({ where: { active: true }, take: 3, orderBy: { code: 'asc' } });
+async function main() {
+  // Limpieza de los teléfonos de prueba
+  for (const phone of [PHONE, OTHER]) {
+    const customer = await prisma.customer.findUnique({ where: { phone } });
+    if (customer) {
+      await prisma.outboundMessage.deleteMany({ where: { order: { customerId: customer.id } } });
+      await prisma.order.deleteMany({ where: { customerId: customer.id } });
+      await prisma.customer.delete({ where: { id: customer.id } });
+    }
+    await prisma.outboundMessage.deleteMany({ where: { phone } });
+    await prisma.botSession.deleteMany({ where: { phone } });
+    await prisma.inboundMessage.deleteMany({ where: { phone } });
+  }
+
+  const sample = await prisma.product.findMany({ where: { active: true, price: { gt: 0 } }, take: 3, orderBy: { code: 'asc' } });
   const [a, b, c] = sample.map((p) => p.code);
 
   // Verificación del webhook
   const verify = await fetch(`${base}/whatsapp/webhook?hub.mode=subscribe&hub.verify_token=${env.WHATSAPP_VERIFY_TOKEN}&hub.challenge=123`);
   console.log(`Verificación del webhook: HTTP ${verify.status} → ${await verify.text()}`);
 
+  // ── 1. Desde el bot: el link lleva el número firmado ──
   await text('Hola');
-  await button('MENU_LIST', 'Ver precios');
   await button('MENU_ORDER', 'Hacer un pedido');
-  await text(`${a} 2\n${b?.toLowerCase().replace('-', '')} x3\nZZZ-999 1\nquiero algo rico`);
-  await text('hola'); // no tiene que perder el carrito
-  await text(`borrar ${b}`);
-  await text(`${c}: 1`);
-  await text('VER');
-  await text('LISTO');
-  await text('no sé');
-  await button('PAY_TRANSFERENCIA', 'Transferencia');
-  await button('DEL_ENVIO', 'Envío');
-  await text('Av. Siempreviva 742, San Justo');
-  await button('ORDER_CONFIRM', 'Confirmar');
+  const sent = outboxLog.at(-1) ?? '';
+  const t = decodeURIComponent(sent.match(/[?&]t=([^\s&]+)/)?.[1] ?? '');
+  const who = await (await fetch(`${base}/public/whoami?t=${encodeURIComponent(t)}`)).json();
+  console.log(`\n🌐 /public/whoami → ${JSON.stringify(who)}`);
 
-  const order = await prisma.order.findFirstOrThrow({ where: { customer: { phone: PHONE } }, include: { items: true }, orderBy: { id: 'desc' } });
-  console.log(`\n🗂  Pedido #${order.id} creado: ${order.status}, ${order.items.length} ítems, ${order.paymentMethod}, ${order.deliveryMethod} a ${order.deliveryAddress}`);
+  // Mínimo para envío: no llega
+  const prevSettings = await prisma.settings.findUniqueOrThrow({ where: { id: 1 } });
+  await prisma.settings.update({ where: { id: 1 }, data: { minOrderForDelivery: 999999999 } });
+  const tooSmall = await post('/public/orders', { t, name: 'Juan Pérez', paymentMethod: 'TRANSFERENCIA', deliveryMethod: 'ENVIO', address: 'Calle 1', items: [{ code: a, quantity: 2 }] });
+  console.log(`\n🌐 Pedido por debajo del mínimo → HTTP ${tooSmall.status} ${tooSmall.body.error}`);
+  await prisma.settings.update({ where: { id: 1 }, data: { minOrderForDelivery: prevSettings.minOrderForDelivery } });
+
+  const web1 = await post('/public/orders', {
+    t,
+    name: 'Juan Pérez',
+    paymentMethod: 'TRANSFERENCIA',
+    deliveryMethod: 'ENVIO',
+    address: 'Av. Siempreviva 742, San Justo',
+    items: [{ code: a, quantity: 2 }, { code: c, quantity: 1 }],
+  });
+  console.log(`\n🌐 Pedido web con link del bot → HTTP ${web1.status} ${JSON.stringify(web1.body)}`);
+  await flush('Aviso de pedido recibido');
+
+  const order = await prisma.order.findUniqueOrThrow({ where: { id: Number(web1.body.id) }, include: { items: true, customer: true } });
+  console.log(`\n🗂  Pedido #${order.id}: ${order.status}, ${order.source}, confirmado WA ${Boolean(order.waConfirmedAt)}, cliente ${order.customer.name} / ${order.customer.address}`);
 
   // Panel: el primero es parcial (pidió 2, hay 1), el resto disponible y el envío tiene costo
   await orders.setItemStatus(order.id, order.items[0]!.id, 'PARCIAL', 1);
   for (const it of order.items.slice(1)) await orders.setItemStatus(order.id, it.id, 'DISPONIBLE');
-  try {
-    await orders.submitReview(order.id);
-  } catch (e) {
-    console.log(`\n⛔ Revisión sin definir envío: ${(e as Error).message}`);
-  }
   await orders.setShipping(order.id, 'CON_COSTO', 1500);
   await orders.submitReview(order.id);
   await flush('Panel: revisión con parcial + envío con costo');
@@ -122,37 +140,41 @@ async function main() {
   const after = await prisma.order.findUniqueOrThrow({ where: { id: order.id } });
   console.log(`\n🗂  Pedido #${order.id}: ${after.status}, pago ${after.paymentStatus}, comprobante ${after.receiptRef}`);
 
-  // Segundo pedido: compra mínima para envío que no se alcanza
-  const prevSettings = await prisma.settings.findUniqueOrThrow({ where: { id: 1 } });
-  await prisma.settings.update({ where: { id: 1 }, data: { minOrderForDelivery: 999999999 } });
-  await text(`${a} 1`);
-  await text('listo');
-  await text('efectivo');
-  await text('envio'); // no se permite: vuelve a avisar el mínimo
-  await button('DEL_SEGUIR', 'Seguir comprando');
-  await text(`${b} 1`);
-  await text('listo');
-  await text('efectivo');
-  // Baja el mínimo: ahora sí lo supera
-  await prisma.settings.update({ where: { id: 1 }, data: { minOrderForDelivery: 1 } });
-  await button('DEL_ENVIO', 'Envío');
-  await button('ADDR_OK', 'Sí, ahí');
-  await text('si');
-  await prisma.settings.update({ where: { id: 1 }, data: { minOrderForDelivery: prevSettings.minOrderForDelivery } });
+  // ── 2. Entra directo a la web y tipea otro número; confirma desde su WhatsApp ──
+  const web2 = await post('/public/orders', {
+    name: 'Ana Gómez',
+    phone: '11 5555-0000',
+    paymentMethod: 'EFECTIVO',
+    deliveryMethod: 'RETIRO',
+    items: [{ code: b, quantity: 3 }],
+  });
+  console.log(`\n🌐 Pedido web sin link → HTTP ${web2.status} ${JSON.stringify(web2.body)}`);
+  const o2 = await prisma.order.findUniqueOrThrow({ where: { id: Number(web2.body.id) }, include: { customer: true } });
+  console.log(`🗂  Pedido #${o2.id} queda con ${o2.customer.phone}, sin confirmar (${o2.waConfirmedAt}), nombre en el pedido: ${o2.contactName}`);
 
-  // Panel: fuera de zona → pasa a retiro y el cliente tiene que aceptar
-  const order2 = await prisma.order.findFirstOrThrow({ where: { customer: { phone: PHONE } }, include: { items: true }, orderBy: { id: 'desc' } });
-  await orders.markAllAvailable(order2.id);
-  await orders.setShipping(order2.id, 'FUERA_ZONA');
-  await orders.submitReview(order2.id);
-  await flush('Panel: fuera de zona');
-  await text('si');
-  await flush('Cliente aceptó retirar');
-  const o2 = await prisma.order.findUniqueOrThrow({ where: { id: order2.id } });
-  console.log(`\n🗂  Pedido #${o2.id}: ${o2.status}, ${o2.deliveryMethod}, envío ${o2.shippingStatus}`);
+  // El dueño revisa antes de que confirme: el aviso no le puede llegar todavía (queda en cola)
+  await orders.markAllAvailable(o2.id);
+  await orders.submitReview(o2.id);
+  await flush('Antes de que confirme por WhatsApp (no tiene que salir nada)');
+
+  await text(String(web2.body.confirmText));
+  await flush('Avisos pendientes que ahora sí salen');
+  const o2b = await prisma.order.findUniqueOrThrow({ where: { id: o2.id }, include: { customer: true } });
+  console.log(`\n🗂  Pedido #${o2b.id}: ahora de ${o2b.customer.phone} (${o2b.customer.name}), confirmado ${Boolean(o2b.waConfirmedAt)}, ${o2b.status}`);
+
+  await text('Hola! Hice el pedido web #999999 (código ZZZZZZ).');
+
+  // ── 3. Manda códigos por chat como antes: lo mandamos a la web ──
+  await text(`${a} 2`);
+
+  // Trampa para bots y número inválido
+  const spam = await post('/public/orders', { name: 'Bot', phone: '1155550000', website: 'x', paymentMethod: 'EFECTIVO', deliveryMethod: 'RETIRO', items: [{ code: a, quantity: 1 }] });
+  const badPhone = await post('/public/orders', { name: 'Ana', phone: '1234', paymentMethod: 'EFECTIVO', deliveryMethod: 'RETIRO', items: [{ code: a, quantity: 1 }] });
+  console.log(`\n🌐 Trampa → HTTP ${spam.status}; número inválido → HTTP ${badPhone.status} ${badPhone.body.error}`);
 
   // Duplicado: Meta reintenta el mismo id
   const dup = { type: 'text', text: { body: 'Hola' }, id: 'wamid.dup.1' };
+  await prisma.inboundMessage.deleteMany({ where: { id: 'wamid.dup.1' } }).catch(() => {});
   await send(dup, 'Hola (1ra vez)');
   await send(dup, 'Hola (reintento de Meta, no debería responder)');
 

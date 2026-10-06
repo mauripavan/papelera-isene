@@ -65,6 +65,11 @@ export function serializeOrder(o: FullOrder) {
     scheduledFor: o.scheduledFor,
     receiptRef: o.receiptRef,
     notes: o.notes,
+    source: o.source,
+    /** Nombre que cargó en la web (puede no coincidir con el guardado para ese número) */
+    contactName: o.contactName,
+    /** Se le pueden mandar avisos: entró por WhatsApp, o confirmó el pedido web desde su WhatsApp */
+    whatsappConfirmed: o.source === 'WHATSAPP' || o.waConfirmedAt != null,
     createdAt: o.createdAt,
     updatedAt: o.updatedAt,
     customer: { id: o.customer.id, phone: o.customer.phone, name: o.customer.name, address: o.customer.address },

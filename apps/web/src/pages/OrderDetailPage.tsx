@@ -232,13 +232,26 @@ export function OrderDetailPage() {
         <StatusBadge status={o.status} />
       </div>
       <ErrorNote error={action.error} />
+      {!o.whatsappConfirmed && (
+        <p className="warn-note">
+          Pedido hecho en la web que el cliente todavía <b>no confirmó desde su WhatsApp</b>. Los avisos quedan en espera y le llegan cuando lo
+          confirme. Si tarda, conviene llamarlo o escribirle desde el celular.
+        </p>
+      )}
 
       <div className="grid-2">
         <div className="card">
           <h2>Cliente</h2>
           <dl className="facts">
             <dt>Nombre</dt>
-            <dd>{o.customer.name ?? '—'}</dd>
+            <dd>
+              {o.contactName ?? o.customer.name ?? '—'}
+              {o.contactName && o.customer.name && o.contactName !== o.customer.name && (
+                <div className="muted small">Guardado para este número: {o.customer.name}</div>
+              )}
+            </dd>
+            <dt>Origen</dt>
+            <dd>{o.source === 'WEB' ? (o.whatsappConfirmed ? 'Web (confirmado por WhatsApp)' : 'Web (sin confirmar por WhatsApp)') : 'WhatsApp'}</dd>
             <dt>WhatsApp</dt>
             <dd>
               <a href={waLink(o.customer.phone)} target="_blank" rel="noreferrer">

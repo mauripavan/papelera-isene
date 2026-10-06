@@ -1,3 +1,4 @@
+import { randomBytes } from 'node:crypto';
 import { unitPriceFor, type DeliveryMethod, type OrderStatus, type PaymentMethod } from '@papelera/shared';
 import { prisma, type Tx } from '../db.ts';
 import { conflict, notFound, unprocessable } from '../lib/http.ts';
@@ -38,6 +39,19 @@ export interface OrderDraft {
   deliveryAddress?: string;
   notes?: string;
   items: { code: string; quantity: number }[];
+  /** Por dónde entró. Default: WhatsApp. */
+  source?: 'WHATSAPP' | 'WEB';
+  /**
+   * false = el teléfono lo tipeó alguien en la web y todavía no se confirmó desde ese WhatsApp.
+   * En ese caso no se tocan el nombre ni la dirección guardados de ese número.
+   */
+  verified?: boolean;
+}
+
+/** Código corto para vincular un pedido web desde WhatsApp (sin letras que se confundan). */
+function newWebCode() {
+  const alphabet = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+  return [...randomBytes(6)].map((b) => alphabet[b % alphabet.length]).join('');
 }
 
 /** Resuelve códigos → productos y calcula precios según el medio de pago. No escribe nada. */
@@ -76,20 +90,24 @@ export async function createOrder(draft: OrderDraft) {
   return prisma.$transaction(async (tx) => {
     const q = await quote(draft, tx);
 
+    const verified = draft.verified ?? true;
+    const source = draft.source ?? 'WHATSAPP';
     const existing = await tx.customer.findUnique({ where: { phone: draft.phone } });
-    const address = draft.deliveryAddress?.trim() || existing?.address || undefined;
+    const address = draft.deliveryAddress?.trim() || (verified ? existing?.address : undefined) || undefined;
     if (draft.deliveryMethod === 'ENVIO' && !address) {
       throw unprocessable('Para envío hace falta una dirección');
     }
 
-    const customer = await tx.customer.upsert({
-      where: { phone: draft.phone },
-      create: { phone: draft.phone, name: draft.customerName, address: draft.deliveryMethod === 'ENVIO' ? address : undefined },
-      update: {
-        ...(draft.customerName ? { name: draft.customerName } : {}),
-        ...(draft.deliveryMethod === 'ENVIO' && address ? { address } : {}),
-      },
-    });
+    const customer = verified
+      ? await tx.customer.upsert({
+          where: { phone: draft.phone },
+          create: { phone: draft.phone, name: draft.customerName, address: draft.deliveryMethod === 'ENVIO' ? address : undefined },
+          update: {
+            ...(draft.customerName ? { name: draft.customerName } : {}),
+            ...(draft.deliveryMethod === 'ENVIO' && address ? { address } : {}),
+          },
+        })
+      : (existing ?? (await tx.customer.create({ data: { phone: draft.phone } })));
 
     const order = await tx.order.create({
       data: {
@@ -100,6 +118,10 @@ export async function createOrder(draft: OrderDraft) {
         // El dueño define al revisar si el envío es gratis, con costo o fuera de zona
         shippingStatus: draft.deliveryMethod === 'ENVIO' ? 'PENDIENTE' : null,
         notes: draft.notes,
+        source,
+        contactName: source === 'WEB' ? draft.customerName : null,
+        webCode: source === 'WEB' && !verified ? newWebCode() : null,
+        waConfirmedAt: source === 'WEB' && verified ? new Date() : null,
         items: {
           create: q.lines.map((l) => ({
             productId: l.productId,
@@ -113,6 +135,35 @@ export async function createOrder(draft: OrderDraft) {
       include: orderInclude,
     });
     return serializeOrder(order);
+  });
+}
+
+/**
+ * El cliente mandó por WhatsApp el mensaje "Pedido web #N (código X)".
+ * Desde ahí sabemos que el número es suyo: el pedido pasa a ese número (aunque en la web
+ * haya tipeado otro), se guardan nombre y dirección, y se reenvían los avisos que no le llegaron.
+ */
+export async function linkWebOrder(orderId: number, code: string, phone: string) {
+  return prisma.$transaction(async (tx) => {
+    const order = await tx.order.findFirst({ where: { id: orderId, source: 'WEB', webCode: code } });
+    if (!order) return null;
+    const customer = await tx.customer.upsert({
+      where: { phone },
+      create: {
+        phone,
+        name: order.contactName,
+        address: order.deliveryMethod === 'ENVIO' || order.shippingStatus ? order.deliveryAddress : undefined,
+      },
+      update: {
+        ...(order.contactName ? { name: order.contactName } : {}),
+        ...(order.deliveryAddress ? { address: order.deliveryAddress } : {}),
+      },
+    });
+    await tx.outboundMessage.updateMany({
+      where: { orderId, status: { in: ['FAILED', 'PENDING'] } },
+      data: { phone, status: 'PENDING', attempts: 0, lastError: null },
+    });
+    return update(tx, orderId, { customerId: customer.id, waConfirmedAt: order.waConfirmedAt ?? new Date() });
   });
 }
 

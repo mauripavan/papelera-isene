@@ -88,8 +88,15 @@ export function OrdersPage() {
                   </td>
                   <td>
                     <Link to={`/pedidos/${o.id}`} className="row-link">
-                      {o.customer.name ?? 'Sin nombre'}
-                      <span className="muted small">{o.customer.phone}</span>
+                      {o.contactName ?? o.customer.name ?? 'Sin nombre'}
+                      <span className="muted small">
+                        {o.customer.phone}
+                        {o.source === 'WEB' && (
+                          <span className={`badge ${o.whatsappConfirmed ? 'neutral' : 'warn'} tiny`}>
+                            {o.whatsappConfirmed ? 'Web' : 'Web · sin confirmar'}
+                          </span>
+                        )}
+                      </span>
                     </Link>
                   </td>
                   <td>{dateTime(o.createdAt)}</td>

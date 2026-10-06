@@ -58,6 +58,9 @@ export interface Order {
   scheduledFor: string | null;
   receiptRef: string | null;
   notes: string | null;
+  source: 'WHATSAPP' | 'WEB';
+  contactName: string | null;
+  whatsappConfirmed: boolean;
   createdAt: string;
   customer: { id: number; phone: string; name: string | null; address: string | null };
   items: OrderItem[];

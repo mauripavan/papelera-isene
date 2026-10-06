@@ -13,6 +13,7 @@ export const unauthorized = (msg = 'No autorizado') => new HttpError(401, msg);
 export const notFound = (msg = 'No encontrado') => new HttpError(404, msg);
 export const conflict = (msg: string, details?: unknown) => new HttpError(409, msg, details);
 export const unprocessable = (msg: string, details?: unknown) => new HttpError(422, msg, details);
+export const tooManyRequests = (msg: string) => new HttpError(429, msg);
 
 /** Parsea un id numérico de la URL. */
 export function parseId(raw: string | string[] | undefined): number {

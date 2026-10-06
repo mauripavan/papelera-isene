@@ -72,7 +72,9 @@ PENDIENTE_REVISION ──(todo como lo pidió)──────────▶ 
                                     └──(rechaza)──▶ CANCELADO
 ```
 
-1. El bot toma teléfono, productos, medio de pago (efectivo/transferencia) y envío o retiro, informa el monto (`POST /bot/quote`) y crea el pedido (`POST /bot/orders`).
+1. El cliente arma el pedido en la web (`/lista`): productos, medio de pago (efectivo/transferencia), retiro o envío, dirección, nombre y WhatsApp, y confirma (`POST /public/orders`). Desde ahí sigue todo por WhatsApp.
+   - Si llegó con el link del bot, el link trae su número firmado (`?t=`, vale 24 h): no se lo pedimos y el bot le confirma el pedido en el momento.
+   - Si entró directo, tipea su WhatsApp y al final un botón le abre el chat con *"Pedido web #N (código X)"*. Al mandarlo, el pedido queda vinculado a su número (aunque haya tipeado otro). Hasta entonces el pedido aparece en el panel como **Web · sin confirmar**, no se guardan su nombre ni su dirección para ese número y los avisos quedan en espera (nunca se le escribe a un número que no confirmó).
    Si en *Ajustes* hay una **compra mínima para envío**, el bot la avisa al preguntar retiro/envío y no deja elegir envío por debajo del mínimo (ofrece retirar o seguir comprando).
 2. Desde el panel se marca cada producto como **Hay**, **Parcial** (cuántos hay de lo pedido) o **Falta**. Si es con envío, además se define si el envío es **gratis**, **con costo** (se suma al total) o **fuera de zona** (pasa a retiro). Después se confirma la revisión:
    - Si está todo como lo pidió (y el envío es gratis), el pedido queda confirmado y el bot avisa al cliente. Si paga por transferencia, le pasa los datos y le pide el comprobante.
@@ -138,14 +140,17 @@ Vive dentro de la API (`apps/api/src/bot/`), así que no suma otro servicio:
 
 - `POST /whatsapp/webhook` recibe los mensajes de Meta (valida la firma con `WHATSAPP_APP_SECRET`
   y descarta reintentos duplicados). `GET /whatsapp/webhook` es la verificación inicial.
-- `src/bot/flow.ts` es la conversación: menú → carrito con `CÓDIGO CANTIDAD` → medio de pago →
-  retiro o envío (recuerda la última dirección) → resumen con total → confirmación. El estado de
-  cada teléfono se guarda en `bot_sessions`.
-- En cualquier momento: `SI`/`NO` responde a un pedido con faltantes, una imagen o PDF se toma como
-  comprobante de transferencia, y `CANCELAR`, `MENU` y `LISTA` funcionan siempre.
+- `src/bot/flow.ts` es la conversación. El bot ya no toma pedidos por chat: *Hacer un pedido*,
+  *Ver precios* o mandar códigos responden con el link a la web con el número del cliente firmado.
+- Después del pedido: `SI`/`NO` responde a un pedido con cambios, una imagen o PDF se toma como
+  comprobante de transferencia, *"Pedido web #N (código X)"* vincula un pedido web, y `MENU`
+  muestra el menú.
 - Los avisos que salen del panel (confirmación, faltantes, fecha, cancelación) se encolan en
   `outbound_messages` y un worker los manda cada 5 segundos.
-- La lista de precios pública está en `/lista` (sin login) y el bot manda ese link.
+- La lista de precios y el pedido web están en `/lista` (sin login). Cada producto muestra una
+  ilustración genérica según su tipo (`apps/web/src/components/ProductIcon.tsx`).
+- **Descuento por bulto cerrado:** se carga como otro producto, con la presentación y el precio del
+  bulto y el mismo código con una B al final (ej. `BOL-001B`).
 
 Fuera de las 24 h desde el último mensaje del cliente, WhatsApp no deja mandar texto libre. Esos
 avisos quedan como *Falló* en el pedido, con el motivo. Para cubrirlos hay que sumar plantillas

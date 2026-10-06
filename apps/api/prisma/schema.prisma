@@ -102,6 +102,11 @@ enum ItemStatus {
 }
 
 /// Lo decide el dueño al revisar un pedido con envío
+enum OrderSource {
+  WHATSAPP
+  WEB
+}
+
 enum ShippingStatus {
   PENDIENTE
   GRATIS
@@ -149,6 +154,14 @@ model Order {
   /// Referencia al comprobante de transferencia (URL o id de media de WhatsApp)
   receiptRef      String?
   notes           String?
+  /// Por dónde entró el pedido
+  source          OrderSource     @default(WHATSAPP)
+  /// Pedidos web: nombre que cargó el cliente (no pisa el del cliente hasta que confirme por WhatsApp)
+  contactName     String?
+  /// Pedidos web: código para vincular el pedido desde WhatsApp
+  webCode         String?
+  /// Pedidos web: cuándo el cliente confirmó desde su WhatsApp (null = todavía no)
+  waConfirmedAt   DateTime?
   items           OrderItem[]
   messages        OutboundMessage[]
   createdAt       DateTime        @default(now())

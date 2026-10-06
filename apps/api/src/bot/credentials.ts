@@ -63,3 +63,31 @@ export function decrypt(payload: string): string {
   decipher.setAuthTag(tag!);
   return Buffer.concat([decipher.update(data!), decipher.final()]).toString('utf8');
 }
+
+// ─── Número de la papelera (para los links wa.me de la web) ─────────────────
+
+let numberCache: { phoneNumberId: string; number: string | null; at: number } | null = null;
+
+/** Número de WhatsApp del negocio, solo dígitos (ej. 5491123983428). null si no hay WhatsApp configurado. */
+export async function getBusinessNumber(): Promise<string | null> {
+  const creds = current;
+  if (!creds) return null;
+  if (numberCache && numberCache.phoneNumberId === creds.phoneNumberId && Date.now() - numberCache.at < 60 * 60_000) {
+    return numberCache.number;
+  }
+  let display: string | null = null;
+  const conn = await prisma.whatsappConnection.findUnique({ where: { id: 1 } }).catch(() => null);
+  if (conn?.phoneNumberId === creds.phoneNumberId && conn.displayPhone) display = conn.displayPhone;
+  if (!display) {
+    try {
+      const { graph } = await import('./whatsapp.ts');
+      display = (await graph<{ display_phone_number?: string }>(`/${creds.phoneNumberId}?fields=display_phone_number`)).display_phone_number ?? null;
+    } catch (e) {
+      console.error('[bot] no se pudo obtener el número del negocio:', (e as Error).message);
+      return numberCache?.number ?? null; // no cacheamos el error
+    }
+  }
+  const number = display ? display.replace(/\D/g, '') || null : null;
+  numberCache = { phoneNumberId: creds.phoneNumberId, number, at: Date.now() };
+  return number;
+}

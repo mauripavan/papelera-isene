@@ -10,7 +10,7 @@ import type { SerializedOrder } from './serializers.ts';
 const TZ = 'America/Argentina/Buenos_Aires';
 
 function hello(o: SerializedOrder) {
-  const first = o.customer.name?.trim().split(/\s+/)[0];
+  const first = (o.customer.name || o.contactName)?.trim().split(/\s+/)[0];
   return first ? `¡Hola ${first}!` : '¡Hola!';
 }
 
@@ -49,6 +49,21 @@ export function formatSchedule(date: Date): string {
 }
 
 export const messages = {
+  /** Apenas entra el pedido (lo usan el bot y la web). */
+  received(o: SerializedOrder, withSummary = false) {
+    const lines = [`¡Recibimos tu pedido *#${o.id}*! ✅`];
+    if (withSummary) {
+      lines.push(o.items.map((i) => `• ${i.quantity} x ${i.productName}`).join('\n'));
+      const delivery = o.deliveryMethod === 'RETIRO' ? 'Retiro en el local' : `Envío a ${o.deliveryAddress} (costo a confirmar)`;
+      lines.push(`*Total (${PAYMENT_METHOD_LABEL[o.paymentMethod].toLowerCase()}): ${formatARS(o.subtotal)}*\n📦 ${delivery}`);
+    }
+    lines.push(
+      'Ahora revisamos que tengamos todo y te confirmamos por acá.' +
+        (o.paymentMethod === 'TRANSFERENCIA' ? ' Esperá nuestra confirmación antes de transferir.' : ''),
+    );
+    return lines.join('\n\n');
+  },
+
   confirmed(o: SerializedOrder, s: AppSettings) {
     return [
       `${hello(o)} Confirmamos tu pedido #${o.id} ✅`,

@@ -18,7 +18,13 @@ const OUTSIDE_WINDOW = 131047;
 export async function flushOutbox(wa: Messenger = whatsapp) {
   if (wa === whatsapp && !isWhatsappEnabled()) return 0;
   const pending = await prisma.outboundMessage.findMany({
-    where: { status: 'PENDING', attempts: { lt: MAX_ATTEMPTS } },
+    where: {
+      status: 'PENDING',
+      attempts: { lt: MAX_ATTEMPTS },
+      // Pedidos web sin confirmar desde el WhatsApp del cliente: el número lo tipeó alguien
+      // y puede ser de otra persona. Los avisos esperan hasta que lo confirme.
+      OR: [{ orderId: null }, { order: { source: 'WHATSAPP' } }, { order: { waConfirmedAt: { not: null } } }],
+    },
     orderBy: { createdAt: 'asc' },
     take: 20,
   });

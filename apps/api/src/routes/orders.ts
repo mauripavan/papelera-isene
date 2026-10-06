@@ -31,6 +31,7 @@ ordersRouter.get('/', async (req, res) => {
               ...(Number.isInteger(Number(q)) ? [{ id: Number(q) }] : []),
               { customer: { phone: { contains: q } } },
               { customer: { name: { contains: q, mode: 'insensitive' as const } } },
+              { contactName: { contains: q, mode: 'insensitive' as const } },
             ],
           }
         : {}),

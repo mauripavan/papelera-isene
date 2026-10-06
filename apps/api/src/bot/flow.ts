@@ -1,40 +1,25 @@
-import { formatARS, PAYMENT_METHOD_LABEL, productPrices, round2, type DeliveryMethod, type PaymentMethod } from '@papelera/shared';
 import { prisma } from '../db.ts';
 import { publicUrl } from '../env.ts';
-import { HttpError } from '../lib/http.ts';
+import { signPhoneToken } from '../lib/phone-token.ts';
 import * as orders from '../services/orders.ts';
 import { getSettings } from '../services/settings.ts';
 import { isNo, isYes, normalize, parseItems } from './parse.ts';
 import type { Messenger } from './whatsapp.ts';
 
 /**
- * Conversación del bot. Cada teléfono tiene una sesión con un estado:
+ * Conversación del bot.
  *
- *   IDLE ──(Hacer pedido / manda códigos)──▶ ORDERING ──(LISTO)──▶ ASK_PAYMENT ──▶ ASK_DELIVERY
- *                                                                                  │
- *                       ┌───────────── RETIRO ────────────────────────────────────┤
- *                       │                     ENVÍO ──▶ CONFIRM_ADDRESS / ASK_ADDRESS
- *                       ▼                                         │
- *                 CONFIRM_ORDER ◀─────────────────────────────────┘
- *                       │ Confirmar → se crea el pedido (queda "Para revisar" en el panel)
- *                       ▼
- *                     IDLE
+ * Los pedidos se arman en la web (/lista): productos, forma de pago, retiro o envío,
+ * mínimo para envío y dirección. El bot le manda al cliente un link que ya lleva su
+ * número firmado, así la web sabe a qué WhatsApp avisarle.
  *
- * Además, en cualquier estado:
- *  - si el cliente tiene un pedido esperando respuesta por faltantes, SI/NO se aplica a ese pedido
- *  - si manda una imagen o PDF y tiene un pedido por transferencia sin pagar, se toma como comprobante
- *  - CANCELAR, MENU y LISTA funcionan siempre
+ * Después de que el cliente confirma en la web, todo sigue por acá:
+ *  - "Recibimos tu pedido", confirmación, faltantes (SI/NO), datos para transferir, fecha
+ *  - una imagen o PDF con un pedido por transferencia sin pagar se toma como comprobante
+ *  - "Pedido web #N (código X)": vincula un pedido hecho en la web sin el link del bot
+ *  - BORRAR MIS DATOS borra nombre, dirección y la sesión
+ *  - si el dueño responde a mano desde la app, el bot se pausa en ese chat (MENU lo reactiva)
  */
-
-type State = 'IDLE' | 'ORDERING' | 'ASK_PAYMENT' | 'ASK_DELIVERY' | 'ASK_ADDRESS' | 'CONFIRM_ADDRESS' | 'CONFIRM_ORDER';
-
-interface SessionData {
-  /** código → cantidad */
-  cart?: Record<string, number>;
-  paymentMethod?: PaymentMethod;
-  deliveryMethod?: DeliveryMethod;
-  address?: string;
-}
 
 export type Inbound =
   | { kind: 'text'; text: string }
@@ -48,30 +33,21 @@ export interface InboundContext {
   message: Inbound;
 }
 
-/** Si una conversación quedó a medias más de este tiempo, se arranca de cero. */
-const SESSION_TTL_MS = 12 * 60 * 60 * 1000;
-
 const BTN = {
   LIST: 'MENU_LIST',
   ORDER: 'MENU_ORDER',
-  CASH: 'PAY_EFECTIVO',
-  TRANSFER: 'PAY_TRANSFERENCIA',
-  PICKUP: 'DEL_RETIRO',
-  DELIVERY: 'DEL_ENVIO',
-  KEEP_SHOPPING: 'DEL_SEGUIR',
-  ADDR_OK: 'ADDR_OK',
-  ADDR_OTHER: 'ADDR_OTHER',
-  CONFIRM: 'ORDER_CONFIRM',
-  CANCEL: 'ORDER_CANCEL',
   YES: 'MISSING_YES',
   NO: 'MISSING_NO',
 } as const;
 
 /** "pedido", "hacer un pedido", "quiero hacer un pedido", "pedir", "nuevo pedido"… */
 const ORDER_WORDS = /^(QUIERO )?((HACER|ARMAR) (UN )?|NUEVO )?PEDIDO$|^(QUIERO )?PEDIR$/;
+/** "Hola! Hice el pedido web #123 (código K7P2QX)…" (ya normalizado: mayúsculas, sin tildes) */
+const WEB_ORDER_LINK = /PEDIDO WEB #?(\d+)\D*?CODIGO:? ?([A-Z0-9]{6})/;
 
-export function listUrl() {
-  return `${publicUrl}/lista`;
+/** Link a la lista/pedido web con el número del cliente firmado (vale 24 h). */
+export function orderUrl(phone: string) {
+  return `${publicUrl}/lista?t=${encodeURIComponent(signPhoneToken(phone))}`;
 }
 
 export async function handleInbound(ctx: InboundContext, wa: Messenger) {
@@ -83,10 +59,11 @@ export async function handleInbound(ctx: InboundContext, wa: Messenger) {
   const text = message.kind === 'text' ? message.text : message.kind === 'button' ? message.title : '';
   const buttonId = message.kind === 'button' ? message.id : null;
   const word = normalize(text);
+  const bare = word.replace(/[¡!¿?.,]/g, '').trim();
   const pausedUntil = (await prisma.botSession.findUnique({ where: { phone }, select: { pausedUntil: true } }))?.pausedUntil;
   const paused = Boolean(pausedUntil && pausedUntil > new Date());
 
-  // 1. Respuesta a un pedido con faltantes
+  // 1. Respuesta a un pedido con cambios (faltantes, parciales, costo de envío…)
   const waiting = await prisma.order.findFirst({
     where: { customer: { phone }, status: 'ESPERANDO_CLIENTE' },
     orderBy: { createdAt: 'desc' },
@@ -127,258 +104,61 @@ export async function handleInbound(ctx: InboundContext, wa: Messenger) {
     );
     return;
   }
-  // 4. Si el dueño está atendiendo este chat a mano, el bot no conversa (salvo que pidan MENU)
+
+  // 4. Pedido hecho en la web que se confirma desde este WhatsApp (funciona aunque el bot esté en pausa)
+  const link = word.match(WEB_ORDER_LINK);
+  if (link) {
+    const order = await orders.linkWebOrder(Number(link[1]), link[2]!, phone);
+    if (!order) {
+      await wa.text(phone, 'No encontramos ese pedido 🤔 Revisá que el mensaje sea el que te armó la página, sin cambios.');
+      return;
+    }
+    const first = order.customer.name?.trim().split(/\s+/)[0];
+    await wa.text(
+      phone,
+      `¡Listo${first ? ` ${first}` : ''}! Tu pedido *#${order.id}* quedó asociado a este WhatsApp ✅\n\n` +
+        (order.status === 'PENDIENTE_REVISION'
+          ? 'Ahora revisamos que tengamos todo y te confirmamos por acá.' +
+            (order.paymentMethod === 'TRANSFERENCIA' ? ' Esperá nuestra confirmación antes de transferir.' : '')
+          : 'Te mandamos por acá las novedades del pedido.'),
+    );
+    return;
+  }
+
+  // 5. Si el dueño está atendiendo este chat a mano, el bot no conversa (salvo que pidan MENU)
   if (paused) {
     if (word !== 'MENU') return;
     await prisma.botSession.update({ where: { phone }, data: { pausedUntil: null } });
   }
 
-  // 5. Comandos que funcionan siempre
-  if (word === 'CANCELAR') {
-    await saveSession(phone, 'IDLE', {});
-    await wa.text(phone, 'Listo, cancelé el pedido que estabas armando. Cuando quieras, escribí *MENU*.');
+  // 6. Pedidos y precios: todo se arma en la web
+  const sentCodes = message.kind === 'text' && parseItems(text).items.length > 0;
+  if (buttonId === BTN.ORDER || ORDER_WORDS.test(bare) || sentCodes) {
+    await sendOrderLink(phone, wa, sentCodes);
     return;
   }
-  if (word === 'LISTA' || word === 'PRECIOS' || buttonId === BTN.LIST) {
+  if (buttonId === BTN.LIST || ['LISTA', 'PRECIOS', 'VER PRECIOS', 'LISTA DE PRECIOS'].includes(bare)) {
     await sendList(phone, wa);
     return;
   }
 
-  let { state, data } = await loadSession(phone);
-  if (word === 'MENU' || word === 'HOLA' || word === 'INICIO') {
-    if (state !== 'IDLE' && Object.keys(data.cart ?? {}).length) {
-      // No perdemos el carrito por un "hola" en el medio
-      await wa.text(phone, `Tenés un pedido a medio armar. Seguí agregando productos o escribí *LISTO*. Para empezar de cero, escribí *CANCELAR*.`);
-      return;
-    }
-    state = 'IDLE';
-  }
-
-  // "Hacer un pedido" funciona en cualquier paso (el botón puede venir de un menú viejo)
-  if (buttonId === BTN.ORDER || ORDER_WORDS.test(word.replace(/[¡!¿?.,]/g, '').trim())) {
-    if (state !== 'IDLE' && Object.keys(data.cart ?? {}).length) {
-      await saveSession(phone, 'ORDERING', data);
-      await wa.text(
-        phone,
-        `Ya tenés un pedido a medio armar:\n\n${await cartText(data.cart ?? {})}\n\n` +
-          'Seguí agregando productos o escribí *LISTO*. Para empezar de cero, escribí *CANCELAR*.',
-      );
-      return;
-    }
-    await saveSession(phone, 'ORDERING', { cart: {} });
-    await sendOrderingHelp(phone, wa);
+  // 7. Tiene un pedido esperando su respuesta: se lo recordamos en vez de mandar el menú
+  if (waiting && word !== 'MENU') {
+    await wa.text(phone, `Tenemos tu pedido *#${waiting.id}* esperando tu respuesta: respondé *SI* para seguir o *NO* para cancelarlo.`);
     return;
   }
 
-  switch (state) {
-    case 'IDLE': {
-      // Atajo: si ya manda códigos, arrancamos el pedido directo
-      const parsed = parseItems(text);
-      if (parsed.items.length) {
-        await addToCart(phone, { cart: {} }, parsed, wa);
-        return;
-      }
-      await sendMenu(phone, ctx.profileName, wa);
-      return;
-    }
-
-    case 'ORDERING': {
-      if (word === 'LISTO' || word === 'TERMINE' || word === 'FIN') {
-        if (!Object.keys(data.cart ?? {}).length) {
-          await wa.text(phone, 'Todavía no agregaste productos. Mandá *CÓDIGO CANTIDAD*, por ejemplo: BOL-001 2');
-          return;
-        }
-        await saveSession(phone, 'ASK_PAYMENT', data);
-        await askPayment(phone, wa);
-        return;
-      }
-      if (word === 'VER' || word === 'CARRITO') {
-        await wa.text(phone, (await cartText(data.cart ?? {})) + '\n\nSeguí agregando o escribí *LISTO*.');
-        return;
-      }
-      const remove = word.match(/^(?:BORRAR|SACAR|QUITAR)\s+(.+)$/);
-      if (remove) {
-        const code = parseItems(remove[1]!).items[0]?.code;
-        const cart = { ...(data.cart ?? {}) };
-        if (code && cart[code]) {
-          delete cart[code];
-          await saveSession(phone, 'ORDERING', { ...data, cart });
-          await wa.text(phone, `Saqué ${code}.\n\n${await cartText(cart)}`);
-        } else {
-          await wa.text(phone, `No encontré ese código en tu pedido.`);
-        }
-        return;
-      }
-      const parsed = parseItems(text);
-      if (!parsed.items.length) {
-        await wa.text(
-          phone,
-          'No entendí 🤔 Mandá un producto por línea con *CÓDIGO CANTIDAD* (ej: BOL-001 2).\n' +
-            '*VER* muestra tu pedido, *BORRAR CÓDIGO* saca uno y *LISTO* lo termina.',
-        );
-        return;
-      }
-      await addToCart(phone, data, parsed, wa);
-      return;
-    }
-
-    case 'ASK_PAYMENT': {
-      const method: PaymentMethod | null =
-        buttonId === BTN.CASH || /^(1|EFECTIVO|EFE)$/.test(word)
-          ? 'EFECTIVO'
-          : buttonId === BTN.TRANSFER || /^(2|TRANSFERENCIA|TRANSF|TRANSFER)$/.test(word)
-            ? 'TRANSFERENCIA'
-            : null;
-      if (!method) return askPayment(phone, wa);
-      data = { ...data, paymentMethod: method };
-      await saveSession(phone, 'ASK_DELIVERY', data);
-      await askDelivery(phone, data, wa);
-      return;
-    }
-
-    case 'ASK_DELIVERY': {
-      const delivery: DeliveryMethod | null =
-        buttonId === BTN.PICKUP || /^(1|RETIRO|RETIRAR|RETIRO EN LOCAL|LO RETIRO|PASO A BUSCAR)$/.test(word)
-          ? 'RETIRO'
-          : buttonId === BTN.DELIVERY || /^(2|ENVIO|ENVIO A DOMICILIO|DOMICILIO)$/.test(word)
-            ? 'ENVIO'
-            : null;
-      if (buttonId === BTN.KEEP_SHOPPING || /^(SEGUIR|SEGUIR COMPRANDO|AGREGAR)$/.test(word)) {
-        await saveSession(phone, 'ORDERING', data);
-        await wa.text(phone, `${await cartText(data.cart ?? {})}\n\nSeguí agregando productos y escribí *LISTO* cuando termines.`);
-        return;
-      }
-      if (!delivery) return askDelivery(phone, data, wa);
-      if (delivery === 'ENVIO') {
-        const { minOrderForDelivery } = await getSettings();
-        if (minOrderForDelivery > 0 && (await cartTotal(data)).total < minOrderForDelivery) return askDelivery(phone, data, wa);
-      }
-      data = { ...data, deliveryMethod: delivery };
-      if (delivery === 'RETIRO') {
-        await saveSession(phone, 'CONFIRM_ORDER', data);
-        await askConfirm(phone, data, wa);
-        return;
-      }
-      const customer = await prisma.customer.findUnique({ where: { phone } });
-      if (customer?.address) {
-        await saveSession(phone, 'CONFIRM_ADDRESS', { ...data, address: customer.address });
-        await wa.buttons(phone, `¿Te lo enviamos a *${customer.address}*?`, [
-          { id: BTN.ADDR_OK, title: 'Sí, ahí' },
-          { id: BTN.ADDR_OTHER, title: 'Otra dirección' },
-        ]);
-        return;
-      }
-      await saveSession(phone, 'ASK_ADDRESS', data);
-      await wa.text(phone, '¿A qué dirección te lo enviamos? Incluí calle, número, localidad y alguna referencia.');
-      return;
-    }
-
-    case 'CONFIRM_ADDRESS': {
-      if (buttonId === BTN.ADDR_OK || isYes(text)) {
-        await saveSession(phone, 'CONFIRM_ORDER', data);
-        await askConfirm(phone, data, wa);
-        return;
-      }
-      if (buttonId === BTN.ADDR_OTHER || isNo(text)) {
-        await saveSession(phone, 'ASK_ADDRESS', data);
-        await wa.text(phone, 'Dale, escribí la dirección de envío.');
-        return;
-      }
-      // Escribió una dirección directamente
-      if (text.trim().length >= 6) {
-        data = { ...data, address: text.trim() };
-        await saveSession(phone, 'CONFIRM_ORDER', data);
-        await askConfirm(phone, data, wa);
-        return;
-      }
-      await wa.buttons(phone, `¿Te lo enviamos a *${data.address}*?`, [
-        { id: BTN.ADDR_OK, title: 'Sí, ahí' },
-        { id: BTN.ADDR_OTHER, title: 'Otra dirección' },
-      ]);
-      return;
-    }
-
-    case 'ASK_ADDRESS': {
-      if (text.trim().length < 6) {
-        await wa.text(phone, 'Necesito la dirección completa: calle, número y localidad.');
-        return;
-      }
-      data = { ...data, address: text.trim() };
-      await saveSession(phone, 'CONFIRM_ORDER', data);
-      await askConfirm(phone, data, wa);
-      return;
-    }
-
-    case 'CONFIRM_ORDER': {
-      if (buttonId === BTN.CANCEL || isNo(text)) {
-        await saveSession(phone, 'IDLE', {});
-        await wa.text(phone, 'Listo, no enviamos el pedido. Cuando quieras, escribí *MENU*.');
-        return;
-      }
-      if (!(buttonId === BTN.CONFIRM || isYes(text))) {
-        await askConfirm(phone, data, wa);
-        return;
-      }
-      try {
-        const order = await orders.createOrder({
-          phone,
-          customerName: ctx.profileName,
-          paymentMethod: data.paymentMethod!,
-          deliveryMethod: data.deliveryMethod!,
-          deliveryAddress: data.deliveryMethod === 'ENVIO' ? data.address : undefined,
-          items: Object.entries(data.cart ?? {}).map(([code, quantity]) => ({ code, quantity })),
-        });
-        await saveSession(phone, 'IDLE', {});
-        await prisma.customer.update({ where: { phone }, data: { lastInboundAt: new Date() } });
-        await wa.text(
-          phone,
-          `¡Recibimos tu pedido *#${order.id}*! ✅\n\nAhora revisamos que tengamos todo y te confirmamos por acá.` +
-            (data.paymentMethod === 'TRANSFERENCIA' ? ' Esperá nuestra confirmación antes de transferir.' : ''),
-        );
-      } catch (e) {
-        if (e instanceof HttpError && e.status === 422) {
-          // Algún producto se desactivó mientras armaba el pedido
-          const unknown = (e.details as { unknownCodes?: string[] } | undefined)?.unknownCodes ?? [];
-          const cart = { ...(data.cart ?? {}) };
-          for (const c of unknown) delete cart[c];
-          await saveSession(phone, 'ORDERING', { cart });
-          await wa.text(
-            phone,
-            `Perdón, ${unknown.length ? `estos productos ya no están disponibles: ${unknown.join(', ')}` : 'hubo un problema con el pedido'}. ` +
-              'Los saqué del pedido. Revisalo con *VER* y escribí *LISTO* para seguir.',
-          );
-          return;
-        }
-        throw e;
-      }
-      return;
-    }
-  }
+  await sendMenu(phone, ctx.profileName, wa);
 }
 
-// ─── Sesión ──────────────────────────────────────────────────────────────────
+// ─── Datos ───────────────────────────────────────────────────────────────────
 
 /** Pedido de borrado de datos (lo pide Meta y está explicado en /eliminar-datos). */
 export async function forgetCustomer(phone: string) {
   await prisma.botSession.deleteMany({ where: { phone } });
   await prisma.customer.updateMany({ where: { phone }, data: { name: null, address: null } });
   const customer = await prisma.customer.findUnique({ where: { phone }, select: { id: true } });
-  if (customer) await prisma.order.updateMany({ where: { customerId: customer.id }, data: { deliveryAddress: null } });
-}
-
-async function loadSession(phone: string): Promise<{ state: State; data: SessionData }> {
-  const s = await prisma.botSession.findUnique({ where: { phone } });
-  if (!s) return { state: 'IDLE', data: {} };
-  if (s.state !== 'IDLE' && Date.now() - s.updatedAt.getTime() > SESSION_TTL_MS) return { state: 'IDLE', data: {} };
-  return { state: s.state as State, data: (s.data ?? {}) as SessionData };
-}
-
-async function saveSession(phone: string, state: State, data: SessionData) {
-  await prisma.botSession.upsert({
-    where: { phone },
-    create: { phone, state, data: data as object },
-    update: { state, data: data as object },
-  });
+  if (customer) await prisma.order.updateMany({ where: { customerId: customer.id }, data: { deliveryAddress: null, contactName: null } });
 }
 
 // ─── Mensajes ────────────────────────────────────────────────────────────────
@@ -391,123 +171,20 @@ async function sendMenu(phone: string, name: string | undefined, wa: Messenger) 
   ]);
 }
 
+async function sendOrderLink(phone: string, wa: Messenger, sentCodes: boolean) {
+  await wa.text(
+    phone,
+    (sentCodes ? 'Ahora los pedidos se arman en la página, es más fácil 🙂\n\n' : '') +
+      `🛒 Armá tu pedido acá:\n${orderUrl(phone)}\n\n` +
+      'Elegís los productos, cómo pagás y si lo retirás o te lo enviamos. ' +
+      'Tu número ya queda cargado: cuando lo confirmes, te avisamos todo por este chat.\n\n' +
+      '_El link vale por 24 horas. Si vence, escribí *PEDIDO* y te mandamos otro._',
+  );
+}
+
 async function sendList(phone: string, wa: Messenger) {
   await wa.text(
     phone,
-    `📋 Lista de precios actualizada:\n${listUrl()}\n\n` +
-      'Cada producto tiene un *código* (ej: BOL-001). Para pedir, mandá *CÓDIGO CANTIDAD*, uno por línea.',
+    `📋 Lista de precios actualizada:\n${orderUrl(phone)}\n\n` + 'Desde ahí mismo podés armar tu pedido y te avisamos todo por este chat.',
   );
-}
-
-async function sendOrderingHelp(phone: string, wa: Messenger) {
-  await wa.text(
-    phone,
-    '🛒 Mandame los productos, *uno por línea*, con el código y la cantidad:\n\n' +
-      'BOL-001 2\nDES-014 1\n\n' +
-      `Los códigos están en la lista: ${listUrl()}\n\n` +
-      'Cuando termines, escribí *LISTO*. Para ver lo que llevás, *VER*.',
-  );
-}
-
-async function addToCart(phone: string, data: SessionData, parsed: ReturnType<typeof parseItems>, wa: Messenger) {
-  const codes = parsed.items.map((i) => i.code);
-  const found = await prisma.product.findMany({ where: { code: { in: codes }, active: true }, select: { code: true } });
-  const valid = new Set(found.map((p) => p.code));
-  const cart = { ...(data.cart ?? {}) };
-  const unknown: string[] = [];
-  for (const i of parsed.items) {
-    if (valid.has(i.code)) cart[i.code] = (cart[i.code] ?? 0) + i.quantity;
-    else unknown.push(i.code);
-  }
-  await saveSession(phone, 'ORDERING', { ...data, cart });
-
-  const parts: string[] = [];
-  if (unknown.length) parts.push(`⚠️ No encontré estos códigos: ${unknown.join(', ')}. Revisalos en la lista: ${listUrl()}`);
-  if (parsed.invalid.length) parts.push(`⚠️ No entendí: ${parsed.invalid.map((l) => `"${l}"`).join(', ')}`);
-  if (Object.keys(cart).length) parts.push(await cartText(cart));
-  parts.push('Seguí agregando o escribí *LISTO* para terminar.');
-  await wa.text(phone, parts.join('\n\n'));
-}
-
-async function cartLines(cart: Record<string, number>) {
-  const products = await prisma.product.findMany({ where: { code: { in: Object.keys(cart) } } });
-  const byCode = new Map(products.map((p) => [p.code, p]));
-  return Object.entries(cart).map(([code, quantity]) => ({ code, quantity, product: byCode.get(code) }));
-}
-
-async function cartText(cart: Record<string, number>) {
-  const lines = await cartLines(cart);
-  if (!lines.length) return 'Tu pedido está vacío.';
-  return '🧾 *Tu pedido:*\n' + lines.map((l) => `• ${l.quantity} x ${l.product?.name ?? l.code} (${l.product?.unit ?? ''}) — ${l.code}`).join('\n');
-}
-
-async function askPayment(phone: string, wa: Messenger) {
-  await wa.buttons(phone, '¿Cómo vas a pagar?\n\nEn *efectivo* algunos productos salen más baratos.', [
-    { id: BTN.CASH, title: 'Efectivo' },
-    { id: BTN.TRANSFER, title: 'Transferencia' },
-  ]);
-}
-
-/** Total del carrito según el medio de pago elegido (y el de efectivo, para comparar). */
-async function cartTotal(data: SessionData) {
-  const settings = await getSettings();
-  const lines = await cartLines(data.cart ?? {});
-  let total = 0;
-  let totalCash = 0;
-  const rows = lines.map((l) => {
-    const p = l.product!;
-    const prices = productPrices(
-      { price: Number(p.price), discriminaIva: p.discriminaIva, priceTransfer: p.priceTransfer == null ? null : Number(p.priceTransfer) },
-      settings.ivaRate,
-    );
-    const unit = data.paymentMethod === 'EFECTIVO' ? prices.cash : prices.transfer;
-    total += unit * l.quantity;
-    totalCash += prices.cash * l.quantity;
-    return `• ${l.quantity} x ${p.name} — ${formatARS(unit * l.quantity)}`;
-  });
-  return { rows, total: round2(total), totalCash: round2(totalCash) };
-}
-
-async function askDelivery(phone: string, data: SessionData, wa: Messenger) {
-  const { minOrderForDelivery: min } = await getSettings();
-  const { total } = await cartTotal(data);
-  const zoneNote = 'El costo del envío depende de la zona: te lo confirmamos cuando revisemos el pedido.';
-  if (min > 0 && total < min) {
-    await wa.buttons(
-      phone,
-      `Hacemos envíos en compras desde *${formatARS(min)}* (tu pedido: ${formatARS(total)}).\n\n` +
-        'Podés retirarlo por el local o seguir agregando productos para llegar al mínimo.',
-      [
-        { id: BTN.PICKUP, title: 'Retiro en local' },
-        { id: BTN.KEEP_SHOPPING, title: 'Seguir comprando' },
-      ],
-    );
-    return;
-  }
-  const minNote = min > 0 ? `✅ Tu pedido supera la compra mínima para envío (${formatARS(min)}).\n` : '';
-  await wa.buttons(phone, `¿Lo retirás por el local o te lo enviamos?\n\n${minNote}${zoneNote}`, [
-    { id: BTN.PICKUP, title: 'Retiro en local' },
-    { id: BTN.DELIVERY, title: 'Envío' },
-  ]);
-}
-
-async function askConfirm(phone: string, data: SessionData, wa: Messenger) {
-  const { rows, total, totalCash } = await cartTotal(data);
-  const method = PAYMENT_METHOD_LABEL[data.paymentMethod!].toLowerCase();
-  const delivery = data.deliveryMethod === 'RETIRO' ? 'Retiro en el local' : `Envío a ${data.address} (costo de envío a confirmar)`;
-  const savings = data.paymentMethod === 'TRANSFERENCIA' && totalCash < total - 0.01 ? `\n(En efectivo saldría ${formatARS(totalCash)})` : '';
-
-  const summary = `🧾 *Resumen del pedido*\n${rows.join('\n')}\n\n*Total (${method}): ${formatARS(total)}*${savings}\n📦 ${delivery}`;
-  const question = '¿Confirmás el pedido?';
-  const buttons = [
-    { id: BTN.CONFIRM, title: 'Confirmar' },
-    { id: BTN.CANCEL, title: 'Cancelar' },
-  ];
-  // El cuerpo de los botones admite hasta 1024 caracteres
-  if (summary.length + question.length > 1000) {
-    await wa.text(phone, summary);
-    await wa.buttons(phone, question, buttons);
-  } else {
-    await wa.buttons(phone, `${summary}\n\n${question}`, buttons);
-  }
 }
