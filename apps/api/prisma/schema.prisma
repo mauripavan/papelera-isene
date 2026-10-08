@@ -176,8 +176,9 @@ model OrderItem {
   id          Int        @id @default(autoincrement())
   orderId     Int
   order       Order      @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  productId   Int
-  product     Product    @relation(fields: [productId], references: [id])
+  /// null si el producto se eliminó después (el pedido conserva código, nombre y precio)
+  productId   Int?
+  product     Product?   @relation(fields: [productId], references: [id], onDelete: SetNull)
   /// Copias al momento del pedido: si después cambia la lista, el pedido no se altera.
   productCode String
   productName String

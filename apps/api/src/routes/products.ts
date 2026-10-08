@@ -92,10 +92,15 @@ productsRouter.patch('/:id', async (req, res) => {
   res.json(serializeProduct(p, (await getSettings()).ivaRate));
 });
 
-/** No borramos productos (están referenciados en pedidos viejos): se desactivan. */
+/**
+ * Elimina el producto de verdad. Los pedidos viejos no se rompen: cada ítem guarda
+ * su propia copia del código, el nombre y el precio (el vínculo al producto queda vacío).
+ */
 productsRouter.delete('/:id', async (req, res) => {
   const id = parseId(req.params.id);
-  await prisma.product.update({ where: { id }, data: { active: false } });
+  const exists = await prisma.product.findUnique({ where: { id }, select: { id: true } });
+  if (!exists) throw notFound('Producto no encontrado');
+  await prisma.product.delete({ where: { id } });
   res.status(204).end();
 });
 

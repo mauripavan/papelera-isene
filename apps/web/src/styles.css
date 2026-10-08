@@ -387,3 +387,22 @@ tr.inactive td .review-note { opacity: 1; }
 .co-body form { display: grid; gap: 14px; }
 .badge.tiny { font-size: 11px; padding: 1px 6px; margin-left: 6px; vertical-align: 1px; }
 .warn-note { margin: 0 0 16px; padding: 10px 12px; border-radius: 8px; background: var(--warn-soft); color: var(--warn); }
+
+/* Tabla de productos: el nombre se lleva el espacio */
+.content:has(.products) { max-width: 1600px; }
+.products { table-layout: fixed; min-width: 1100px; }
+.products col.c-code { width: 92px; }
+.products col.c-name { width: auto; }
+.products col.c-unit { width: 120px; }
+.products col.c-cat { width: 136px; }
+.products col.c-price { width: 128px; }
+.products col.c-iva { width: 76px; }
+.products col.c-flag { width: 72px; }
+.products col.c-del { width: 40px; }
+.products th { white-space: normal; }
+.products td input.cell, .products td select.cell { width: 100%; }
+.icon-btn {
+  display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 6px;
+  border: 0; background: transparent; color: var(--ink-2); cursor: pointer;
+}
+.icon-btn.danger:hover { background: var(--danger-soft); color: var(--danger); }

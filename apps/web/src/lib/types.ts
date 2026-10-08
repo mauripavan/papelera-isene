@@ -33,7 +33,7 @@ export interface Product {
 
 export interface OrderItem {
   id: number;
-  productId: number;
+  productId: number | null;
   productCode: string;
   productName: string;
   unitPrice: number;

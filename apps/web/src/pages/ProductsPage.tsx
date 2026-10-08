@@ -1,6 +1,6 @@
 import { productPrices } from '@papelera/shared';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useState, type FormEvent } from 'react';
+import { memo, useCallback, useDeferredValue, useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
 import { ErrorNote } from '../components/Badges.tsx';
 import { Modal } from '../components/Modal.tsx';
 import { api } from '../lib/api.ts';
@@ -11,13 +11,32 @@ type ProductPatch = Partial<
   Pick<Product, 'code' | 'name' | 'unit' | 'price' | 'discriminaIva' | 'priceTransferFixed' | 'active' | 'needsReview' | 'categoryId'>
 >;
 
+const PAGE = 150;
+
+const norm = (s: string) =>
+  s
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .toLowerCase();
+/** Para los códigos: "bol001", "BOL 001" y "BOL-001" son lo mismo */
+const compact = (s: string) => norm(s).replace(/[\s\-_./]/g, '');
+
+function matches(p: Product, words: string[]) {
+  const name = norm(`${p.name} ${p.unit}`);
+  const code = compact(p.code);
+  return words.every((w) => name.includes(w) || code.includes(compact(w)));
+}
+
 export function ProductsPage() {
   const qc = useQueryClient();
   const [q, setQ] = useState('');
+  const dq = useDeferredValue(q);
   const [categoryId, setCategoryId] = useState<string>('');
   const [showInactive, setShowInactive] = useState(false);
   const [onlyReview, setOnlyReview] = useState(false);
   const [modal, setModal] = useState<'new' | 'bulk' | null>(null);
+  /** Sube cuando se agrega un producto: hay que volver a armar la vista */
+  const [version, setVersion] = useState(0);
 
   const settings = useQuery({
     queryKey: ['settings'],
@@ -27,35 +46,89 @@ export function ProductsPage() {
     queryKey: ['categories'],
     queryFn: () => api<Category[]>('/api/categories'),
   });
+  // Se traen todos una sola vez (son ~1000) y se filtra en el navegador: la búsqueda es instantánea.
   const products = useQuery({
-    queryKey: ['products', q, categoryId, showInactive, onlyReview],
-    queryFn: () => {
-      // "Para revisar" muestra también los inactivos: la mayoría son productos sin precio.
-      const sp = new URLSearchParams({
-        active: showInactive || onlyReview ? 'all' : 'true',
-      });
-      if (onlyReview) sp.set('review', 'true');
-      if (q.trim()) sp.set('q', q.trim());
-      if (categoryId) sp.set('categoryId', categoryId);
-      return api<Product[]>(`/api/products?${sp}`);
-    },
+    queryKey: ['products', 'all'],
+    queryFn: () => api<Product[]>('/api/products?active=all'),
+    refetchOnWindowFocus: false,
   });
+  const byId = useMemo(() => new Map((products.data ?? []).map((p) => [p.id, p])), [products.data]);
+
+  /**
+   * La vista (qué productos y en qué orden) se arma solo cuando cambian los filtros.
+   * Al editar un producto se actualizan sus datos pero no se mueve ni desaparece,
+   * aunque deje de cumplir el filtro (por ejemplo, al marcarlo "Listo" en "Solo para revisar").
+   */
+  const filterKey = JSON.stringify([dq.trim(), categoryId, showInactive, onlyReview, version]);
+  const [view, setView] = useState<{ key: string; ids: number[] } | null>(null);
+  useEffect(() => {
+    if (!products.data || view?.key === filterKey) return;
+    const words = norm(dq.trim()).split(/\s+/).filter(Boolean);
+    const ids = products.data
+      .filter((p) => {
+        if (onlyReview && !p.needsReview) return false;
+        // "Para revisar" y las búsquedas muestran también los inactivos (la mayoría son productos sin precio)
+        if (!p.active && !showInactive && !onlyReview && !words.length) return false;
+        if (categoryId && String(p.categoryId ?? '') !== categoryId) return false;
+        return !words.length || matches(p, words);
+      })
+      .map((p) => p.id);
+    setView({ key: filterKey, ids });
+  }, [products.data, filterKey, view?.key, dq, categoryId, showInactive, onlyReview]);
+
+  // Se dibujan de a tandas a medida que se baja: mil filas con inputs juntas hacen lenta la página
+  const [limit, setLimit] = useState(PAGE);
+  useEffect(() => setLimit(PAGE), [filterKey]);
+  const sentinel = useRef<HTMLDivElement>(null);
+  const total = view?.ids.length ?? 0;
+  useEffect(() => {
+    const el = sentinel.current;
+    if (!el || limit >= total) return;
+    const io = new IntersectionObserver((entries) => entries[0]?.isIntersecting && setLimit((l) => l + PAGE), { rootMargin: '600px' });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [limit, total]);
+
+  const replaceInCache = (p: Product) =>
+    qc.setQueryData<Product[]>(['products', 'all'], (list) => list?.map((x) => (x.id === p.id ? p : x)));
 
   const update = useMutation({
     mutationFn: ({ id, patch }: { id: number; patch: ProductPatch }) =>
       api<Product>(`/api/products/${id}`, { method: 'PATCH', json: patch }),
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ['products'] });
+    onSuccess: (p) => {
+      replaceInCache(p);
       qc.invalidateQueries({ queryKey: ['review-count'] });
     },
   });
+  const remove = useMutation({
+    mutationFn: (id: number) => api<void>(`/api/products/${id}`, { method: 'DELETE' }),
+    onSuccess: (_r, id) => {
+      qc.setQueryData<Product[]>(['products', 'all'], (list) => list?.filter((x) => x.id !== id));
+      setView((v) => (v ? { ...v, ids: v.ids.filter((x) => x !== id) } : v));
+      qc.invalidateQueries({ queryKey: ['review-count'] });
+      qc.invalidateQueries({ queryKey: ['categories'] });
+    },
+  });
+  const onSave = useCallback((id: number, patch: ProductPatch) => update.mutate({ id, patch }), [update.mutate]);
+  const onDelete = useCallback(
+    (p: Product) => {
+      const msg =
+        `¿Eliminar "${p.name}" (${p.code})?\n\nNo se puede deshacer. Los pedidos viejos lo conservan.` +
+        (p.active ? '\n\nSi solo querés que no aparezca en la lista de precios, desmarcá "Activo".' : '');
+      if (window.confirm(msg)) remove.mutate(p.id);
+    },
+    [remove.mutate],
+  );
 
   const reviewCount = useQuery({
     queryKey: ['review-count'],
     queryFn: () => api<{ count: number }>('/api/products/review-count'),
   });
 
-  const ivaPct = Math.round((settings.data?.ivaRate ?? 0.21) * 1000) / 10;
+  const ivaRate = settings.data?.ivaRate ?? 0.21;
+  const ivaPct = Math.round(ivaRate * 1000) / 10;
+  const cats = categories.data ?? EMPTY;
+  const visible = (view?.ids ?? []).slice(0, limit);
 
   return (
     <section>
@@ -90,24 +163,44 @@ export function ProductsPage() {
           Solo para revisar
           {!!reviewCount.data?.count && <span className="count">{reviewCount.data.count}</span>}
         </label>
+        {view && <span className="muted small">{total} productos</span>}
       </div>
 
       <p className="muted small">
         El precio que cargás es el de <b>efectivo</b>. Si el producto <b>discrimina IVA</b>, en transferencia se le suma el {ivaPct}%. Si
         no, cuesta lo mismo en los dos medios. Si cargás un precio de transferencia a mano, se usa ese en lugar del cálculo. Los productos
-        sin precio quedan inactivos y el bot no los ofrece.
+        sin precio quedan inactivos y el bot no los ofrece. Al buscar se muestran también los inactivos.
       </p>
 
       <Modal open={modal === 'new'} onClose={() => setModal(null)} title="Nuevo producto">
-        <NewProductForm categories={categories.data ?? []} onDone={() => setModal(null)} />
+        <NewProductForm
+          categories={cats}
+          onDone={() => {
+            setModal(null);
+            setVersion((v) => v + 1);
+          }}
+        />
       </Modal>
       <Modal open={modal === 'bulk'} onClose={() => setModal(null)} title="Actualizar precios por %">
-        <BulkPriceForm categories={categories.data ?? []} />
+        <BulkPriceForm categories={cats} />
       </Modal>
 
-      <ErrorNote error={products.error ?? update.error} />
+      <ErrorNote error={products.error ?? update.error ?? remove.error} />
+      {products.isLoading && <p className="muted">Cargando…</p>}
       <div className="table-wrap">
         <table className="table products">
+          <colgroup>
+            <col className="c-code" />
+            <col className="c-name" />
+            <col className="c-unit" />
+            <col className="c-cat" />
+            <col className="c-price" />
+            <col className="c-iva" />
+            <col className="c-price" />
+            <col className="c-flag" />
+            <col className="c-flag" />
+            <col className="c-del" />
+          </colgroup>
           <thead>
             <tr>
               <th>Código</th>
@@ -119,43 +212,58 @@ export function ProductsPage() {
               <th className="num">Transferencia</th>
               <th className="center">Activo</th>
               <th className="center">Revisión</th>
+              <th />
             </tr>
           </thead>
           <tbody>
-            {products.data?.map((p) => (
-              <ProductRow
-                key={`${p.id}-${p.price}-${p.priceTransferFixed}-${p.name}-${p.unit}`}
-                product={p}
-                categories={categories.data ?? []}
-                ivaRate={settings.data?.ivaRate ?? 0.21}
-                onSave={(patch) => update.mutate({ id: p.id, patch })}
-              />
-            ))}
+            {visible.map((id) => {
+              const p = byId.get(id);
+              return p ? <ProductRow key={id} product={p} categories={cats} ivaRate={ivaRate} onSave={onSave} onDelete={onDelete} /> : null;
+            })}
           </tbody>
         </table>
-        {products.data?.length === 0 && <div className="empty">No hay productos con ese filtro.</div>}
+        {view && total === 0 && <div className="empty">No hay productos con ese filtro.</div>}
+        {limit < total && (
+          <div ref={sentinel} className="empty">
+            <button className="btn sm" onClick={() => setLimit((l) => l + PAGE)}>
+              Mostrar más ({total - limit})
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );
 }
 
-function ProductRow({
+const EMPTY: Category[] = [];
+
+const ProductRow = memo(function ProductRow({
   product: p,
   categories,
   ivaRate,
-  onSave,
+  onSave: save,
+  onDelete,
 }: {
   product: Product;
   categories: Category[];
   ivaRate: number;
-  onSave: (patch: ProductPatch) => void;
+  onSave: (id: number, patch: ProductPatch) => void;
+  onDelete: (p: Product) => void;
 }) {
+  const onSave = (patch: ProductPatch) => save(p.id, patch);
+  const priceText = (n: number) => (n > 0 ? String(n) : '');
   const [name, setName] = useState(p.name);
   const [unit, setUnit] = useState(p.unit);
-  const [price, setPrice] = useState(String(p.price));
+  // Sin precio: el campo queda vacío para escribir directo (no un 0 que haya que borrar)
+  const [price, setPrice] = useState(priceText(p.price));
   const [transfer, setTransfer] = useState(p.priceTransferFixed == null ? '' : String(p.priceTransferFixed));
+  // Si el dato cambia en el servidor (ej. aumento por %), se refleja en la fila
+  useEffect(() => setName(p.name), [p.name]);
+  useEffect(() => setUnit(p.unit), [p.unit]);
+  useEffect(() => setPrice(priceText(p.price)), [p.price]);
+  useEffect(() => setTransfer(p.priceTransferFixed == null ? '' : String(p.priceTransferFixed)), [p.priceTransferFixed]);
 
-  const priceNum = Number(price.replace(',', '.'));
+  const priceNum = price.trim() === '' ? 0 : Number(price.replace(',', '.'));
   const computed = productPrices(
     {
       price: Number.isFinite(priceNum) ? priceNum : p.price,
@@ -165,15 +273,22 @@ function ProductRow({
   );
 
   const commit = (field: 'name' | 'unit' | 'price' | 'transfer') => {
-    if (field === 'name' && name.trim() && name !== p.name) onSave({ name: name.trim() });
-    if (field === 'unit' && unit.trim() && unit !== p.unit) onSave({ unit: unit.trim() });
+    if (field === 'name') {
+      if (!name.trim()) return setName(p.name);
+      if (name.trim() !== p.name) onSave({ name: name.trim() });
+    }
+    if (field === 'unit') {
+      if (!unit.trim()) return setUnit(p.unit);
+      if (unit.trim() !== p.unit) onSave({ unit: unit.trim() });
+    }
     if (field === 'price') {
-      if (!Number.isFinite(priceNum) || priceNum < 0) return setPrice(String(p.price));
-      // Un producto que no tenía precio se activa al cargarle uno
+      if (!Number.isFinite(priceNum) || priceNum < 0) return setPrice(priceText(p.price));
       if (priceNum !== p.price)
         onSave({
           price: priceNum,
+          // Un producto que no tenía precio se activa al cargarle uno; si se le borra el precio, se desactiva
           ...(p.price === 0 && priceNum > 0 ? { active: true } : {}),
+          ...(priceNum === 0 && p.active ? { active: false } : {}),
         });
     }
     if (field === 'transfer') {
@@ -191,7 +306,7 @@ function ProductRow({
     <tr className={p.active ? '' : 'inactive'}>
       <td className="mono">{p.code}</td>
       <td>
-        <input className="cell" value={name} onChange={(e) => setName(e.target.value)} onBlur={() => commit('name')} onKeyDown={onEnter} />
+        <input className="cell" value={name} title={name} onChange={(e) => setName(e.target.value)} onBlur={() => commit('name')} onKeyDown={onEnter} />
         {p.needsReview && p.reviewNote && <div className="review-note">{p.reviewNote}</div>}
       </td>
       <td>
@@ -220,6 +335,7 @@ function ProductRow({
           className="cell num"
           inputMode="decimal"
           value={price}
+          placeholder="Sin precio"
           onChange={(e) => setPrice(e.target.value)}
           onBlur={() => commit('price')}
           onKeyDown={onEnter}
@@ -233,7 +349,7 @@ function ProductRow({
           className="cell num"
           inputMode="decimal"
           value={transfer}
-          placeholder={ars(computed.transfer)}
+          placeholder={computed.transfer > 0 ? ars(computed.transfer) : ''}
           title="Vacío: se calcula con el IVA. Cargá un valor para fijarlo."
           onChange={(e) => setTransfer(e.target.value)}
           onBlur={() => commit('transfer')}
@@ -267,9 +383,16 @@ function ProductRow({
           <span className="muted small">✓</span>
         )}
       </td>
+      <td className="center">
+        <button className="icon-btn danger" title="Eliminar producto" aria-label={`Eliminar ${p.name}`} onClick={() => onDelete(p)}>
+          <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M4 6h12M8 6V4h4v2M6 6l1 10h6l1-10M9 9v5M11 9v5" />
+          </svg>
+        </button>
+      </td>
     </tr>
   );
-}
+});
 
 function NewProductForm({ categories, onDone }: { categories: Category[]; onDone: () => void }) {
   const qc = useQueryClient();
