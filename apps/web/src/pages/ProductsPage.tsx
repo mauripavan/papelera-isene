@@ -207,8 +207,8 @@ export function ProductsPage() {
               <th>Producto</th>
               <th>Presentación</th>
               <th>Categoría</th>
-              <th className="num">Precio efectivo</th>
-              <th className="center">Discrimina IVA</th>
+              <th className="num">Efectivo</th>
+              <th className="center">IVA</th>
               <th className="num">Transferencia</th>
               <th className="center">Activo</th>
               <th className="center">Revisión</th>

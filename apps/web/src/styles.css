@@ -396,7 +396,7 @@ tr.inactive td .review-note { opacity: 1; }
 .products col.c-unit { width: 120px; }
 .products col.c-cat { width: 136px; }
 .products col.c-price { width: 128px; }
-.products col.c-iva { width: 76px; }
+.products col.c-iva { width: 56px; }
 .products col.c-flag { width: 72px; }
 .products col.c-del { width: 40px; }
 .products th { white-space: normal; }
