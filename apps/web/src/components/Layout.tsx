@@ -12,6 +12,12 @@ export function Layout() {
     refetchInterval: 15_000,
   });
   const toReview = counts.data?.PENDIENTE_REVISION ?? 0;
+  const invoices = useQuery({
+    queryKey: ['invoice-sales', 'pending-count'],
+    queryFn: () => api<{ count: number }>('/api/invoice-sales/pending-count'),
+    refetchInterval: 15_000,
+  });
+  const toInvoice = invoices.data?.count ?? 0;
 
   return (
     <div className="shell">
@@ -27,6 +33,10 @@ export function Layout() {
             Pedidos {toReview > 0 && <span className="pill">{toReview}</span>}
           </NavLink>
           <NavLink to="/productos">Productos</NavLink>
+          <NavLink to="/proveedores">Proveedores</NavLink>
+          <NavLink to="/facturas">
+            Facturas {toInvoice > 0 && <span className="pill">{toInvoice}</span>}
+          </NavLink>
           <NavLink to="/ajustes">Ajustes</NavLink>
         </nav>
         <div className="user">

@@ -12,9 +12,11 @@ import { publicRouter } from './routes/public.ts';
 import { whatsappAdminRouter } from './routes/whatsapp-admin.ts';
 import { whatsappRouter } from './routes/whatsapp.ts';
 import { botRouter } from './routes/bot.ts';
+import { invoiceSalesRouter } from './routes/invoices.ts';
 import { ordersRouter } from './routes/orders.ts';
 import { categoriesRouter, productsRouter } from './routes/products.ts';
 import { settingsRouter } from './routes/settings.ts';
+import { purchaseOrdersRouter, suppliersRouter } from './routes/suppliers.ts';
 
 export function createApp(opts: { messenger?: Messenger } = {}) {
   const app = express();
@@ -59,6 +61,9 @@ export function createApp(opts: { messenger?: Messenger } = {}) {
   admin.use('/products', productsRouter);
   admin.use('/categories', categoriesRouter);
   admin.use('/orders', ordersRouter);
+  admin.use('/suppliers', suppliersRouter);
+  admin.use('/purchase-orders', purchaseOrdersRouter);
+  admin.use('/invoice-sales', invoiceSalesRouter);
   admin.use('/settings', settingsRouter);
   admin.use('/whatsapp', whatsappAdminRouter);
   app.use('/api', admin);

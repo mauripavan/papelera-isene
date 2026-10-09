@@ -61,11 +61,13 @@ model Product {
   /// Marcado para revisar (precio dudoso, sin precio, etc.)
   needsReview   Boolean     @default(false)
   reviewNote    String?
-  categoryId    Int?
-  category      Category?   @relation(fields: [categoryId], references: [id], onDelete: SetNull)
-  orderItems    OrderItem[]
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
+  categoryId         Int?
+  category           Category?            @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  orderItems         OrderItem[]
+  purchaseOrderItems PurchaseOrderItem[]
+  invoiceSaleItems   InvoiceSaleItem[]
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
 
   @@index([categoryId])
   @@index([needsReview])
@@ -259,4 +261,101 @@ model WhatsappConnection {
   updatedAt     DateTime @updatedAt
 
   @@map("whatsapp_connection")
+}
+
+// ─── Proveedores (listas de faltantes) ───────────────────────────────────────
+
+model Supplier {
+  id          Int      @id @default(autoincrement())
+  /// Razón social
+  legalName   String
+  email       String?
+  /// Teléfono de contacto, como lo cargaron (el link de WhatsApp se arma al compartir)
+  phone       String?
+  contactName String?
+  orders      PurchaseOrder[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("suppliers")
+}
+
+enum PurchaseOrderStatus {
+  PENDIENTE
+  PEDIDO
+  RECIBIDO
+}
+
+/// Lista de artículos a encargar. Puede quedar sin proveedor.
+model PurchaseOrder {
+  id         Int                  @id @default(autoincrement())
+  supplierId Int?
+  supplier   Supplier?            @relation(fields: [supplierId], references: [id], onDelete: SetNull)
+  status     PurchaseOrderStatus  @default(PENDIENTE)
+  notes      String?
+  items      PurchaseOrderItem[]
+  createdAt  DateTime             @default(now())
+  updatedAt  DateTime             @updatedAt
+
+  @@index([supplierId])
+  @@index([status])
+  @@map("purchase_orders")
+}
+
+model PurchaseOrderItem {
+  id          Int           @id @default(autoincrement())
+  orderId     Int
+  order       PurchaseOrder @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  /// null si el producto se eliminó después (la lista conserva código y nombre)
+  productId   Int?
+  product     Product?      @relation(fields: [productId], references: [id], onDelete: SetNull)
+  productCode String
+  productName String
+  unit        String        @default("unidad")
+  quantity    Int
+
+  @@index([orderId])
+  @@map("purchase_order_items")
+}
+
+// ─── Ventas a facturar ───────────────────────────────────────────────────────
+
+enum InvoiceSaleStatus {
+  PENDIENTE
+  FACTURADA
+}
+
+/// Anotación de una venta (típicamente una transferencia) para facturar después.
+/// No se conecta con AFIP: es la lista de lo que falta facturar.
+model InvoiceSale {
+  id           Int               @id @default(autoincrement())
+  status       InvoiceSaleStatus @default(PENDIENTE)
+  customerName String?
+  customerCuit String?
+  note         String?
+  /// Total a facturar. Arranca como la suma de los ítems y se puede ajustar.
+  total        Decimal           @db.Decimal(12, 2)
+  invoicedAt   DateTime?
+  items        InvoiceSaleItem[]
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+
+  @@index([status, createdAt])
+  @@map("invoice_sales")
+}
+
+model InvoiceSaleItem {
+  id          Int         @id @default(autoincrement())
+  saleId      Int
+  sale        InvoiceSale @relation(fields: [saleId], references: [id], onDelete: Cascade)
+  productId   Int?
+  product     Product?    @relation(fields: [productId], references: [id], onDelete: SetNull)
+  productCode String
+  productName String
+  unit        String      @default("unidad")
+  unitPrice   Decimal     @db.Decimal(12, 2)
+  quantity    Int
+
+  @@index([saleId])
+  @@map("invoice_sale_items")
 }
