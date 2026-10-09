@@ -75,3 +75,22 @@ export const CANCELLABLE_STATUSES: OrderStatus[] = [
 
 /** Estados en los que se puede asignar (o cambiar) la fecha de envío/retiro. */
 export const SCHEDULABLE_STATUSES: OrderStatus[] = ['CONFIRMADO', 'PROGRAMADO'];
+
+/** Lista de faltantes para encargar a un proveedor. */
+export const PURCHASE_ORDER_STATUSES = ['PENDIENTE', 'PEDIDO', 'RECIBIDO'] as const;
+export type PurchaseOrderStatus = (typeof PURCHASE_ORDER_STATUSES)[number];
+
+export const PURCHASE_ORDER_STATUS_LABEL: Record<PurchaseOrderStatus, string> = {
+  PENDIENTE: 'Pendiente',
+  PEDIDO: 'Pedido',
+  RECIBIDO: 'Recibido',
+};
+
+/** Venta anotada para facturar al final del día. No es un comprobante de AFIP. */
+export const INVOICE_SALE_STATUSES = ['PENDIENTE', 'FACTURADA'] as const;
+export type InvoiceSaleStatus = (typeof INVOICE_SALE_STATUSES)[number];
+
+export const INVOICE_SALE_STATUS_LABEL: Record<InvoiceSaleStatus, string> = {
+  PENDIENTE: 'A facturar',
+  FACTURADA: 'Facturada',
+};

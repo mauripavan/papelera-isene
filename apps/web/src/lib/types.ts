@@ -1,9 +1,11 @@
 import type {
   DeliveryMethod,
+  InvoiceSaleStatus,
   ItemStatus,
   OrderStatus,
   PaymentMethod,
   PaymentStatus,
+  PurchaseOrderStatus,
 } from '@papelera/shared';
 
 export interface Category {
@@ -89,4 +91,57 @@ export interface Settings {
   transferInfo: string;
   pickupAddress: string;
   minOrderForDelivery: number;
+}
+
+export interface Supplier {
+  id: number;
+  legalName: string;
+  email: string | null;
+  phone: string | null;
+  contactName: string | null;
+  createdAt: string;
+}
+
+export interface PurchaseOrderItem {
+  id: number;
+  productId: number | null;
+  productCode: string;
+  productName: string;
+  unit: string;
+  quantity: number;
+}
+
+export interface PurchaseOrder {
+  id: number;
+  status: PurchaseOrderStatus;
+  supplierId: number | null;
+  notes: string | null;
+  createdAt: string;
+  updatedAt: string;
+  supplier: Pick<Supplier, 'id' | 'legalName' | 'email' | 'phone' | 'contactName'> | null;
+  items: PurchaseOrderItem[];
+}
+
+export interface InvoiceSaleItem {
+  id: number;
+  productId: number | null;
+  productCode: string;
+  productName: string;
+  unit: string;
+  unitPrice: number;
+  quantity: number;
+  lineTotal: number;
+}
+
+export interface InvoiceSale {
+  id: number;
+  status: InvoiceSaleStatus;
+  customerName: string | null;
+  customerCuit: string | null;
+  note: string | null;
+  total: number;
+  itemsTotal: number;
+  invoicedAt: string | null;
+  createdAt: string;
+  items: InvoiceSaleItem[];
 }

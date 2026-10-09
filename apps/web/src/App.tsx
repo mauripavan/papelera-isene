@@ -2,9 +2,11 @@ import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { Layout } from './components/Layout.tsx';
 import { useAuth } from './lib/auth.tsx';
 import { DataDeletionPage, PrivacyPage } from './pages/LegalPages.tsx';
+import { InvoicesPage } from './pages/InvoicesPage.tsx';
 import { LoginPage } from './pages/LoginPage.tsx';
 import { OrderDetailPage } from './pages/OrderDetailPage.tsx';
 import { OrdersPage } from './pages/OrdersPage.tsx';
+import { SuppliersPage } from './pages/SuppliersPage.tsx';
 import { PriceListPage } from './pages/PriceListPage.tsx';
 import { ProductsPage } from './pages/ProductsPage.tsx';
 import { SettingsPage } from './pages/SettingsPage.tsx';
@@ -34,6 +36,8 @@ export function App() {
         <Route path="/pedidos" element={<OrdersPage />} />
         <Route path="/pedidos/:id" element={<OrderDetailPage />} />
         <Route path="/productos" element={<ProductsPage />} />
+        <Route path="/proveedores" element={<SuppliersPage />} />
+        <Route path="/facturas" element={<InvoicesPage />} />
         <Route path="/ajustes" element={<SettingsPage />} />
         <Route path="*" element={<Navigate to="/pedidos" replace />} />
       </Route>
