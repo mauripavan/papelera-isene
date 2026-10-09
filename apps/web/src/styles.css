@@ -165,8 +165,6 @@ textarea { resize: vertical; }
 .table tbody tr:hover { background: #fcfbf8; }
 .table .num { text-align: right; font-variant-numeric: tabular-nums; }
 .table .center { text-align: center; }
-.row-link { display: grid; color: inherit; }
-.row-link:hover { text-decoration: none; }
 tr.missing td { color: var(--ink-2); }
 tr.missing td:nth-child(2) { text-decoration: line-through; }
 tr.inactive td { opacity: 0.55; }
