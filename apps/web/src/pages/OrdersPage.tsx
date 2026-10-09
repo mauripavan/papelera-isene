@@ -1,11 +1,19 @@
 import { DELIVERY_METHOD_LABEL, PAYMENT_METHOD_LABEL, type OrderStatus } from '@papelera/shared';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { ErrorNote, PaymentBadge, StatusBadge } from '../components/Badges.tsx';
 import { api } from '../lib/api.ts';
 import { ars, dateTime } from '../lib/format.ts';
 import type { Order } from '../lib/types.ts';
+import './orders.css';
+
+/** Clicks en links, botones o campos de la fila no deben abrir el pedido. */
+function isRowControl(target: EventTarget | null, current: EventTarget | null) {
+  if (!(target instanceof Element)) return false;
+  const control = target.closest('a, button, input, select, textarea, label, [role="button"]');
+  return control !== null && control !== current;
+}
 
 const TABS: { key: string; label: string; statuses: OrderStatus[] }[] = [
   { key: 'revisar', label: 'Para revisar', statuses: ['PENDIENTE_REVISION'] },
@@ -16,9 +24,16 @@ const TABS: { key: string; label: string; statuses: OrderStatus[] }[] = [
 ];
 
 export function OrdersPage() {
+  const navigate = useNavigate();
   const [params, setParams] = useSearchParams();
   const tab = TABS.find((t) => t.key === params.get('tab')) ?? TABS[0]!;
   const [q, setQ] = useState('');
+
+  const openOrder = (id: number, newTab: boolean) => {
+    const path = `/pedidos/${id}`;
+    if (newTab) window.open(path, '_blank', 'noopener');
+    else navigate(path);
+  };
 
   const counts = useQuery({
     queryKey: ['orders', 'counts'],
@@ -82,13 +97,39 @@ export function OrdersPage() {
             </thead>
             <tbody>
               {orders.data.map((o) => (
-                <tr key={o.id}>
+                <tr
+                  key={o.id}
+                  className="click-row"
+                  tabIndex={0}
+                  onClick={(e) => {
+                    if (isRowControl(e.target, e.currentTarget)) return;
+                    if (window.getSelection()?.toString()) return;
+                    openOrder(o.id, e.metaKey || e.ctrlKey || e.shiftKey);
+                  }}
+                  onAuxClick={(e) => {
+                    if (e.button !== 1 || isRowControl(e.target, e.currentTarget)) return;
+                    window.open(`/pedidos/${o.id}`, '_blank', 'noopener');
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.target !== e.currentTarget) return;
+                    if (e.key !== 'Enter' && e.key !== ' ') return;
+                    e.preventDefault();
+                    navigate(`/pedidos/${o.id}`);
+                  }}
+                >
                   <td className="mono">
-                    <Link to={`/pedidos/${o.id}`}>#{o.id}</Link>
+                    <Link
+                      to={`/pedidos/${o.id}`}
+                      className="order-id-link"
+                      tabIndex={-1}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      #{o.id}
+                    </Link>
                   </td>
                   <td>
-                    <Link to={`/pedidos/${o.id}`} className="row-link">
-                      {o.contactName ?? o.customer.name ?? 'Sin nombre'}
+                    <span className="client-cell">
+                      <span className="client-name">{o.contactName ?? o.customer.name ?? 'Sin nombre'}</span>
                       <span className="muted small">
                         {o.customer.phone}
                         {o.source === 'WEB' && (
@@ -97,7 +138,7 @@ export function OrdersPage() {
                           </span>
                         )}
                       </span>
-                    </Link>
+                    </span>
                   </td>
                   <td>{dateTime(o.createdAt)}</td>
                   <td>

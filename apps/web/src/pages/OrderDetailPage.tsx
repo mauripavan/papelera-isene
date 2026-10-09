@@ -11,9 +11,11 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ErrorNote, PaymentBadge, StatusBadge } from '../components/Badges.tsx';
+import { OrderPrintSheet } from '../components/OrderPrintSheet.tsx';
 import { api, tokenStore } from '../lib/api.ts';
 import { ars, dateTime, longDate, toLocalInput, waLink } from '../lib/format.ts';
 import type { Order, OrderDetail, OrderItem, ShippingStatus } from '../lib/types.ts';
+import './orders.css';
 
 /** El comprobante se pide con el token del panel y se abre en otra pestaña. */
 async function openReceipt(orderId: number) {
@@ -221,7 +223,7 @@ export function OrderDetailPage() {
   };
 
   return (
-    <section>
+    <section className="order-detail">
       <Link to="/pedidos" className="back">
         ← Pedidos
       </Link>
@@ -229,7 +231,12 @@ export function OrderDetailPage() {
         <h1>
           Pedido <span className="mono">#{o.id}</span>
         </h1>
-        <StatusBadge status={o.status} />
+        <div className="row">
+          <button type="button" className="btn" onClick={() => window.print()}>
+            Imprimir
+          </button>
+          <StatusBadge status={o.status} />
+        </div>
       </div>
       <ErrorNote error={action.error} />
       {!o.whatsappConfirmed && (
@@ -453,6 +460,7 @@ export function OrderDetailPage() {
           </ul>
         </div>
       )}
+      <OrderPrintSheet order={o} />
     </section>
   );
 }

@@ -1,0 +1,117 @@
+/* Fila de pedidos: toda la fila abre el detalle. */
+.click-row,
+.click-row td { cursor: pointer; }
+.client-cell { display: grid; }
+.order-id-link { font-weight: 500; }
+.table tbody tr.click-row:hover td { background: #efece3; }
+.table tbody tr.click-row:hover .client-name { text-decoration: underline; }
+.table tbody tr.click-row:focus-visible td {
+  background: var(--accent-soft);
+  box-shadow: inset 0 2px 0 var(--accent), inset 0 -2px 0 var(--accent);
+}
+.table tbody tr.click-row:focus-visible td:first-child { box-shadow: inset 3px 0 0 var(--accent), inset 0 2px 0 var(--accent), inset 0 -2px 0 var(--accent); }
+.table tbody tr.click-row:focus-visible td:last-child { box-shadow: inset -3px 0 0 var(--accent), inset 0 2px 0 var(--accent), inset 0 -2px 0 var(--accent); }
+
+/* Hoja para armar el pedido en el depósito. En pantalla no se muestra. */
+.print-sheet { display: none; }
+
+@media print {
+  @page { size: A4; margin: 14mm 16mm; }
+
+  body:has(.print-sheet) {
+    background: #fff !important;
+    color: #000 !important;
+  }
+  body:has(.print-sheet) .topbar,
+  .order-detail > :not(.print-sheet) {
+    display: none !important;
+  }
+  body:has(.print-sheet) .shell,
+  body:has(.print-sheet) .content {
+    background: #fff !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: 0 !important;
+    box-shadow: none !important;
+  }
+
+  .print-sheet {
+    display: block !important;
+    color: #000 !important;
+    background: #fff !important;
+    font-family: 'IBM Plex Sans', system-ui, sans-serif;
+    font-size: 12pt;
+    line-height: 1.35;
+  }
+  .print-sheet * { color: #000 !important; background: transparent !important; box-shadow: none !important; }
+  .print-brand {
+    margin: 0 0 1mm;
+    font-size: 10pt;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .print-kicker { margin: 0; font-size: 11pt; }
+  .print-sheet h1 {
+    margin: 1mm 0 1mm;
+    font-size: 22pt;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .print-meta { margin: 0 0 6mm; font-size: 11pt; }
+  .print-intro { break-inside: avoid; }
+  .print-facts {
+    display: grid;
+    grid-template-columns: 32mm 1fr;
+    gap: 1.6mm 4mm;
+    margin: 0;
+  }
+  .print-facts dt { margin: 0; font-weight: 600; }
+  .print-facts dd { margin: 0; }
+  .print-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8mm;
+  }
+  .print-table thead { display: table-header-group; }
+  .print-table tr { break-inside: avoid; page-break-inside: avoid; }
+  .print-table th,
+  .print-table td {
+    border: 1px solid #000 !important;
+    padding: 2.4mm 3mm;
+    text-align: left;
+    vertical-align: middle;
+    background: #fff !important;
+  }
+  .print-table th {
+    font-size: 9pt;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .print-table td { font-size: 12pt; }
+  .print-table .code {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    white-space: nowrap;
+    width: 28mm;
+  }
+  .print-table .num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    width: 28mm;
+    white-space: nowrap;
+  }
+  .print-table .pick-check { width: 18mm; text-align: center; }
+  .tick-box {
+    display: inline-block;
+    width: 5.5mm;
+    height: 5.5mm;
+    border: 1.5pt solid #000 !important;
+    background: #fff !important;
+    vertical-align: middle;
+  }
+  .print-note { display: block; margin-top: 1mm; font-size: 9pt; font-weight: 400; }
+  .print-skip { text-decoration: line-through; }
+}
